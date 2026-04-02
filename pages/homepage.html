@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VMC Subastas — Homepage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="../tokens.css">
+  <style>
+
+    /* ===== BASE RESET ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-surface-page);
+      min-height: 100vh;
+      color: var(--color-text-primary);
+    }
+
+    /* ===== PAGE WRAPPER ===== */
+    .page-wrapper {
+      max-width: 1024px;
+      margin: 0 auto;
+      display: flex;
+      min-height: 100vh;
+      background: var(--color-surface-section);
+    }
+
+    /* ============================================================
+       SIDEBAR
+    ============================================================ */
+    .sidebar {
+      width: 280px;
+      flex-shrink: 0;
+      background: linear-gradient(to bottom, var(--color-action-primary), var(--color-surface-overlay));
+      box-shadow: var(--shadow-modal);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar-logo {
+      padding: var(--space-8) var(--space-10);
+      border-bottom: 1px solid oklch(1.000 0.000 0.000 / 0.10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sidebar-logo img {
+      width: 100%;
+      max-width: 208px;
+      height: auto;
+    }
+
+    .sidebar-nav {
+      padding: var(--space-6) var(--space-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-filter-gap);
+    }
+
+    .nav-section-label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--weight-semibold);
+      color: oklch(1.000 0.000 0.000 / 0.50);
+      text-transform: uppercase;
+      letter-spacing: 0.35px;
+      padding: var(--space-4) var(--space-4) var(--space-1);
+    }
+
+    /* NavItem — 7 estados */
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-card);
+      cursor: pointer;
+      text-decoration: none;
+      color: oklch(1.000 0.000 0.000 / 0.90);
+      transition: background var(--duration-micro) var(--easing-standard);
+      border: none;
+      background: transparent;
+      width: 100%;
+      font-family: var(--font-display);
+    }
+    .nav-item:hover    { background: oklch(1.000 0.000 0.000 / 0.10); }
+    .nav-item:focus    { outline: 2px solid var(--color-action-accent); outline-offset: 2px; }
+    .nav-item:active   { background: oklch(1.000 0.000 0.000 / 0.20); }
+    .nav-item.is-active { background: oklch(1.000 0.000 0.000 / 0.15); }
+    .nav-item[aria-disabled="true"],
+    .nav-item:disabled { opacity: 0.4; pointer-events: none; cursor: not-allowed; }
+    .nav-item[aria-busy="true"] { opacity: 0.6; cursor: wait; }
+    .nav-item.has-error { outline: 1px solid var(--color-action-warning); }
+
+    .nav-item-content {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      color: oklch(1.000 0.000 0.000 / 0.90);
+    }
+
+    .nav-label {
+      font-size: var(--font-size-body);
+      line-height: var(--line-height-body);
+      white-space: nowrap;
+    }
+
+    .nav-chevron {
+      width: 18px;
+      height: 18px;
+      color: oklch(1.000 0.000 0.000 / 0.50);
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       MAIN CONTENT
+    ============================================================ */
+    .main-content {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      background: var(--color-surface-section);
+    }
+
+    /* ============================================================
+       HEADER
+    ============================================================ */
+    .header {
+      height: 90px;
+      background: var(--color-surface-card);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 var(--space-8);
+      border-bottom: 1px solid var(--color-border-default);
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       BOTONES (7 estados cada variante)
+    ============================================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-filter-gap);
+      padding: var(--space-3) var(--space-6);
+      border-radius: var(--radius-btn);
+      font-family: var(--font-body);
+      font-size: var(--font-size-body);
+      font-weight: var(--weight-semibold);
+      line-height: var(--line-height-body);
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: background var(--duration-micro) var(--easing-standard),
+                  box-shadow var(--duration-micro) var(--easing-standard),
+                  transform  var(--duration-micro) var(--easing-standard);
+    }
+
+    /* btn--primary */
+    .btn--primary { background: var(--color-action-primary); color: var(--color-text-on-dark); }
+    .btn--primary:hover  { background: var(--color-surface-overlay); }
+    .btn--primary:focus  { outline: 2px solid var(--color-action-accent); outline-offset: 2px; }
+    .btn--primary:active { background: var(--color-text-primary); transform: translateY(1px); }
+    .btn--primary.is-active { background: var(--color-surface-overlay); }
+    .btn--primary:disabled,
+    .btn--primary[aria-disabled="true"] { background: var(--color-text-disabled); cursor: not-allowed; opacity: 0.6; }
+    .btn--primary[aria-busy="true"] { opacity: 0.7; cursor: wait; }
+    .btn--primary.has-error         { outline: 2px solid var(--color-action-warning); }
+
+    /* btn--cta (hero) */
+    .btn--cta {
+      background: var(--color-action-accent);
+      color: var(--color-surface-card);
+      font-size: var(--font-size-xl);
+      font-weight: var(--weight-bold);
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      width: 100%;
+      justify-content: center;
+      padding: var(--space-4) var(--space-6);
+      border-radius: var(--radius-section);
+      box-shadow: 0 var(--space-2) var(--space-4) oklch(0.761 0.130 197.000 / 0.30);
+    }
+    .btn--cta:hover  { background: oklch(0.720 0.120 197.000); box-shadow: 0 var(--space-2) var(--space-4) oklch(0.761 0.130 197.000 / 0.45); }
+    .btn--cta:focus  { outline: 2px solid var(--color-surface-card); outline-offset: 2px; }
+    .btn--cta:active { background: oklch(0.680 0.110 197.000); transform: translateY(1px); box-shadow: none; }
+    .btn--cta.is-active { background: oklch(0.720 0.120 197.000); }
+    .btn--cta:disabled,
+    .btn--cta[aria-disabled="true"] { background: var(--color-text-disabled); cursor: not-allowed; opacity: 0.6; box-shadow: none; }
+    .btn--cta[aria-busy="true"] { opacity: 0.7; cursor: wait; }
+    .btn--cta.has-error         { outline: 2px solid var(--color-action-warning); }
+
+    /* btn--secondary */
+    .btn--secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-filter-gap);
+      padding: var(--space-3) var(--space-6);
+      border-radius: var(--radius-btn);
+      border: none;
+      background: var(--color-action-accent);
+      color: var(--color-action-primary);
+      font-family: var(--font-body);
+      font-size: var(--font-size-body);
+      font-weight: var(--weight-bold);
+      letter-spacing: -0.3px;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background var(--duration-micro) var(--easing-standard),
+                  box-shadow var(--duration-micro) var(--easing-standard);
+    }
+    .btn--secondary:hover  { background: oklch(0.720 0.120 197.000); box-shadow: var(--shadow-modal); }
+    .btn--secondary:focus  { outline: 2px solid var(--color-surface-card); outline-offset: 2px; }
+    .btn--secondary:active { background: oklch(0.680 0.110 197.000); }
+    .btn--secondary.is-active { background: oklch(0.720 0.120 197.000); }
+    .btn--secondary:disabled,
+    .btn--secondary[aria-disabled="true"] { opacity: 0.4; cursor: not-allowed; }
+    .btn--secondary[aria-busy="true"] { opacity: 0.7; cursor: wait; }
+    .btn--secondary.has-error         { outline: 2px solid var(--color-action-warning); }
+
+    /* btn--link */
+    .btn--link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-filter-gap);
+      background: none;
+      border: none;
+      font-family: var(--font-body);
+      font-size: var(--font-size-sm);
+      font-weight: var(--weight-bold);
+      color: var(--color-text-link);
+      letter-spacing: 0.35px;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      padding: var(--space-1);
+      border-radius: var(--radius-badge);
+      transition: color var(--duration-micro) var(--easing-standard);
+    }
+    .btn--link:hover  { color: var(--color-surface-overlay); }
+    .btn--link:focus  { outline: 2px solid var(--color-action-accent); outline-offset: 2px; }
+    .btn--link:active { color: var(--color-text-primary); }
+    .btn--link:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* btn--bid (circular) */
+    .btn--bid {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-full);
+      background: var(--color-action-primary);
+      color: var(--color-surface-card);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background var(--duration-micro) var(--easing-standard),
+                  box-shadow var(--duration-micro) var(--easing-standard),
+                  transform  var(--duration-micro) var(--easing-standard);
+    }
+    .btn--bid:hover  { background: var(--color-surface-overlay); box-shadow: 0 var(--space-2) var(--space-4) oklch(0.339 0.160 290.000 / 0.20); }
+    .btn--bid:focus  { outline: 2px solid var(--color-action-accent); outline-offset: 2px; }
+    .btn--bid:active { background: var(--color-text-primary); transform: scale(0.96); }
+    .btn--bid.is-active { background: var(--color-surface-overlay); }
+    .btn--bid:disabled,
+    .btn--bid[aria-disabled="true"] { background: var(--color-text-disabled); cursor: not-allowed; opacity: 0.6; }
+    .btn--bid[aria-busy="true"] { opacity: 0.7; cursor: wait; }
+    .btn--bid.has-error         { outline: 2px solid var(--color-action-warning); }
+
+    /* ============================================================
+       HERO SECTION
+    ============================================================ */
+    .hero {
+      display: flex;
+      margin: var(--spacing-section-y);
+      min-height: 440px;
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+    }
+
+    .hero-image {
+      flex: 1;
+      position: relative;
+      background: var(--color-border-default);
+      overflow: hidden;
+      min-height: 300px;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-image-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--color-text-disabled) 0%, var(--color-text-primary) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: oklch(1.000 0.000 0.000 / 0.30);
+      font-size: var(--font-size-sm);
+    }
+
+    .hero-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, oklch(0.000 0.000 0.000 / 0.30), transparent);
+      pointer-events: none;
+    }
+
+    .hero-nav-buttons {
+      position: absolute;
+      bottom: var(--space-4);
+      right: var(--space-4);
+      display: flex;
+      gap: var(--spacing-filter-gap);
+    }
+
+    /* hero-nav-btn — 7 estados */
+    .hero-nav-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-full);
+      background: oklch(1.000 0.000 0.000 / 0.20);
+      border: 1px solid oklch(1.000 0.000 0.000 / 0.40);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--color-surface-card);
+      transition: background var(--duration-micro) var(--easing-standard);
+    }
+    .hero-nav-btn:hover  { background: oklch(1.000 0.000 0.000 / 0.40); }
+    .hero-nav-btn:focus  { outline: 2px solid var(--color-action-accent); outline-offset: 2px; }
+    .hero-nav-btn:active { background: oklch(1.000 0.000 0.000 / 0.60); }
+    .hero-nav-btn[aria-disabled="true"] { opacity: 0.4; cursor: not-allowed; }
+    .hero-nav-btn[aria-busy="true"]     { opacity: 0.6; }
+    .hero-nav-btn.has-error             { outline: 1px solid var(--color-action-warning); }
+
+    .hero-details {
+      width: 340px;
+      flex-shrink: 0;
+      padding: var(--spacing-section-y);
+      background: var(--color-surface-overlay);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: var(--space-1) var(--space-3);
+      background: var(--color-action-warning);
+      border-radius: var(--radius-badge);
+      font-size: var(--font-size-xs);
+      font-weight: var(--weight-bold);
+      color: var(--color-surface-card);
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      margin-bottom: var(--space-4);
+      align-self: flex-start;
+      line-height: var(--space-4);
+    }
+
+    .hero-subtitle {
+      font-size: var(--font-size-xs);
+      font-weight: var(--weight-bold);
+      letter-spacing: 0.35px;
+      color: var(--color-text-on-dark-muted);
+      text-transform: uppercase;
+      margin-bottom: var(--space-1);
+    }
+
+    .hero-model {
+      font-size: var(--font-size-display);
+      font-weight: var(--weight-bold);
+      font-style: italic;
+      line-height: var(--line-height-display);
+      color: var(--color-action-accent);
+      margin-bottom: var(--space-4);
+    }
+
+    .hero-specs {
+      display: flex;
+      gap: var(--space-5);
+      margin-bottom: var(--space-4);
+    }
+
+    .hero-spec {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+      font-size: var(--font-size-sm);
+      line-height: var(--line-height-tight);
+      color: oklch(1.000 0.000 0.000 / 0.70);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .hero-spec svg { flex-shrink: 0; }
+
+    .hero-divider {
+      height: 1px;
+      background: oklch(1.000 0.000 0.000 / 0.15);
+      margin-bottom: var(--space-5);
+    }
+
+    .hero-price-label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--weight-bold);
+      letter-spacing: 0.35px;
+      color: var(--color-text-on-dark-muted);
+      text-transform: uppercase;
+      margin-bottom: var(--spacing-filter-gap);
+    }
+
+    .hero-price {
+      display: flex;
+      align-items: baseline;
+      gap: var(--spacing-filter-gap);
+      margin-bottom: var(--spacing-section-header);
+    }
+
+    .hero-price-amount {
+      font-size: var(--font-size-price-hero);
+      font-weight: var(--weight-bold);
+      line-height: var(--line-height-display);
+      color: var(--color-action-warning);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .hero-price-currency {
+      font-size: var(--font-size-xl);
+      font-weight: var(--weight-semibold);
+      line-height: var(--line-height-lg);
+      color: var(--color-action-warning);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ============================================================
+       FILTER BAR
+    ============================================================ */
+    .filter-bar {
+      margin: 0 var(--spacing-section-y) 0 var(--spacing-section-y);
+      background: var(--color-surface-card);
+      border-radius: var(--radius-btn);
+      padding: var(--space-4) var(--space-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      border: 1px solid var(--color-border-default);
+    }
+
+    .filter-bar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .filter-label {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-filter-gap);
+      font-size: var(--font-size-xs);
+      font-weight: var(--weight-bold);
+      color: var(--color-text-disabled);
+      letter-spacing: 0.35px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .filter-buttons {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-filter-gap);
+      flex-wrap: wrap;
+    }
+
+    /* filter-btn — 7 estados */
+    .filter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      padding: var(--spacing-filter-gap) var(--space-4);
+      border-radius: var(--radius-full);
+      font-family: var(--font-body);
+      font-size: var(--font-size-xs);
+      font-weight: var(--weight-bold);
+      letter-spacing: 0.35px;
+      cursor: pointer;
+      border: 1px solid var(--color-border-default);
+      background: transparent;
+      color: var(--color-text-disabled);
+      text-transform: uppercase;
+      transition: background    var(--duration-micro) var(--easing-standard),
+                  border-color  var(--duration-micro) var(--easing-standard),
+                  color         var(--duration-micro) var(--easing-standard);
+    }
+    .filter-btn:hover {
+      border-color: var(--color-action-primary);
+      color: var(--color-action-primary);
+      background: oklch(0.339 0.160 290.000 / 0.04);
+    }
+    .filter-btn:focus  { outline: 2px solid var(--color-action-accent); outline-offset: 2px; }
+    .filter-btn:active { background: var(--color-surface-section); }
+    .filter-btn[aria-pressed="true"],
+    .filter-btn.is-active { background: var(--color-action-primary); color: var(--color-text-on-dark); border-color: var(--color-action-primary); }
+    .filter-btn[aria-disabled="true"] { opacity: 0.4; pointer-events: none; }
+    .filter-btn[aria-busy="true"]     { opacity: 0.6; cursor: wait; }
+    .filter-btn.has-error             { border-color: var(--color-action-warning); color: var(--color-action-warning); }
+
+    .filter-settings-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-btn);
+      border: 1px solid var(--color-border-default);
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: border-color var(--duration-micro) var(--easing-standard);
+      color: var(--color-text-disabled);
+    }
+    .filter-settings-btn:hover  { border-color: var(--color-action-primary); color: var(--color-action-primary); }
+    .filter-settings-btn:focus  { outline: 2px solid var(--color-action-accent); outline-offset: 2px; }
+    .filter-settings-btn:active { background: var(--color-surface-section); }
+
+    /* ============================================================
+       FEATURED VEHICLES SECTION
+    ============================================================ */
+    .featured {
+      margin: var(--spacing-section-y);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: var(--spacing-section-header);
+      gap: var(--space-4);
+    }
+
+    .section-tag {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-filter-gap);
+      font-size: var(--font-size-xs);
+      font-weight: var(--weight-bold);
+      color: var(--color-text-muted);
+      letter-spacing: 0.35px;
+      text-transform: uppercase;
+      margin-bottom: var(--spacing-filter-gap);
+    }
+
+    .section-tag-dot {
+      width: var(--spacing-filter-gap);
+      height: var(--spacing-filter-gap);
+      border-radius: var(--radius-full);
+      background: var(--color-action-accent);
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-size: var(--font-size-heading-lg);
+      font-weight: var(--weight-bold);
+      line-height: var(--line-height-heading-lg);
+      color: var(--color-text-primary);
+    }
+
+    .section-title .accent { color: var(--color-action-primary); }
+
+    .section-subtitle {
+      font-size: var(--font-size-body-sm);
+      line-height: var(--line-height-body-sm);
+      color: var(--color-text-muted);
+      margin-top: var(--space-1);
+    }
+
+    /* ============================================================
+       VEHICLE CARDS
+    ============================================================ */
+    .vehicle-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-3);
+    }
+
+    /* vehicle-card — 7 estados */
+    .vehicle-card {
+      background: var(--color-surface-card);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      border: 1px solid var(--color-border-default);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow var(--duration-micro) var(--easing-standard),
+                  transform  var(--duration-micro) var(--easing-standard);
+    }
+    .vehicle-card:hover        { box-shadow: var(--shadow-modal); transform: translateY(-2px); }
+    .vehicle-card:focus-within { outline: 2px solid var(--color-action-accent); outline-offset: 2px; }
+    .vehicle-card:active       { transform: translateY(0); }
+    .vehicle-card.is-active    { border-color: var(--color-action-primary); }
+    .vehicle-card.is-disabled  { opacity: 0.5; pointer-events: none; }
+    .vehicle-card.is-loading   { opacity: 0.6; animation: pulse 1.5s ease-in-out infinite; }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; }
+      50%      { opacity: 0.4; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .vehicle-card.is-loading { animation: none; }
+    }
+    .vehicle-card.has-error { border-color: var(--color-action-warning); }
+
+    .vehicle-card-image {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      display: block;
+      background: var(--color-surface-section);
+    }
+
+    .vehicle-card-image-placeholder {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: linear-gradient(135deg, var(--color-border-default), var(--color-surface-section));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-muted);
+      font-size: var(--font-size-xs);
+    }
+
+    .vehicle-card-body {
+      padding: var(--space-5);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .vehicle-card-title {
+      font-size: var(--font-size-lg);
+      font-weight: var(--weight-bold);
+      line-height: var(--line-height-lg);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-1);
+      text-transform: uppercase;
+    }
+
+    .vehicle-card-meta {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-muted);
+      line-height: var(--line-height-tight);
+      letter-spacing: 0.2px;
+      margin-bottom: var(--space-4);
+    }
+
+    .vehicle-card-pricing {
+      margin-top: auto;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .vehicle-card-price-label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--weight-semibold);
+      color: var(--color-text-muted);
+      letter-spacing: 0.35px;
+      text-transform: uppercase;
+      margin-bottom: var(--space-1);
+    }
+
+    .vehicle-card-price {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-1);
+    }
+
+    .vehicle-card-price-currency {
+      font-size: var(--font-size-sm);
+      font-weight: var(--weight-semibold);
+      line-height: var(--line-height-tight);
+      color: var(--color-text-disabled);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .vehicle-card-price-amount {
+      font-size: var(--font-size-4xl);
+      font-weight: var(--weight-bold);
+      line-height: var(--line-height-4xl);
+      color: var(--color-text-primary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ============================================================
+       HELP SECTION
+    ============================================================ */
+    .help-section {
+      margin: 0 var(--spacing-section-y) var(--spacing-section-y);
+      background: linear-gradient(to bottom, var(--color-action-primary), var(--color-surface-overlay));
+      border-radius: var(--radius-section);
+      padding: var(--spacing-section-y);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-section-header);
+      flex-wrap: wrap;
+    }
+
+    .help-content {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-section-header);
+    }
+
+    .help-icon-wrap {
+      width: 64px;
+      height: 64px;
+      background: var(--color-action-accent-subtle);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .help-title {
+      font-size: var(--font-size-heading-md);
+      font-weight: var(--weight-bold);
+      line-height: var(--line-height-xl);
+      color: var(--color-surface-card);
+      margin-bottom: var(--spacing-filter-gap);
+    }
+
+    .help-title .accent { color: var(--color-action-accent); }
+
+    .help-text {
+      font-size: var(--font-size-body);
+      line-height: var(--line-height-body);
+      color: oklch(1.000 0.000 0.000 / 0.80);
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: var(--color-surface-overlay);
+      color: var(--color-text-on-dark);
+    }
+
+    .footer-inner {
+      max-width: 1024px;
+      margin: 0 auto;
+      padding: var(--spacing-section-y);
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr 1fr;
+      gap: var(--spacing-section-y);
+      padding-bottom: var(--spacing-section-y);
+      border-bottom: 1px solid oklch(1.000 0.000 0.000 / 0.10);
+      margin-bottom: var(--spacing-section-header);
+    }
+
+    .footer-brand-desc {
+      font-size: var(--font-size-sm);
+      line-height: var(--line-height-tight);
+      color: var(--color-text-on-dark-muted);
+      margin-top: var(--space-4);
+    }
+
+    .footer-powered {
+      font-size: var(--font-size-xs);
+      color: oklch(1.000 0.000 0.000 / 0.30);
+      margin-top: var(--spacing-filter-gap);
+    }
+
+    .footer-heading {
+      font-size: var(--font-size-sm);
+      font-weight: var(--weight-bold);
+      color: var(--color-text-on-dark);
+      letter-spacing: 0.35px;
+      text-transform: uppercase;
+      margin-bottom: var(--space-5);
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .footer-links a {
+      font-size: var(--font-size-sm);
+      line-height: var(--line-height-tight);
+      color: var(--color-text-on-dark-muted);
+      text-decoration: none;
+      transition: color var(--duration-micro) var(--easing-standard);
+    }
+    .footer-links a:hover { color: var(--color-text-on-dark); }
+    .footer-links a:focus { outline: 2px solid var(--color-action-accent); outline-offset: 2px; border-radius: var(--radius-badge); }
+
+    .footer-contact-link {
+      font-size: var(--font-size-sm);
+      line-height: var(--line-height-tight);
+      color: var(--color-text-on-dark-muted);
+      text-decoration: none;
+      display: block;
+      margin-bottom: var(--spacing-section-header);
+      transition: color var(--duration-micro) var(--easing-standard);
+    }
+    .footer-contact-link:hover { color: var(--color-text-on-dark); }
+    .footer-contact-link:focus { outline: 2px solid var(--color-action-accent); outline-offset: 2px; border-radius: var(--radius-badge); }
+
+    .footer-social {
+      display: flex;
+      gap: var(--space-3);
+      margin-top: var(--space-3);
+    }
+
+    .footer-social a {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-badge);
+      background: oklch(1.000 0.000 0.000 / 0.10);
+      color: oklch(1.000 0.000 0.000 / 0.70);
+      text-decoration: none;
+      transition: background var(--duration-micro) var(--easing-standard),
+                  color     var(--duration-micro) var(--easing-standard);
+    }
+    .footer-social a:hover { background: oklch(1.000 0.000 0.000 / 0.20); color: var(--color-text-on-dark); }
+    .footer-social a:focus { outline: 2px solid var(--color-action-accent); outline-offset: 2px; }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      font-size: var(--font-size-xs);
+      color: oklch(1.000 0.000 0.000 / 0.40);
+      line-height: var(--line-height-tight);
+      padding-top: var(--spacing-section-header);
+      border-top: 1px solid oklch(1.000 0.000 0.000 / 0.10);
+    }
+
+    .footer-legal-links {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .footer-legal-links a {
+      font-size: var(--font-size-xs);
+      color: oklch(1.000 0.000 0.000 / 0.40);
+      text-decoration: none;
+      transition: color var(--duration-micro) var(--easing-standard);
+    }
+    .footer-legal-links a:hover { color: oklch(1.000 0.000 0.000 / 0.80); }
+    .footer-legal-links a:focus { outline: 2px solid var(--color-action-accent); outline-offset: 2px; border-radius: var(--radius-badge); }
+
+    .footer-legal-sep {
+      color: oklch(1.000 0.000 0.000 / 0.25);
+      user-select: none;
+    }
+
+    .footer-reclamaciones {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      text-decoration: none;
+      transition: opacity var(--duration-micro) var(--easing-standard);
+    }
+    .footer-reclamaciones:hover { opacity: 0.80; }
+    .footer-reclamaciones:focus { outline: 2px solid var(--color-action-accent); outline-offset: 2px; border-radius: var(--radius-badge); }
+    .footer-reclamaciones img   { height: 40px; width: auto; border-radius: var(--radius-btn); }
+    .footer-reclamaciones span  {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-on-dark-muted);
+      line-height: var(--line-height-tight);
+      max-width: 110px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- ==================== SIDEBAR ==================== -->
+    <aside class="sidebar" role="navigation" aria-label="Menú principal">
+
+      <div class="sidebar-logo">
+        <img src="../assets/logo-vmc.png" alt="VMC Subastas" width="208" height="31">
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item is-active" aria-current="page" aria-label="Mañana">
+          <div class="nav-item-content">
+            <svg class="nav-icon" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <rect x="2" y="4" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M2 8h16" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M7 2v4M13 2v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="nav-label">Mañana</span>
+          </div>
+          <svg class="nav-chevron" aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M7 5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <a href="#" class="nav-item" aria-label="Tipo de oferta">
+          <div class="nav-item-content">
+            <svg class="nav-icon" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <span class="nav-label">Tipo de oferta</span>
+          </div>
+          <svg class="nav-chevron" aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M7 5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <a href="#" class="nav-item" aria-label="Categorías">
+          <div class="nav-item-content">
+            <svg class="nav-icon" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M3 5h14M3 10h14M3 15h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="nav-label">Categorías</span>
+          </div>
+          <svg class="nav-chevron" aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M7 5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <a href="#" class="nav-item" aria-label="Empresas">
+          <div class="nav-item-content">
+            <svg class="nav-icon" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <rect x="2" y="8" width="16" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M6.5 8V6a3.5 3.5 0 017 0v2" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="10" cy="13" r="1.5" stroke="currentColor" stroke-width="1.2"/>
+            </svg>
+            <span class="nav-label">Empresas</span>
+          </div>
+          <svg class="nav-chevron" aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M7 5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <div class="nav-section-label" aria-hidden="true">Soporte</div>
+
+        <a href="#" class="nav-item" aria-label="Centro de ayuda">
+          <div class="nav-item-content">
+            <svg class="nav-icon" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M10 11.5V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="10" cy="8" r="0.75" fill="currentColor"/>
+              <path d="M10 7.5a1.5 1.5 0 011.5 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+            <span class="nav-label">Centro de ayuda</span>
+          </div>
+          <svg class="nav-chevron" aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M7 5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </nav>
+
+    </aside>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <div class="main-content">
+
+      <!-- HEADER -->
+      <header class="header" role="banner">
+        <button class="btn btn--primary" type="button">
+          <img src="../assets/icon-ingresa.png" alt="" width="20" height="20" aria-hidden="true">
+          Ingresa
+        </button>
+      </header>
+
+      <!-- HERO -->
+      <section class="hero" aria-label="Subasta destacada — BMW 320i">
+
+        <div class="hero-image">
+          <img src="../assets/hero-bmw320i.jpg" alt="BMW 320i Serie 3 — Subasta en vivo">
+          <div class="hero-image-overlay" aria-hidden="true"></div>
+          <div class="hero-nav-buttons">
+            <button class="hero-nav-btn" type="button" aria-label="Foto anterior">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M11 5L7 9l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button class="hero-nav-btn" type="button" aria-label="Foto siguiente">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M7 5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-details">
+          <div class="hero-badge" role="status" aria-live="polite" aria-atomic="true">
+            Subasta en vivo: 26 enero – 3:00 p.m.
+          </div>
+          <p class="hero-subtitle" aria-label="Serie">SERIES 3</p>
+          <h1 class="hero-model">BMW 320i</h1>
+          <div class="hero-specs" aria-label="Características del vehículo">
+            <div class="hero-spec">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.7"/>
+                <path d="M8 5v4l3 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-opacity="0.7"/>
+              </svg>
+              65,000 km
+            </div>
+            <div class="hero-spec">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 2C5.8 2 4 3.8 4 6c0 3.5 4 8 4 8s4-4.5 4-8c0-2.2-1.8-4-4-4z" stroke="currentColor" stroke-width="1.2" fill="none" stroke-opacity="0.7"/>
+                <circle cx="8" cy="6" r="1.5" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.7"/>
+              </svg>
+              Lima
+            </div>
+          </div>
+          <div class="hero-divider" role="separator"></div>
+          <p class="hero-price-label">PRECIO BASE</p>
+          <div class="hero-price" aria-label="Precio base: 14,000 dólares americanos">
+            <span class="hero-price-amount">$14,000</span>
+            <span class="hero-price-currency">USD</span>
+          </div>
+          <button class="btn btn--cta" type="button" aria-label="Participar en la subasta del BMW 320i">
+            PARTICIPAR AHORA
+          </button>
+        </div>
+
+      </section>
+
+      <!-- FILTER BAR -->
+      <nav class="filter-bar" aria-label="Filtrar activos por tipo">
+        <div class="filter-bar-top">
+          <div class="filter-label">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M3 5h14M6 10h8M9 15h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            FILTRAR POR
+          </div>
+          <button class="filter-settings-btn" type="button" aria-label="Configuración avanzada de filtros">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M3 5h14M5 10h10M8 15h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+        <div class="filter-buttons" role="group" aria-label="Tipo de activo">
+          <button class="filter-btn" type="button" aria-pressed="true">TODOS</button>
+          <button class="filter-btn" type="button" aria-pressed="false">NEGOCIABLE</button>
+          <button class="filter-btn" type="button" aria-pressed="false">SUBASTA</button>
+          <button class="filter-btn" type="button" aria-pressed="false">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 12l3-6 3 4 2-3 3 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            VEHÍCULOS
+          </button>
+          <button class="filter-btn" type="button" aria-pressed="false">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <rect x="2" y="7" width="12" height="8" rx="1" stroke="currentColor" stroke-width="1.2"/>
+              <path d="M5 7V5a3.5 3.5 0 017 0v2" stroke="currentColor" stroke-width="1.2"/>
+            </svg>
+            MAQUINARIA
+          </button>
+          <button class="filter-btn" type="button" aria-pressed="false">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 15V7l6-5 6 5v8H2z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="5.5" y="9" width="2.5" height="6" stroke="currentColor" stroke-width="1.2"/>
+            </svg>
+            INMUEBLES
+          </button>
+        </div>
+      </nav>
+
+      <!-- FEATURED VEHICLES SECTION -->
+      <section class="featured" aria-labelledby="featured-heading">
+        <div class="section-header">
+          <div>
+            <div class="section-tag">
+              <span class="section-tag-dot" aria-hidden="true"></span>
+              ACTIVOS DESTACADOS
+            </div>
+            <h2 class="section-title" id="featured-heading">
+              MAF PERÚ <span class="accent">X VMC</span>
+            </h2>
+            <p class="section-subtitle">
+              Inventarios verificados disponibles para entrega inmediata
+            </p>
+          </div>
+          <a href="#" class="btn--link" aria-label="Ver todos los activos destacados">
+            VER TODO
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <ul class="vehicle-grid" aria-label="Vehículos disponibles">
+
+          <li>
+            <article class="vehicle-card">
+              <img class="vehicle-card-image" src="../assets/card-toyota-hilux.jpg" alt="Toyota Hilux 2024" loading="lazy">
+              <div class="vehicle-card-body">
+                <h3 class="vehicle-card-title">TOYOTA HILUX</h3>
+                <p class="vehicle-card-meta">2024 · LIMA · DIESEL</p>
+                <div class="vehicle-card-pricing">
+                  <div>
+                    <p class="vehicle-card-price-label">Oferta Inicial</p>
+                    <div class="vehicle-card-price" aria-label="17,999 dólares">
+                      <span class="vehicle-card-price-currency">US$</span>
+                      <span class="vehicle-card-price-amount">17,999</span>
+                    </div>
+                  </div>
+                  <button class="btn--bid" type="button" aria-label="Ofertar por Toyota Hilux 2024">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+          </li>
+
+          <li>
+            <article class="vehicle-card">
+              <img class="vehicle-card-image" src="../assets/card-toyota-etios.jpg" alt="Toyota Etios 2024" loading="lazy">
+              <div class="vehicle-card-body">
+                <h3 class="vehicle-card-title">TOYOTA ETIOS</h3>
+                <p class="vehicle-card-meta">2024 · BARCELONA · MÁLAGA</p>
+                <div class="vehicle-card-pricing">
+                  <div>
+                    <p class="vehicle-card-price-label">Oferta Inicial</p>
+                    <div class="vehicle-card-price" aria-label="4,999 dólares">
+                      <span class="vehicle-card-price-currency">US$</span>
+                      <span class="vehicle-card-price-amount">4,999</span>
+                    </div>
+                  </div>
+                  <button class="btn--bid" type="button" aria-label="Ofertar por Toyota Etios 2024">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+          </li>
+
+          <li>
+            <article class="vehicle-card">
+              <img class="vehicle-card-image" src="../assets/card-nissan-versa.jpg" alt="Nissan Versa 2015" loading="lazy">
+              <div class="vehicle-card-body">
+                <h3 class="vehicle-card-title">NISSAN VERSA</h3>
+                <p class="vehicle-card-meta">2015 · TRUJILLO · MXS</p>
+                <div class="vehicle-card-pricing">
+                  <div>
+                    <p class="vehicle-card-price-label">Oferta Inicial</p>
+                    <div class="vehicle-card-price" aria-label="3,999 dólares">
+                      <span class="vehicle-card-price-currency">US$</span>
+                      <span class="vehicle-card-price-amount">3,999</span>
+                    </div>
+                  </div>
+                  <button class="btn--bid" type="button" aria-label="Ofertar por Nissan Versa 2015">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+          </li>
+
+          <li>
+            <article class="vehicle-card">
+              <img class="vehicle-card-image" src="../assets/card-bmw-x4.jpg" alt="BMW X4 2023" loading="lazy">
+              <div class="vehicle-card-body">
+                <h3 class="vehicle-card-title">BMW X4</h3>
+                <p class="vehicle-card-meta">2023 · LIMA · AREQUIPA</p>
+                <div class="vehicle-card-pricing">
+                  <div>
+                    <p class="vehicle-card-price-label">Oferta Inicial</p>
+                    <div class="vehicle-card-price" aria-label="19,999 dólares">
+                      <span class="vehicle-card-price-currency">US$</span>
+                      <span class="vehicle-card-price-amount">19,999</span>
+                    </div>
+                  </div>
+                  <button class="btn--bid" type="button" aria-label="Ofertar por BMW X4 2023">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+          </li>
+
+        </ul>
+      </section>
+
+      <!-- HELP SECTION -->
+      <section class="help-section" aria-label="Centro de ayuda">
+        <div class="help-content">
+          <div class="help-icon-wrap" aria-hidden="true">
+            <img src="../assets/icon-help.png" alt="" width="32" height="32">
+          </div>
+          <div>
+            <h2 class="help-title">CENTRO DE <span class="accent">AYUDA</span></h2>
+            <p class="help-text">¿Necesitas asistencia con tus ofertas o el proceso de subasta?</p>
+          </div>
+        </div>
+        <a href="#" class="btn btn--secondary" aria-label="Ir al centro de ayuda de VMC Subastas">
+          IR AL CENTRO DE AYUDA
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M7 5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </section>
+
+    </div>
+
+  </div>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer role="contentinfo">
+    <div class="footer-inner">
+
+      <div class="footer-top">
+
+        <div>
+          <div aria-label="VMC Subastas" style="display:flex;align-items:center;gap:var(--space-2);color:var(--color-text-on-dark);font-size:var(--font-size-body);font-weight:var(--weight-bold);">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+              <rect width="28" height="28" rx="6" fill="currentColor" fill-opacity="0.2"/>
+              <path d="M6 20L14 8l8 12H6z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            </svg>
+            VMC Subastas
+          </div>
+          <p class="footer-brand-desc">
+            Información y referencias sobre el equipo corporativo VMC Subastas.
+          </p>
+          <p class="footer-powered">Powered by SUBASTOP.Co</p>
+        </div>
+
+        <div>
+          <p class="footer-heading">Plataforma</p>
+          <ul class="footer-links">
+            <li><a href="#">SubasCars</a></li>
+            <li><a href="#">SubasBlog</a></li>
+            <li><a href="#">¿Quiénes somos?</a></li>
+            <li><a href="#">¿Cómo vender?</a></li>
+            <li><a href="#">¿Cómo obtener acceso ilimitado?</a></li>
+            <li><a href="#">BlackSheep Nation</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="footer-heading">Legal &amp; Compliance</p>
+          <ul class="footer-links">
+            <li><a href="#">Condiciones y Términos</a></li>
+            <li><a href="#">Política de Protección de Datos Personales</a></li>
+            <li><a href="#">Política de privacidad General</a></li>
+            <li><a href="#">Testimonios</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="footer-heading">Contacto</p>
+          <a href="#" class="footer-contact-link">Contáctanos</a>
+          <p class="footer-heading">Encuéntranos en</p>
+          <nav class="footer-social" aria-label="Redes sociales">
+            <a href="#" aria-label="Facebook">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                <path d="M9 5.5h2V3.5H9A3 3 0 006 6.5V8H4v2h2v5h2v-5h2l.5-2H8V6.5A1 1 0 019 5.5z"/>
+              </svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <rect x="2" y="2" width="12" height="12" rx="3.5" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="11.5" cy="4.5" r="0.75" fill="currentColor"/>
+              </svg>
+            </a>
+            <a href="#" aria-label="YouTube">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <rect x="1" y="3.5" width="14" height="9" rx="2.5" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M6.5 6.5l4 1.5-4 1.5V6.5z" fill="currentColor"/>
+              </svg>
+            </a>
+            <a href="#" aria-label="X (Twitter)">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                <path d="M12.6 2h2.1L9.9 7.4 15.5 14h-3.8l-3.4-4.5L4.4 14H2.3l5.2-5.8L2 2h3.9l3.1 4 3.6-4z"/>
+              </svg>
+            </a>
+          </nav>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 VMC Subastas. Todos los derechos reservados.</p>
+        <a href="#" class="footer-reclamaciones" aria-label="Libro de reclamaciones">
+          <img src="../assets/libro-reclamaciones.png" alt="Libro de reclamaciones" height="40">
+          <span>Libros de reclamaciones</span>
+        </a>
+        <nav class="footer-legal-links" aria-label="Links del sitio">
+          <a href="#">Política de Cookies</a>
+          <span class="footer-legal-sep" aria-hidden="true">•</span>
+          <a href="#">Mapa del Sitio</a>
+          <span class="footer-legal-sep" aria-hidden="true">•</span>
+          <a href="#">Accesibilidad</a>
+        </nav>
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+</html>

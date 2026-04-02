@@ -1,0 +1,165 @@
+# VMC Subastas — Design System
+
+## Contexto del proyecto
+Estamos construyendo el design system de VMC Subastas, una plataforma 
+web de subastas de vehículos en Perú (~15 páginas).
+
+Los diseños de origen fueron generados con herramientas de IA (Figma Make).
+Son frames planos con valores caóticos, sin tokens, sin Auto Layout.
+Nuestro trabajo NO es copiar esos valores — es interpretarlos, normalizarlos 
+y construir un sistema coherente a partir de ellos.
+
+Stack: React + TypeScript + Tailwind CSS v4 + OKLCH + W3C DTCG tokens
+Equipo: 1 PO (no técnico) + 1 AI Engineer
+Figma board del design system: 1NuguaWAQsYmyn6D3HAbDM
+Figma board "Prueba-Cursor" (frames originales de Figma Make): 1IANLDtvEW9rauM9w5cHqu
+
+## Arquitectura de tokens (obligatoria)
+
+Dos niveles. Nunca usar valores directos en HTML/CSS final.
+
+Nivel 1 — Primitivos (valores crudos, NO van en HTML):
+  --purple-500: oklch(0.380 0.180 285.000);
+  --space-4: 16px;
+
+Nivel 2 — Semánticos (intención de uso, SÍ van en HTML):
+  --color-action-primary: var(--purple-500);
+  --padding-card: var(--space-4);
+
+Nomenclatura semántica obligatoria:
+  MAL: --color-blue-500, --font-16, --padding-20
+  BIEN: --color-action-primary, --font-body, --padding-card-inner
+
+Todos los colores primitivos van en espacio OKLCH, nunca HEX.
+
+## Reglas de NORMALIZACIÓN
+
+Normalizar = interpretar los valores caóticos de la IA y convertirlos
+a valores con lógica matemática. Se aplica SIEMPRE al leer Figma.
+
+### Colores
+- Métrica: Delta E en espacio OKLCH (ΔE_OK)
+- Umbral de fusión: ΔE ≤ 2.0 = mismo color (error de IA) → fusionar
+- ΔE > 2.0 = colores distintos e intencionales → mantener ambos
+- Al fusionar: calcular el centroide (promedio de L, C y H de ambos)
+- Truncar a máximo 3 decimales
+- Ejemplo: #1D4ED8 y #1E3A8A (ΔE = 1.4) → oklch(0.450 0.180 255.000)
+
+### Tipografía — familia tipográfica
+- Fuente principal (todo el sistema — display, body, UI): **Plus Jakarta Sans** — open source, Google Fonts
+  Carga: `<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">`
+- Fuente monoespaciada (VINs, placas): **Roboto Mono** — open source, Google Fonts
+- ⚠️ Buenos Aires e Inter fueron fuentes del diseño IA original — ya no se usan en ningún lugar
+- Si Figma Make o el frame original reportan "Buenos Aires" o "Inter", sustituir siempre por Plus Jakarta Sans
+
+### Tipografía — tamaños
+- Escala base: Segunda Mayor (×1.125) desde 16px
+  Valores de la escala: 10, 11, 12, 14, 16, 18, 20, 24, 27, 30, 34, 38
+- Umbral de fusión: si el valor de la IA está a ≤ 2px de un escalón → 
+  forzar al escalón exacto
+- Font-sizes con decimales: redondear al entero más cercano primero,
+  luego aplicar umbral de fusión
+- Ejemplo: 14.4px → 14px → está a 0px del escalón 14 → queda 14px
+- Ejemplo: 17px → está a 1px del escalón 18 → queda 18px
+
+### Tipografía — line-height
+- Fórmula obligatoria: 4 × ⌊(FontSize × 1.5) / 4⌉
+- Ejemplo: font 14px → 4 × ⌊(14 × 1.5) / 4⌉ = 4 × ⌊21/4⌉ = 4 × 5 = 20px
+- Ejemplo: font 16px → 4 × ⌊(16 × 1.5) / 4⌉ = 4 × ⌊24/4⌉ = 4 × 6 = 24px
+- Resultado siempre en px absoluto, siempre múltiplo de 4
+
+### Tipografía — datos numéricos
+- Precios, temporizadores, VINs, placas, lotes: aplicar siempre
+  font-variant-numeric: tabular-nums (clase tabular-nums en Tailwind)
+- Esto evita que el layout salte cuando los números cambian en tiempo real
+- Para VINs y placas además usar fuente monoespaciada
+
+### Spacing (padding, gap, margin)
+- Sistema base: grilla de 4px (no 8px — necesitamos granularidad para tablas densas)
+- Fórmula de snapping: S_norm = 4 × ⌊S_raw / 4⌉
+- Ejemplo: 10.2px → 4 × ⌊10.2/4⌉ = 4 × 3 = 12px
+- Ejemplo: 19.992px → 4 × ⌊19.992/4⌉ = 4 × 5 = 20px
+- Aplicación: gap para separación entre hermanos, padding para espacio
+  interior, margin solo para estructura macro del layout
+
+### Dimensiones de elementos (width / height)
+- Todas las dimensiones px explícitas deben ser múltiplo de 4: D_norm = 4 × ⌊D_raw / 4⌉
+- Ejemplo: 300.38px → 300px  |  372.5px → 372px
+- NUNCA usar min-height: 100vh — el viewport puede producir valores decimales
+- Todos los contenedores principales del layout (cards, header, hero, secciones)
+  deben tener height explícita en px, no "auto"
+- Calcular la altura sumando: padding vertical + line-heights de contenido + gaps
+  y snapear el resultado al múltiplo de 4 más cercano
+- Usar overflow: hidden en el contenedor para absorber cualquier exceso de contenido
+- Excepción permitida: width: 100% y flex: 1 no se expresan en px
+
+### Border-radius
+- Máximo 5 niveles (plataforma financiera/transaccional, aspecto riguroso)
+- Tabla de asignación por valor raw de la IA:
+  ≤ 1.5px  → 0px    (celdas y tablas de datos, nunca redondear)
+  2–5px    → 4px    (inputs, checkboxes)
+  6–10px   → 8px    (botones primarios)
+  11–24px  → 16px   (cards de vehículos, modales)
+  > 24px   → 9999px (píldoras, badges, elementos circulares)
+
+### Sombras
+- Fórmula: blur = 2 × Y_offset, X siempre = 0
+- Color: negro puro con alpha entre 0.05 y 0.12
+- 4 niveles estándar:
+  shadow-none: ninguna sombra
+  shadow-sm:   0 2px 4px rgba(0,0,0,0.06)
+  shadow-md:   0 4px 8px rgba(0,0,0,0.08)
+  shadow-lg:   0 8px 16px rgba(0,0,0,0.10)
+- Cualquier sombra irracional de la IA se colapsa al nivel más cercano
+
+### Z-index
+- Aplastar cualquier valor de la IA (9999, 59, etc.) a la escala:
+  z-0:  fondo
+  z-10: elementos interactivos base
+  z-20: dropdowns y tooltips
+  z-30: modales y overlays
+  z-40: sidebars y drawers
+  z-50: alertas críticas y notificaciones
+
+### Transiciones
+- ≤ 200ms → forzar a 150ms (micro-interacciones: hover, focus)
+- > 200ms → forzar a 300ms (modales, menús desplegables)
+- Easing estándar: cubic-bezier(0.3, 0, 0, 1)
+
+## Tokens de animación (incluir siempre en tokens.css)
+--duration-micro:    150ms;
+--duration-standard: 300ms;
+--easing-standard:   cubic-bezier(0.3, 0, 0, 1);
+
+## Reset base obligatorio
+Incluir siempre en el CSS:
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+## Accesibilidad
+- Contraste mínimo: 4.5:1 para texto normal, 3:1 para texto grande e iconos
+- Datos críticos (precios en vivo, temporizadores): contraste APCA Lc 90
+- Todos los componentes interactivos: estado focus visible obligatorio
+- Orden de tabulación lógico en todos los formularios
+
+## Estados de componentes (definir siempre los 7)
+Default → Hover → Focus → Active → Disabled → Loading → Error
+
+## Layout
+- Max-width de página: 1024px, margin: 0 auto
+- Body background: #f0f0f0
+- Layout interno: flex y grid con porcentajes
+- SVGs inline para íconos, nunca emojis ni imágenes externas
+
+## Estructura de archivos
+DS-vmcsubastas/
+├── CLAUDE.md
+├── tokens.css          (master, crece página a página)
+├── tokens.json         (equivalente para Figma Variables)
+├── /pages              (HTML tokenizado de cada página)
+├── /components         (componentes React — Fase 3)
+└── /docs               (documentación — Fase 4)

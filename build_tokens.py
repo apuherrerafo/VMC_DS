@@ -1,0 +1,366 @@
+import json
+
+tokens = {
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "$metadata": {
+    "sources": [
+      "Figma node 55:89  — homepage-tokenizado (1024x1724px)",
+      "Figma node 81:439 — Entorno-pruebas (sidebar, hero, nav, cards)",
+      "Figma node 99:82  — Main Wrapper (1024x2025px)",
+      "DESIGN.md         — Editorial Excellence / The Vault brand spec"
+    ],
+    "architecture": "Primitivos -> Semanticos",
+    "colorSpace": "OKLCH — 3 decimales exactos",
+    "spacingGrid": "4px",
+    "typescale": "Segunda Mayor x1.125 -> [10,11,12,14,16,18,20,24,27,30,34,38]",
+    "fusions": [
+      "#3c1982 + #391383 (dE=1.14) -> purple-600 = oklch(0.335 0.163 289.500)",
+      "#f6f7f9 + #f2f4f3 (dE=1.15) -> gray-100  = oklch(0.970 0.001 250.000)",
+      "#f8faf9+#fcfafa+#fffefe+#ffffff (dE<0.05) -> white = oklch(1.000 0.000 0.000)"
+    ],
+    "notes": [
+      "Fuente body: Plus Jakarta Sans (sustituye Inter del DESIGN.md AI y Roboto de Figma Make 99:82)",
+      "Fuente mono: Roboto Mono (sustituye JetBrains Mono)",
+      "gray-500 (#99a1af) restaurado — referencia activa node 99:82 como Precio Base label",
+      "shadow-brand-tinted: raw rgba(34,0,92,0.04) -> alpha 0.06 (min CLAUDE.md), blur 24->16px",
+      "No-Line Rule (DESIGN.md): limites por color shift, nunca 1px border para seccionar"
+    ]
+  },
+
+  "primitivos": {
+
+    "color": {
+      "white":            { "$value": "oklch(1.000 0.000 0.000)",   "$type": "color", "$description": "#ffffff" },
+      "surface-50":       { "$value": "oklch(0.983 0.003 168.000)", "$type": "color", "$description": "#f8faf9 — Level 0 base bg (DESIGN.md)" },
+      "surface-lavender": { "$value": "oklch(0.951 0.011 300.400)", "$type": "color", "$description": "#f0edf5 — Level 1 lavanda nav row" },
+      "surface-200":      { "$value": "oklch(0.919 0.006 150.300)", "$type": "color", "$description": "#e1e3e2 — surface_container_highest, fondo inputs" },
+      "gray-100":         { "$value": "oklch(0.970 0.001 250.000)", "$type": "color", "$description": "centroide #f6f7f9+#f2f4f3 (dE=1.15) — Level 1 gris" },
+      "gray-300":         { "$value": "oklch(0.872 0.011 262.000)", "$type": "color", "$description": "#d1d5dc — border default / ghost border" },
+      "gray-500":         { "$value": "oklch(0.669 0.024 256.000)", "$type": "color", "$description": "#99a1af — Precio Base label, meta-info secundaria (node 99:82)" },
+      "gray-600":         { "$value": "oklch(0.446 0.030 258.000)", "$type": "color", "$description": "#4a5565 — disabled text" },
+      "neutral-800":      { "$value": "oklch(0.399 0.019 302.800)", "$type": "color", "$description": "#494550 — texto cuerpo cards: anio, ubicacion, meta-info" },
+      "neutral-950":      { "$value": "oklch(0.223 0.004 199.000)", "$type": "color", "$description": "#191c1c — on_surface near-black. NUNCA #000000 (DESIGN.md)" },
+      "purple-600":       { "$value": "oklch(0.335 0.163 289.500)", "$type": "color", "$description": "centroide #3c1982+#391383 — Vault claro, extremo gradiente" },
+      "purple-800":       { "$value": "oklch(0.242 0.138 286.500)", "$type": "color", "$description": "#22005c — The Vault (DESIGN.md Primary). Sidebar, header, hero, CTAs" },
+      "purple-900":       { "$value": "oklch(0.294 0.149 288.000)", "$type": "color", "$description": "#2e0f70 — overlay hero oscuro" },
+      "cyan-400":         { "$value": "oklch(0.761 0.130 197.000)", "$type": "color", "$description": "#00cace — Negociable (DESIGN.md Tertiary)" },
+      "orange-500":       { "$value": "oklch(0.724 0.154 55.200)",  "$type": "color", "$description": "#ed8936 — En Vivo (DESIGN.md Secondary)" },
+      "red-500":          { "$value": "oklch(0.637 0.207 25.500)",  "$type": "color", "$description": "#ef4444 — dot En Vivo, estados error" },
+      "amber-500":        { "$value": "oklch(0.784 0.172 68.000)",  "$type": "color", "$description": "#ffa000 — warning (dE=7.26 vs orange-500)" }
+    },
+
+    "gradient": {
+      "brand": {
+        "$value": "linear-gradient(135deg, oklch(0.242 0.138 286.500) 0%, oklch(0.335 0.163 289.500) 100%)",
+        "$type": "gradient",
+        "$description": "Vault Gradient (DESIGN.md). purple-800 -> purple-600. Hero banners, primary action areas."
+      }
+    },
+
+    "spacing": {
+      "1":  { "$value": "4px",  "$type": "dimension" },
+      "2":  { "$value": "8px",  "$type": "dimension" },
+      "3":  { "$value": "12px", "$type": "dimension", "$description": "padding interno cards" },
+      "4":  { "$value": "16px", "$type": "dimension", "$description": "gap grid, margin seccion" },
+      "5":  { "$value": "20px", "$type": "dimension", "$description": "padding nav row" },
+      "6":  { "$value": "24px", "$type": "dimension", "$description": "padding secciones" },
+      "7":  { "$value": "28px", "$type": "dimension" },
+      "8":  { "$value": "32px", "$type": "dimension", "$description": "padding hero / secciones grandes" },
+      "10": { "$value": "40px", "$type": "dimension", "$description": "gap entre grupos de seccion" },
+      "12": { "$value": "48px", "$type": "dimension" },
+      "16": { "$value": "64px", "$type": "dimension", "$description": "altura header / sidebar colapsado" }
+    },
+
+    "fontSize": {
+      "micro":      { "$value": "8px",  "$type": "dimension", "$description": "excepcion: 7px raw -> minimo absoluto labels ultra-densos" },
+      "2xs":        { "$value": "10px", "$type": "dimension", "$description": "TIPO DE OFERTA, CATEGORIAS, botones sm" },
+      "xs-11":      { "$value": "11px", "$type": "dimension", "$description": "subtitulo hero, nombre vehiculo en card" },
+      "xs":         { "$value": "12px", "$type": "dimension", "$description": "precio base, body card" },
+      "sm":         { "$value": "14px", "$type": "dimension", "$description": "titulo floating card destacado" },
+      "base":       { "$value": "16px", "$type": "dimension" },
+      "lg":         { "$value": "18px", "$type": "dimension", "$description": "heading Centro de Ayuda" },
+      "xl":         { "$value": "20px", "$type": "dimension", "$description": "heading seccion: MAF PERU, SUBASTOP" },
+      "2xl":        { "$value": "24px", "$type": "dimension" },
+      "3xl":        { "$value": "27px", "$type": "dimension" },
+      "4xl":        { "$value": "30px", "$type": "dimension", "$description": "hero heading, countdown timer" },
+      "5xl":        { "$value": "38px", "$type": "dimension" },
+      "display-lg": { "$value": "56px", "$type": "dimension", "$description": "DESIGN.md display-lg 3.5rem — hero editorial H1" }
+    },
+
+    "lineHeight": {
+      "micro":      { "$value": "12px", "$type": "dimension", "$description": "4x(8x1.5)/4 = 12px" },
+      "2xs":        { "$value": "16px", "$type": "dimension", "$description": "4x(10x1.5)/4 = 16px (vale para 11px tambien)" },
+      "tight":      { "$value": "20px", "$type": "dimension", "$description": "4x(12x1.5)/4 = 20px (vale para 14px tambien)" },
+      "base":       { "$value": "24px", "$type": "dimension", "$description": "4x(16x1.5)/4 = 24px" },
+      "lg":         { "$value": "28px", "$type": "dimension", "$description": "4x(18x1.5)/4 = 28px" },
+      "xl":         { "$value": "32px", "$type": "dimension", "$description": "4x(20x1.5)/4 = 32px" },
+      "2xl":        { "$value": "36px", "$type": "dimension", "$description": "4x(24x1.5)/4 = 36px" },
+      "3xl":        { "$value": "40px", "$type": "dimension", "$description": "4x(27x1.5)/4 = 40px" },
+      "4xl":        { "$value": "44px", "$type": "dimension", "$description": "4x(30x1.5)/4 = 44px" },
+      "display-lg": { "$value": "84px", "$type": "dimension", "$description": "4x(56x1.5)/4 = 84px" }
+    },
+
+    "fontFamily": {
+      "body":    { "$value": ["Plus Jakarta Sans", "sans-serif"], "$type": "fontFamily", "$description": "Cuerpo, labels, datos numericos. Sustituye Inter y Roboto de frames AI." },
+      "display": { "$value": ["Plus Jakarta Sans", "sans-serif"], "$type": "fontFamily", "$description": "Headings H1/H2/H3 (DESIGN.md)" },
+      "mono":    { "$value": ["Roboto Mono", "monospace"],        "$type": "fontFamily", "$description": "VINs, placas, codigos. Sustituye JetBrains Mono." }
+    },
+
+    "fontWeight": {
+      "regular":   { "$value": 400, "$type": "fontWeight" },
+      "semibold":  { "$value": 600, "$type": "fontWeight" },
+      "bold":      { "$value": 700, "$type": "fontWeight" },
+      "extrabold": { "$value": 800, "$type": "fontWeight", "$description": "hero headings, section titles" }
+    },
+
+    "letterSpacing": {
+      "none":    { "$value": "0px",    "$type": "dimension" },
+      "micro":   { "$value": "0.35px", "$type": "dimension", "$description": "PRECIO BASE, UBICACION" },
+      "normal":  { "$value": "0.5px",  "$type": "dimension", "$description": "botones, body" },
+      "wide":    { "$value": "0.8px",  "$type": "dimension" },
+      "wider":   { "$value": "0.9px",  "$type": "dimension", "$description": "EN VIVO, NEGOCIABLE, timer" },
+      "widest":  { "$value": "1.0px",  "$type": "dimension", "$description": "nav: TIPO DE OFERTA, CATEGORIAS" },
+      "heading": { "$value": "-0.5px", "$type": "dimension", "$description": "headings lg+: MAF PERU, SUBASTOP" },
+      "hero":    { "$value": "-1.5px", "$type": "dimension", "$description": "hero H1 30px+" }
+    },
+
+    "borderRadius": {
+      "none": { "$value": "0px",    "$type": "dimension", "$description": "celdas de tabla" },
+      "sm":   { "$value": "4px",    "$type": "dimension", "$description": "inputs, badges, cards (frame 99:82)" },
+      "md":   { "$value": "8px",    "$type": "dimension", "$description": "botones CTA primarios (DESIGN.md: 0.5rem)" },
+      "lg":   { "$value": "16px",   "$type": "dimension", "$description": "modales, drawers" },
+      "full": { "$value": "9999px", "$type": "dimension", "$description": "pildoras, botones circulares" }
+    },
+
+    "shadow": {
+      "none": { "$value": "none",                                                 "$type": "shadow" },
+      "sm":   { "$value": "0 2px 4px rgba(0,0,0,0.06)",                          "$type": "shadow" },
+      "md":   { "$value": "0 4px 8px rgba(0,0,0,0.08)",                          "$type": "shadow" },
+      "lg":   { "$value": "0 8px 16px rgba(0,0,0,0.10)",                         "$type": "shadow" },
+      "brand-tinted": {
+        "$value": "0 8px 16px oklch(0.242 0.138 286.500 / 0.06)",
+        "$type": "shadow",
+        "$description": "Vault Tinted (DESIGN.md). Raw rgba(34,0,92,0.04) -> alpha 0.06, blur 24->16px. Usar en TODOS los cards."
+      }
+    },
+
+    "duration": {
+      "micro":    { "$value": "150ms", "$type": "duration", "$description": "<=200ms raw -> 150ms (hover, focus)" },
+      "standard": { "$value": "300ms", "$type": "duration", "$description": ">200ms raw -> 300ms (modales, menus)" }
+    },
+
+    "easing": {
+      "standard": { "$value": "cubic-bezier(0.3, 0, 0, 1)", "$type": "cubicBezier" }
+    }
+
+  },
+
+  "semanticos": {
+
+    "color": {
+
+      "text": {
+        "onSurface":    { "$value": "{primitivos.color.neutral-950}",             "$type": "color", "$description": "Texto principal sobre fondo claro. NUNCA #000000 (DESIGN.md)" },
+        "primary":      { "$value": "{primitivos.color.purple-800}",              "$type": "color", "$description": "Headings, texto brand en cards/secciones" },
+        "body":         { "$value": "{primitivos.color.neutral-800}",             "$type": "color", "$description": "Cuerpo: anio, ubicacion, meta-info en cards" },
+        "muted":        { "$value": "oklch(0.399 0.019 302.800 / 0.50)",         "$type": "color", "$description": "neutral-800 / 50% — info secundaria" },
+        "label":        { "$value": "oklch(0.399 0.019 302.800 / 0.40)",         "$type": "color", "$description": "neutral-800 / 40% — labels PRECIO BASE, UBICACION" },
+        "priceLabel":   { "$value": "{primitivos.color.gray-500}",                "$type": "color", "$description": "#99a1af — etiqueta Precio Base en cards (node 99:82)" },
+        "brandMuted":   { "$value": "oklch(0.242 0.138 286.500 / 0.40)",         "$type": "color", "$description": "purple-800 / 40% — subtext brand sobre fondo blanco" },
+        "disabled":     { "$value": "{primitivos.color.gray-600}",                "$type": "color" },
+        "accent":       { "$value": "{primitivos.color.cyan-400}",                "$type": "color", "$description": "CIERRA HOY, timer activo" },
+        "link":         { "$value": "{primitivos.color.purple-600}",              "$type": "color" },
+        "onDark":       { "$value": "{primitivos.color.white}",                   "$type": "color", "$description": "Texto sobre sidebar, header, hero" },
+        "onDarkMuted":  { "$value": "oklch(1.000 0.000 0.000 / 0.60)",           "$type": "color", "$description": "white / 60% — subtitulo hero" },
+        "onDarkSubtle": { "$value": "oklch(1.000 0.000 0.000 / 0.30)",           "$type": "color", "$description": "white / 30% — placeholder search bar" }
+      },
+
+      "surface": {
+        "page":         { "$value": "{primitivos.color.surface-50}",       "$type": "color",    "$description": "Level 0 — #f8faf9 fondo base (DESIGN.md)" },
+        "card":         { "$value": "{primitivos.color.white}",            "$type": "color",    "$description": "Level 2 — cards/interaction" },
+        "section":      { "$value": "{primitivos.color.gray-100}",         "$type": "color",    "$description": "Level 1 gris. No-Line Rule: shift de color define el limite." },
+        "tinted":       { "$value": "{primitivos.color.surface-lavender}", "$type": "color",    "$description": "Level 1 lavanda — nav row tipo oferta/categorias" },
+        "input":        { "$value": "{primitivos.color.surface-200}",      "$type": "color",    "$description": "Fondo inputs. Sin border (No-Line Rule DESIGN.md)" },
+        "sidebar":      { "$value": "{primitivos.color.purple-800}",       "$type": "color" },
+        "header":       { "$value": "{primitivos.color.purple-800}",       "$type": "color" },
+        "overlay":      { "$value": "{primitivos.color.purple-900}",       "$type": "color",    "$description": "Overlay hero oscuro, modales con fondo oscuro" },
+        "heroGradient": { "$value": "{primitivos.gradient.brand}",         "$type": "gradient", "$description": "Vault Gradient — hero banners, primary action areas" },
+        "navActive":    { "$value": "oklch(1.000 0.000 0.000 / 0.10)",    "$type": "color",    "$description": "Item nav activo — white / 10%" },
+        "iconSubtle":   { "$value": "oklch(0.242 0.138 286.500 / 0.05)",  "$type": "color",    "$description": "purple-800 / 5% — fondo botones round en cards" },
+        "glass":        { "$value": "oklch(1.000 0.000 0.000 / 0.40)",    "$type": "color",    "$description": "Glassmorphism white 40%. Requiere backdrop-blur: 8px. (DESIGN.md)" }
+      },
+
+      "border": {
+        "default":              { "$value": "{primitivos.color.gray-300}",             "$type": "color", "$description": "Ghost border / accesibilidad" },
+        "ghost":                { "$value": "oklch(0.242 0.138 286.500 / 0.10)",      "$type": "color", "$description": "outline_variant 10% — unico border permitido (DESIGN.md DON'T)" },
+        "sectionDivider":       { "$value": "oklch(0.242 0.138 286.500 / 0.05)",      "$type": "color", "$description": "purple-800 5% — separador entre secciones grid" },
+        "cardAccentAuction":    { "$value": "{primitivos.color.orange-500}",           "$type": "color", "$description": "4px bottom — cards lote en vivo" },
+        "cardAccentNegotiable": { "$value": "{primitivos.color.cyan-400}",             "$type": "color", "$description": "4px bottom — cards negociables" },
+        "navSeparator":         { "$value": "oklch(1.000 0.000 0.000 / 0.10)",        "$type": "color", "$description": "Separador horizontal dentro del sidebar" }
+      },
+
+      "action": {
+        "primary":      { "$value": "{primitivos.color.purple-600}",             "$type": "color", "$description": "Accion principal brand" },
+        "cta":          { "$value": "{primitivos.color.orange-500}",             "$type": "color", "$description": "CTA secundario — INGRESA, badge lote destacado" },
+        "accent":       { "$value": "{primitivos.color.cyan-400}",              "$type": "color", "$description": "REALIZAR OFERTA, badge NEGOCIABLE" },
+        "accentSubtle": { "$value": "oklch(0.761 0.130 197.000 / 0.10)",       "$type": "color", "$description": "cyan-400 / 10% — fondo icono Negociable en nav" },
+        "ctaSubtle":    { "$value": "oklch(0.724 0.154 55.200 / 0.10)",        "$type": "color", "$description": "orange-500 / 10% — fondo icono En Vivo en nav" }
+      },
+
+      "status": {
+        "live":    { "$value": "{primitivos.color.red-500}",   "$type": "color", "$description": "Dot indicador En Vivo (tiempo real)" },
+        "warning": { "$value": "{primitivos.color.amber-500}", "$type": "color" }
+      }
+
+    },
+
+    "brand": {
+      "vault":      { "$value": "{primitivos.color.purple-800}", "$type": "color",    "$description": "The Vault — Primary DESIGN.md. Navegacion, CTAs, estructura." },
+      "enVivo":     { "$value": "{primitivos.color.orange-500}", "$type": "color",    "$description": "En Vivo — Secondary DESIGN.md. Eventos live, status urgentes." },
+      "negociable": { "$value": "{primitivos.color.cyan-400}",   "$type": "color",    "$description": "Negociable — Tertiary DESIGN.md. Status negociable, highlights." },
+      "vaultLight": { "$value": "{primitivos.color.purple-600}", "$type": "color",    "$description": "Extremo claro del Vault Gradient." },
+      "gradient":   { "$value": "{primitivos.gradient.brand}",   "$type": "gradient", "$description": "Vault Gradient 135deg — hero, primary action areas." }
+    },
+
+    "spacing": {
+      "cardPadding":  { "$value": "{primitivos.spacing.3}",  "$type": "dimension", "$description": "12px — padding interno cards" },
+      "cardGap":      { "$value": "{primitivos.spacing.2}",  "$type": "dimension", "$description": "8px  — gap entre elementos dentro de card" },
+      "gridGap":      { "$value": "{primitivos.spacing.4}",  "$type": "dimension", "$description": "16px — gap entre cards en grid" },
+      "sectionX":     { "$value": "{primitivos.spacing.6}",  "$type": "dimension", "$description": "24px — padding horizontal secciones" },
+      "sectionY":     { "$value": "{primitivos.spacing.8}",  "$type": "dimension", "$description": "32px — padding vertical hero/secciones" },
+      "sectionGap":   { "$value": "{primitivos.spacing.10}", "$type": "dimension", "$description": "40px — gap entre grupos de seccion" },
+      "navPadding":   { "$value": "{primitivos.spacing.5}",  "$type": "dimension", "$description": "20px — padding nav row" },
+      "navGap":       { "$value": "{primitivos.spacing.2}",  "$type": "dimension", "$description": "8px  — gap entre pills de nav" },
+      "headerHeight": { "$value": "{primitivos.spacing.16}", "$type": "dimension", "$description": "64px — altura header / sidebar colapsado" },
+      "iconBadge":    { "$value": "{primitivos.spacing.2}",  "$type": "dimension", "$description": "8px  — padding pills y badges icono" },
+      "filterGap":    { "$value": "{primitivos.spacing.2}",  "$type": "dimension", "$description": "8px  — gap botones de filtro" }
+    },
+
+    "borderRadius": {
+      "badge":   { "$value": "{primitivos.borderRadius.sm}",   "$type": "dimension", "$description": "4px — badges, pills, inputs" },
+      "btn":     { "$value": "{primitivos.borderRadius.sm}",   "$type": "dimension", "$description": "4px — botones (frame 99:82)" },
+      "card":    { "$value": "{primitivos.borderRadius.sm}",   "$type": "dimension", "$description": "4px — cards de vehiculos" },
+      "section": { "$value": "{primitivos.borderRadius.sm}",   "$type": "dimension", "$description": "4px — contenedores seccion" },
+      "iconBtn": { "$value": "{primitivos.borderRadius.full}", "$type": "dimension", "$description": "9999px — botones circulares 28x28, 48x48" }
+    },
+
+    "shadow": {
+      "card":     { "$value": "{primitivos.shadow.brand-tinted}", "$type": "shadow", "$description": "DESIGN.md: usar SIEMPRE la sombra tintada Vault en cards" },
+      "floating": { "$value": "{primitivos.shadow.brand-tinted}", "$type": "shadow", "$description": "Floating card hero, favorito glassmorphic" },
+      "modal":    { "$value": "{primitivos.shadow.lg}",           "$type": "shadow", "$description": "Modales — sombra neutra, no tintada" }
+    },
+
+    "typography": {
+      "heroTitle": {
+        "$description": "H1 hero — 30px Plus Jakarta Sans ExtraBold, tracking -1.5px",
+        "fontSize":      { "$value": "{primitivos.fontSize.4xl}",         "$type": "dimension" },
+        "lineHeight":    { "$value": "{primitivos.lineHeight.4xl}",        "$type": "dimension" },
+        "fontFamily":    { "$value": "{primitivos.fontFamily.display}",    "$type": "fontFamily" },
+        "fontWeight":    { "$value": "{primitivos.fontWeight.extrabold}",  "$type": "fontWeight" },
+        "letterSpacing": { "$value": "{primitivos.letterSpacing.hero}",    "$type": "dimension" }
+      },
+      "heroTimer": {
+        "$description": "Countdown hero — 30px ExtraBold tabular-nums (dato critico live)",
+        "fontSize":      { "$value": "{primitivos.fontSize.4xl}",         "$type": "dimension" },
+        "lineHeight":    { "$value": "{primitivos.lineHeight.4xl}",        "$type": "dimension" },
+        "fontFamily":    { "$value": "{primitivos.fontFamily.display}",    "$type": "fontFamily" },
+        "fontWeight":    { "$value": "{primitivos.fontWeight.extrabold}",  "$type": "fontWeight" },
+        "letterSpacing": { "$value": "{primitivos.letterSpacing.widest}",  "$type": "dimension" },
+        "fontVariant":   { "$value": "tabular-nums",                       "$type": "string" }
+      },
+      "sectionHeading": {
+        "$description": "H2 seccion — 20px ExtraBold uppercase, tracking -0.5px",
+        "fontSize":      { "$value": "{primitivos.fontSize.xl}",          "$type": "dimension" },
+        "lineHeight":    { "$value": "{primitivos.lineHeight.xl}",         "$type": "dimension" },
+        "fontFamily":    { "$value": "{primitivos.fontFamily.display}",    "$type": "fontFamily" },
+        "fontWeight":    { "$value": "{primitivos.fontWeight.extrabold}",  "$type": "fontWeight" },
+        "letterSpacing": { "$value": "{primitivos.letterSpacing.heading}", "$type": "dimension" }
+      },
+      "helpHeading": {
+        "$description": "H2 help center — 18px ExtraBold uppercase",
+        "fontSize":      { "$value": "{primitivos.fontSize.lg}",          "$type": "dimension" },
+        "lineHeight":    { "$value": "{primitivos.lineHeight.lg}",         "$type": "dimension" },
+        "fontFamily":    { "$value": "{primitivos.fontFamily.display}",    "$type": "fontFamily" },
+        "fontWeight":    { "$value": "{primitivos.fontWeight.extrabold}",  "$type": "fontWeight" },
+        "letterSpacing": { "$value": "{primitivos.letterSpacing.heading}", "$type": "dimension" }
+      },
+      "cardTitle": {
+        "$description": "H3 nombre vehiculo — 11px Bold uppercase",
+        "fontSize":      { "$value": "{primitivos.fontSize.xs-11}",       "$type": "dimension" },
+        "lineHeight":    { "$value": "{primitivos.lineHeight.2xs}",        "$type": "dimension" },
+        "fontFamily":    { "$value": "{primitivos.fontFamily.display}",    "$type": "fontFamily" },
+        "fontWeight":    { "$value": "{primitivos.fontWeight.bold}",       "$type": "fontWeight" },
+        "letterSpacing": { "$value": "{primitivos.letterSpacing.none}",    "$type": "dimension" }
+      },
+      "cardFeaturedTitle": {
+        "$description": "Titulo floating card — 14px Bold uppercase",
+        "fontSize":      { "$value": "{primitivos.fontSize.sm}",          "$type": "dimension" },
+        "lineHeight":    { "$value": "{primitivos.lineHeight.tight}",      "$type": "dimension" },
+        "fontFamily":    { "$value": "{primitivos.fontFamily.display}",    "$type": "fontFamily" },
+        "fontWeight":    { "$value": "{primitivos.fontWeight.bold}",       "$type": "fontWeight" },
+        "letterSpacing": { "$value": "{primitivos.letterSpacing.none}",    "$type": "dimension" }
+      },
+      "body": {
+        "$description": "Cuerpo — 16px Regular",
+        "fontSize":      { "$value": "{primitivos.fontSize.base}",        "$type": "dimension" },
+        "lineHeight":    { "$value": "{primitivos.lineHeight.base}",       "$type": "dimension" },
+        "fontFamily":    { "$value": "{primitivos.fontFamily.body}",       "$type": "fontFamily" },
+        "fontWeight":    { "$value": "{primitivos.fontWeight.regular}",    "$type": "fontWeight" }
+      },
+      "bodySm": {
+        "$description": "Cuerpo sm — 14px Regular",
+        "fontSize":      { "$value": "{primitivos.fontSize.sm}",          "$type": "dimension" },
+        "lineHeight":    { "$value": "{primitivos.lineHeight.tight}",      "$type": "dimension" },
+        "fontFamily":    { "$value": "{primitivos.fontFamily.body}",       "$type": "fontFamily" },
+        "fontWeight":    { "$value": "{primitivos.fontWeight.regular}",    "$type": "fontWeight" }
+      },
+      "label": {
+        "$description": "Label — 12px Semibold uppercase, tracking wider",
+        "fontSize":      { "$value": "{primitivos.fontSize.xs}",          "$type": "dimension" },
+        "lineHeight":    { "$value": "{primitivos.lineHeight.tight}",      "$type": "dimension" },
+        "fontFamily":    { "$value": "{primitivos.fontFamily.body}",       "$type": "fontFamily" },
+        "fontWeight":    { "$value": "{primitivos.fontWeight.semibold}",   "$type": "fontWeight" },
+        "letterSpacing": { "$value": "{primitivos.letterSpacing.wider}",   "$type": "dimension" }
+      },
+      "badge": {
+        "$description": "Badge/pill — 10px Bold uppercase, tracking widest",
+        "fontSize":      { "$value": "{primitivos.fontSize.2xs}",         "$type": "dimension" },
+        "lineHeight":    { "$value": "{primitivos.lineHeight.2xs}",        "$type": "dimension" },
+        "fontFamily":    { "$value": "{primitivos.fontFamily.body}",       "$type": "fontFamily" },
+        "fontWeight":    { "$value": "{primitivos.fontWeight.bold}",       "$type": "fontWeight" },
+        "letterSpacing": { "$value": "{primitivos.letterSpacing.widest}",  "$type": "dimension" }
+      },
+      "displayLg": {
+        "$description": "DESIGN.md display-lg 3.5rem — hero editorial H1",
+        "fontSize":      { "$value": "{primitivos.fontSize.display-lg}",  "$type": "dimension" },
+        "lineHeight":    { "$value": "{primitivos.lineHeight.display-lg}", "$type": "dimension" },
+        "fontFamily":    { "$value": "{primitivos.fontFamily.display}",    "$type": "fontFamily" },
+        "fontWeight":    { "$value": "{primitivos.fontWeight.extrabold}",  "$type": "fontWeight" },
+        "letterSpacing": { "$value": "{primitivos.letterSpacing.hero}",    "$type": "dimension" }
+      }
+    }
+
+  }
+}
+
+with open('C:/Proyectos/DS-vmcsubastas/tokens.json', 'w', encoding='utf-8') as f:
+    json.dump(tokens, f, ensure_ascii=False, indent=2)
+
+def count_tokens(obj):
+    count = 0
+    for k, v in obj.items():
+        if k.startswith('$'):
+            continue
+        if isinstance(v, dict):
+            if '$value' in v:
+                count += 1
+            else:
+                count += count_tokens(v)
+    return count
+
+p = count_tokens(tokens['primitivos'])
+s = count_tokens(tokens['semanticos'])
+print(f'Primitivos: {p} tokens')
+print(f'Semanticos: {s} tokens')
+print(f'Total:      {p + s} tokens')
+print('tokens.json escrito OK')

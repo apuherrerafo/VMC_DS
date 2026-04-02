@@ -1,0 +1,900 @@
+{
+  "$metadata": {
+    "tokenSetOrder": [
+      "Primitivos",
+      "Semanticos"
+    ],
+    "sources": [
+      "Figma node 55:89 (homepage-tokenizado)",
+      "Figma node 81:439 (Entorno-pruebas — sidebar, hero, nav row, cards)",
+      "Figma node 99:82 (Entorno-pruebas — Main Wrapper 1024x2025px)",
+      "DESIGN.md — Editorial Excellence spec (The Vault brand palette)"
+    ],
+    "colorSpace": "HEX — Figma-compatible (tokens.json tiene los equivalentes OKLCH)",
+    "fusions": [
+      "#3c1982 + #391383 (ΔE=1.14) → purple-600 = #3b1782",
+      "#260060  (ΔE=2.1)  → purple-800 = #22005c  (Header/Footer/Sidebar fill en frame)",
+      "#f6f7f9 + #f2f4f3 (ΔE=1.15) → gray-100  = #f4f5f6"
+    ],
+    "removedInOptimization": [
+      "gray-50   (#fefdfc) — huérfano: text.onDark migró a white",
+      "gray-200  (#f0f0f0) — huérfano: surface.page migró a surface-50",
+      "purple-950 (#1a0b3d) — huérfano: text.primary migró a purple-800",
+      "action.warning — duplicado exacto de status.warning (amber-500)"
+    ]
+  },
+  "Primitivos": {
+    "color": {
+      "white": {
+        "value": "#ffffff",
+        "type": "color"
+      },
+      "surface-50": {
+        "value": "#f8faf9",
+        "type": "color",
+        "description": "Level 0 — fondo base de página (DESIGN.md)"
+      },
+      "surface-lavender": {
+        "value": "#f0edf5",
+        "type": "color",
+        "description": "Level 1 lavanda — Nav Row tipo oferta/categorías"
+      },
+      "surface-200": {
+        "value": "#e1e3e2",
+        "type": "color",
+        "description": "surface_container_highest (DESIGN.md) — fondo inputs, sin border"
+      },
+      "gray-100": {
+        "value": "#f4f5f6",
+        "type": "color",
+        "description": "centroide #f6f7f9+#f2f4f3 (ΔE=1.15) — surface sección gris"
+      },
+      "gray-300": {
+        "value": "#d1d5dc",
+        "type": "color",
+        "description": "Ghost border / accessibility border"
+      },
+      "gray-600": {
+        "value": "#4a5565",
+        "type": "color",
+        "description": "Texto deshabilitado"
+      },
+      "neutral-800": {
+        "value": "#494550",
+        "type": "color",
+        "description": "Texto cuerpo en cards: año, ubicación, meta-info"
+      },
+      "neutral-950": {
+        "value": "#191c1c",
+        "type": "color",
+        "description": "on_surface near-black. NUNCA usar #000000 (DESIGN.md)"
+      },
+      "purple-600": {
+        "value": "#3b1782",
+        "type": "color",
+        "description": "centroide #3c1982+#391383 — extremo claro del Vault Gradient"
+      },
+      "purple-800": {
+        "value": "#22005c",
+        "type": "color",
+        "description": "The Vault — color corporativo dominante (DESIGN.md Primary)"
+      },
+      "purple-900": {
+        "value": "#2e0f70",
+        "type": "color",
+        "description": "Overlay hero oscuro"
+      },
+      "cyan-400": {
+        "value": "#00cace",
+        "type": "color",
+        "description": "Tertiary — NEGOCIABLE, timer activo (DESIGN.md Tertiary)"
+      },
+      "orange-500": {
+        "value": "#ed8936",
+        "type": "color",
+        "description": "Secondary — En Vivo, CTA secundario, borde cards subasta (DESIGN.md Secondary)"
+      },
+      "red-500": {
+        "value": "#ef4444",
+        "type": "color",
+        "description": "Dot En Vivo, estados de error"
+      },
+      "red-700": {
+        "value": "#ba1a1a",
+        "type": "color",
+        "description": "Error destructivo — rechazos, procesos fallidos (Mi Zona)"
+      },
+      "amber-500": {
+        "value": "#ffa000",
+        "type": "color",
+        "description": "Warning (distinto de orange-500, ΔE≈7.26)"
+      },
+      "gray-500": {
+        "value": "#99a1af",
+        "type": "color",
+        "description": "Label muted text — Precio Base, meta-info secundaria (node 99:82). OKLCH: oklch(0.669 0.024 256.000)"
+      }
+    },
+    "spacing": {
+      "1": {
+        "value": "4",
+        "type": "dimension"
+      },
+      "2": {
+        "value": "8",
+        "type": "dimension"
+      },
+      "3": {
+        "value": "12",
+        "type": "dimension",
+        "description": "Padding interno cards"
+      },
+      "4": {
+        "value": "16",
+        "type": "dimension",
+        "description": "Gap grid, margin sección"
+      },
+      "5": {
+        "value": "20",
+        "type": "dimension",
+        "description": "Padding nav row"
+      },
+      "6": {
+        "value": "24",
+        "type": "dimension",
+        "description": "Padding grid content, sectionHeader"
+      },
+      "7": {
+        "value": "28",
+        "type": "dimension"
+      },
+      "8": {
+        "value": "32",
+        "type": "dimension",
+        "description": "Padding hero / secciones grandes"
+      },
+      "10": {
+        "value": "40",
+        "type": "dimension",
+        "description": "Gap entre grupos de sección"
+      },
+      "12": {
+        "value": "48",
+        "type": "dimension"
+      },
+      "16": {
+        "value": "64",
+        "type": "dimension",
+        "description": "Altura header / ancho sidebar"
+      }
+    },
+    "fontSize": {
+      "micro": {
+        "value": "8",
+        "type": "fontSizes",
+        "description": "Excepción: labels densos (7px raw no snappea al escalón 10)"
+      },
+      "2xs": {
+        "value": "10",
+        "type": "fontSizes",
+        "description": "Escalón 10 — labels sección, botones, categorías"
+      },
+      "xs-11": {
+        "value": "11",
+        "type": "fontSizes",
+        "description": "Escalón 11 — subtítulo hero, nombre vehículo en card"
+      },
+      "xs": {
+        "value": "12",
+        "type": "fontSizes",
+        "description": "Escalón 12 — precio, body card"
+      },
+      "sm": {
+        "value": "14",
+        "type": "fontSizes",
+        "description": "Escalón 14 — título floating card destacado"
+      },
+      "base": {
+        "value": "16",
+        "type": "fontSizes"
+      },
+      "lg": {
+        "value": "18",
+        "type": "fontSizes",
+        "description": "Escalón 18 — heading Centro de Ayuda"
+      },
+      "xl": {
+        "value": "20",
+        "type": "fontSizes",
+        "description": "Escalón 20 — heading sección. title-lg DESIGN.md (22px raw) snappea aquí (Δ=2px)"
+      },
+      "2xl": {
+        "value": "24",
+        "type": "fontSizes"
+      },
+      "3xl": {
+        "value": "27",
+        "type": "fontSizes"
+      },
+      "4xl": {
+        "value": "30",
+        "type": "fontSizes",
+        "description": "Escalón 30 — hero heading, countdown hero"
+      },
+      "5xl": {
+        "value": "38",
+        "type": "fontSizes"
+      },
+      "display-lg": {
+        "value": "56",
+        "type": "fontSizes",
+        "description": "DESIGN.md display-lg (3.5rem). Excepción brand spec — no snappea a escala (Δ=18px al escalón 38)"
+      }
+    },
+    "lineHeight": {
+      "micro": {
+        "value": "12",
+        "type": "lineHeights",
+        "description": "para 8px  — 4×⌊12/4⌉ = 12"
+      },
+      "2xs": {
+        "value": "16",
+        "type": "lineHeights",
+        "description": "para 10px y 11px — 4×⌊15/4⌉ = 16"
+      },
+      "tight": {
+        "value": "20",
+        "type": "lineHeights",
+        "description": "para 12px y 14px — 4×⌊18/4⌉ = 20"
+      },
+      "base": {
+        "value": "24",
+        "type": "lineHeights",
+        "description": "para 16px"
+      },
+      "lg": {
+        "value": "28",
+        "type": "lineHeights",
+        "description": "para 18px — 4×⌊27/4⌉ = 28"
+      },
+      "xl": {
+        "value": "32",
+        "type": "lineHeights",
+        "description": "para 20px — 4×⌊30/4⌉ = 32"
+      },
+      "2xl": {
+        "value": "36",
+        "type": "lineHeights"
+      },
+      "3xl": {
+        "value": "40",
+        "type": "lineHeights"
+      },
+      "4xl": {
+        "value": "44",
+        "type": "lineHeights",
+        "description": "para 30px — 4×⌊45/4⌉ = 44"
+      },
+      "display-lg": {
+        "value": "84",
+        "type": "lineHeights",
+        "description": "para 56px — 4×⌊84/4⌉ = 84"
+      }
+    },
+    "fontFamily": {
+      "body": {
+        "value": "Plus Jakarta Sans",
+        "type": "fontFamilies",
+        "description": "Cuerpo, labels, datos numericos — Plus Jakarta Sans (Google Fonts). Sustituye Inter (DESIGN.md AI original) y Roboto (Figma Make)"
+      },
+      "display": {
+        "value": "Plus Jakarta Sans",
+        "type": "fontFamilies",
+        "description": "Headings H1/H2/H3 (DESIGN.md + frame 81:439)"
+      },
+      "mono": {
+        "value": "Roboto",
+        "type": "fontFamilies",
+        "description": "VINs, placas, codigos — Roboto (solo Roboto + Plus Jakarta Sans disponibles en Figma)"
+      }
+    },
+    "fontWeight": {
+      "regular": {
+        "value": "400",
+        "type": "fontWeights"
+      },
+      "semibold": {
+        "value": "600",
+        "type": "fontWeights"
+      },
+      "bold": {
+        "value": "700",
+        "type": "fontWeights"
+      },
+      "extrabold": {
+        "value": "800",
+        "type": "fontWeights",
+        "description": "Plus Jakarta Sans ExtraBold — hero headings, section titles"
+      }
+    },
+    "letterSpacing": {
+      "none": {
+        "value": "0",
+        "type": "letterSpacing"
+      },
+      "micro": {
+        "value": "0.35",
+        "type": "letterSpacing",
+        "description": "PRECIO BASE, UBICACIÓN"
+      },
+      "normal": {
+        "value": "0.5",
+        "type": "letterSpacing",
+        "description": "Botones"
+      },
+      "wide": {
+        "value": "0.8",
+        "type": "letterSpacing",
+        "description": "tracking leve"
+      },
+      "wider": {
+        "value": "0.9",
+        "type": "letterSpacing",
+        "description": "Labels uppercase: EN VIVO, NEGOCIABLE, timer"
+      },
+      "widest": {
+        "value": "1.0",
+        "type": "letterSpacing",
+        "description": "Nav headings: TIPO DE OFERTA, CATEGORÍAS"
+      },
+      "heading": {
+        "value": "-0.5",
+        "type": "letterSpacing",
+        "description": "Headings lg+: MAF PERÚ, SUBASTOP"
+      },
+      "hero": {
+        "value": "-1.5",
+        "type": "letterSpacing",
+        "description": "Hero H1 30px+"
+      }
+    },
+    "borderRadius": {
+      "none": {
+        "value": "0",
+        "type": "borderRadius",
+        "description": "Celdas de tabla"
+      },
+      "sm": {
+        "value": "4",
+        "type": "borderRadius",
+        "description": "Cards, badges, inputs (frame 81:439)"
+      },
+      "md": {
+        "value": "8",
+        "type": "borderRadius",
+        "description": "Botones CTA primarios (DESIGN.md: 0.5rem)"
+      },
+      "lg": {
+        "value": "16",
+        "type": "borderRadius",
+        "description": "Modales, drawers"
+      },
+      "full": {
+        "value": "9999",
+        "type": "borderRadius",
+        "description": "Píldoras, circulares"
+      }
+    },
+    "shadow": {
+      "none": {
+        "value": "none",
+        "type": "boxShadow"
+      },
+      "sm": {
+        "value": {
+          "x": "0",
+          "y": "2",
+          "blur": "4",
+          "spread": "0",
+          "color": "#0000000f",
+          "type": "dropShadow"
+        },
+        "type": "boxShadow"
+      },
+      "md": {
+        "value": {
+          "x": "0",
+          "y": "4",
+          "blur": "8",
+          "spread": "0",
+          "color": "#00000014",
+          "type": "dropShadow"
+        },
+        "type": "boxShadow"
+      },
+      "lg": {
+        "value": {
+          "x": "0",
+          "y": "8",
+          "blur": "16",
+          "spread": "0",
+          "color": "#0000001a",
+          "type": "dropShadow"
+        },
+        "type": "boxShadow"
+      },
+      "brand-tinted": {
+        "value": {
+          "x": "0",
+          "y": "8",
+          "blur": "16",
+          "spread": "0",
+          "color": "#22005c0f",
+          "type": "dropShadow"
+        },
+        "type": "boxShadow",
+        "description": "Tinted Box-Shadow (DESIGN.md). Raw rgba(34,0,92,0.04) → alpha 0.04→0.06 (mínimo CLAUDE.md), blur 24→16. Usar en TODOS los cards."
+      }
+    },
+    "duration": {
+      "micro": {
+        "value": "150",
+        "type": "other",
+        "description": "≤200ms → 150ms (hover, focus)"
+      },
+      "standard": {
+        "value": "300",
+        "type": "other",
+        "description": ">200ms → 300ms (modales, menús)"
+      }
+    }
+  },
+  "Semanticos": {
+    "color": {
+      "text": {
+        "onSurface": {
+          "value": "{Primitivos.color.neutral-950}",
+          "type": "color",
+          "description": "Texto sobre surfaces claras. NUNCA #000000 (DESIGN.md)"
+        },
+        "primary": {
+          "value": "{Primitivos.color.purple-800}",
+          "type": "color",
+          "description": "Headings y texto brand en cards/secciones"
+        },
+        "body": {
+          "value": "{Primitivos.color.neutral-800}",
+          "type": "color",
+          "description": "Texto cuerpo en cards: año, ubicación, meta-info"
+        },
+        "muted": {
+          "value": "#49455080",
+          "type": "color",
+          "description": "neutral-800 / 50% — info secundaria en cards"
+        },
+        "label": {
+          "value": "#49455066",
+          "type": "color",
+          "description": "neutral-800 / 40% — labels uppercase PRECIO BASE, UBICACIÓN"
+        },
+        "brandMuted": {
+          "value": "#22005c66",
+          "type": "color",
+          "description": "purple-800 / 40% — subtext brand sobre fondo blanco"
+        },
+        "disabled": {
+          "value": "{Primitivos.color.gray-600}",
+          "type": "color"
+        },
+        "accent": {
+          "value": "{Primitivos.color.cyan-400}",
+          "type": "color",
+          "description": "CIERRA HOY, timer label, textos activos"
+        },
+        "link": {
+          "value": "{Primitivos.color.purple-800}",
+          "type": "color",
+          "description": "IR AL PERFIL, enlaces"
+        },
+        "onDark": {
+          "value": "{Primitivos.color.white}",
+          "type": "color",
+          "description": "Texto sobre fondos oscuros"
+        },
+        "onDarkStrong": {
+          "value": "#ffffffcc",
+          "type": "color",
+          "description": "white / 80% — headers de sección en footer oscuro (Plataforma, Legal, Contacto)"
+        },
+        "onDarkMuted": {
+          "value": "#ffffff99",
+          "type": "color",
+          "description": "white / 60% — subtítulo hero, texto secundario oscuro"
+        },
+        "onDarkSubtle": {
+          "value": "#ffffff4d",
+          "type": "color",
+          "description": "white / 30% — placeholder search bar"
+        },
+        "priceLabel": {
+          "value": "{Primitivos.color.gray-500}",
+          "type": "color",
+          "description": "Precio Base label y meta-info secundaria — #99a1af"
+        }
+      },
+      "surface": {
+        "page": {
+          "value": "{Primitivos.color.surface-50}",
+          "type": "color",
+          "description": "Level 0 — #f8faf9 fondo base (DESIGN.md)"
+        },
+        "card": {
+          "value": "{Primitivos.color.white}",
+          "type": "color",
+          "description": "Level 2 — cards/interaction (DESIGN.md: surface_container_lowest)"
+        },
+        "section": {
+          "value": "{Primitivos.color.gray-100}",
+          "type": "color",
+          "description": "Level 1 gris — sub-secciones. Sin line-border: el shift de color define el límite (No-Line Rule DESIGN.md)"
+        },
+        "tinted": {
+          "value": "{Primitivos.color.surface-lavender}",
+          "type": "color",
+          "description": "Level 1 lavanda — nav row tipo oferta/categorías"
+        },
+        "input": {
+          "value": "{Primitivos.color.surface-200}",
+          "type": "color",
+          "description": "Fondo inputs. Sin border (No-Line Rule DESIGN.md)"
+        },
+        "sidebar": {
+          "value": "{Primitivos.color.purple-800}",
+          "type": "color"
+        },
+        "header": {
+          "value": "{Primitivos.color.purple-800}",
+          "type": "color"
+        },
+        "overlay": {
+          "value": "{Primitivos.color.purple-900}",
+          "type": "color",
+          "description": "Overlay hero oscuro, modales con fondo oscuro"
+        },
+        "heroGradient": {
+          "value": "linear-gradient(135deg, #22005c 0%, #3b1782 100%)",
+          "type": "other",
+          "description": "Vault Gradient (DESIGN.md) — hero banners, primary action areas. purple-800 → purple-600."
+        },
+        "navActiveOverlay": {
+          "value": "#ffffff1a",
+          "type": "color",
+          "description": "Ítem nav activo — white / 10%"
+        },
+        "glass": {
+          "value": "#ffffff66",
+          "type": "color",
+          "description": "Glassmorphism white / 40% (DESIGN.md). Requiere backdrop-filter: blur(8px) en CSS."
+        },
+        "iconSubtle": {
+          "value": "#22005c0d",
+          "type": "color",
+          "description": "purple-800 / 5% — fondo botones round circulares en cards"
+        }
+      },
+      "border": {
+        "default": {
+          "value": "{Primitivos.color.gray-300}",
+          "type": "color",
+          "description": "Ghost border — accesibilidad (#d1d5dc)"
+        },
+        "ghost": {
+          "value": "#22005c1a",
+          "type": "color",
+          "description": "outline_variant / 10% — único border funcional permitido (DESIGN.md: DON'T usar 1px borders para seccionar)"
+        },
+        "sectionDivider": {
+          "value": "#22005c0d",
+          "type": "color",
+          "description": "purple-800 / 5% — línea divisora entre secciones del grid"
+        },
+        "navSeparator": {
+          "value": "#ffffff1a",
+          "type": "color",
+          "description": "white / 10% — separador horizontal sidebar"
+        },
+        "cardAccentAuction": {
+          "value": "{Primitivos.color.orange-500}",
+          "type": "color",
+          "description": "4px borde inferior decorativo — cards de subasta (DESIGN.md Signature Finish)"
+        },
+        "cardAccentNegotiable": {
+          "value": "{Primitivos.color.cyan-400}",
+          "type": "color",
+          "description": "4px borde inferior — cards negociables"
+        }
+      },
+      "action": {
+        "primary": {
+          "value": "{Primitivos.color.purple-800}",
+          "type": "color",
+          "description": "The Vault — acción principal brand"
+        },
+        "cta": {
+          "value": "{Primitivos.color.orange-500}",
+          "type": "color",
+          "description": "CTA secundario — INGRESA, badge lote destacado"
+        },
+        "accent": {
+          "value": "{Primitivos.color.cyan-400}",
+          "type": "color",
+          "description": "REALIZAR OFERTA, badge NEGOCIABLE, IR AL CENTRO DE AYUDA"
+        },
+        "accentSubtle": {
+          "value": "#00cace1a",
+          "type": "color",
+          "description": "cyan-400 / 10% — fondo icono Negociable en nav row"
+        },
+        "ctaSubtle": {
+          "value": "#ed89361a",
+          "type": "color",
+          "description": "orange-500 / 10% — fondo icono En Vivo en nav row"
+        }
+      },
+      "status": {
+        "live": {
+          "value": "{Primitivos.color.red-500}",
+          "type": "color",
+          "description": "Dot En Vivo (tiempo real)"
+        },
+        "warning": {
+          "value": "{Primitivos.color.amber-500}",
+          "type": "color"
+        },
+        "error": {
+          "value": "{Primitivos.color.red-700}",
+          "type": "color",
+          "description": "#ba1a1a — error destructivo: rechazos, procesos fallidos (Mi Zona)"
+        }
+      }
+    },
+    "spacing": {
+      "cardPadding": {
+        "value": "{Primitivos.spacing.3}",
+        "type": "dimension",
+        "description": "12px — padding interno cards"
+      },
+      "cardGap": {
+        "value": "{Primitivos.spacing.2}",
+        "type": "dimension",
+        "description": "8px — gap entre elementos dentro de un card"
+      },
+      "gridGap": {
+        "value": "{Primitivos.spacing.4}",
+        "type": "dimension",
+        "description": "16px — gap entre cards (grid 4-col)"
+      },
+      "sectionX": {
+        "value": "{Primitivos.spacing.6}",
+        "type": "dimension",
+        "description": "24px — padding horizontal secciones grid"
+      },
+      "sectionY": {
+        "value": "{Primitivos.spacing.8}",
+        "type": "dimension",
+        "description": "32px — padding vertical hero/secciones"
+      },
+      "sectionGap": {
+        "value": "{Primitivos.spacing.10}",
+        "type": "dimension",
+        "description": "40px — gap entre grupos de sección"
+      },
+      "navPadding": {
+        "value": "{Primitivos.spacing.5}",
+        "type": "dimension",
+        "description": "20px — padding nav row"
+      },
+      "navGap": {
+        "value": "{Primitivos.spacing.2}",
+        "type": "dimension",
+        "description": "8px — gap entre pills de nav"
+      },
+      "iconBadge": {
+        "value": "{Primitivos.spacing.2}",
+        "type": "dimension",
+        "description": "8px — padding pills y badges icono"
+      },
+      "filterGap": {
+        "value": "{Primitivos.spacing.2}",
+        "type": "dimension",
+        "description": "8px — gap botones de filtro"
+      },
+      "headerHeight": {
+        "value": "{Primitivos.spacing.16}",
+        "type": "dimension",
+        "description": "64px — altura header / ancho sidebar"
+      }
+    },
+    "borderRadius": {
+      "badge": {
+        "value": "{Primitivos.borderRadius.sm}",
+        "type": "borderRadius",
+        "description": "4px — badges, pills, inputs"
+      },
+      "card": {
+        "value": "{Primitivos.borderRadius.sm}",
+        "type": "borderRadius",
+        "description": "4px — cards, badges, inputs (frame 81:439)"
+      },
+      "section": {
+        "value": "{Primitivos.borderRadius.sm}",
+        "type": "borderRadius",
+        "description": "4px — secciones contenedor"
+      },
+      "btn": {
+        "value": "{Primitivos.borderRadius.md}",
+        "type": "borderRadius",
+        "description": "8px — botones CTA primarios (DESIGN.md: 0.5rem)"
+      },
+      "iconBtn": {
+        "value": "{Primitivos.borderRadius.full}",
+        "type": "borderRadius",
+        "description": "9999px — botones circulares 28×28 y 48×48"
+      }
+    },
+    "shadow": {
+      "card": {
+        "value": "{Primitivos.shadow.brand-tinted}",
+        "type": "boxShadow",
+        "description": "DESIGN.md: SIEMPRE sombra tintada Vault"
+      },
+      "floating": {
+        "value": "{Primitivos.shadow.brand-tinted}",
+        "type": "boxShadow",
+        "description": "Floating cards, glassmorphic favorite"
+      },
+      "modal": {
+        "value": "{Primitivos.shadow.lg}",
+        "type": "boxShadow",
+        "description": "Modales — sombra más pronunciada (sin tinte para neutralidad)"
+      }
+    },
+    "typography": {
+      "heroTitle": {
+        "fontSize":   { "value": "{Primitivos.fontSize.4xl}",       "type": "fontSizes",    "description": "30px" },
+        "fontFamily": { "value": "{Primitivos.fontFamily.display}",  "type": "fontFamilies", "description": "Plus Jakarta Sans" },
+        "fontWeight": { "value": "{Primitivos.fontWeight.extrabold}","type": "fontWeights",  "description": "800 ExtraBold" },
+        "lineHeight": { "value": "{Primitivos.lineHeight.4xl}",      "type": "lineHeights",  "description": "44px" }
+      },
+      "heroTimer": {
+        "fontSize":   { "value": "{Primitivos.fontSize.4xl}",       "type": "fontSizes",    "description": "30px — tabular-nums OBLIGATORIO" },
+        "fontFamily": { "value": "{Primitivos.fontFamily.display}",  "type": "fontFamilies", "description": "Plus Jakarta Sans" },
+        "fontWeight": { "value": "{Primitivos.fontWeight.extrabold}","type": "fontWeights",  "description": "800 ExtraBold" },
+        "lineHeight": { "value": "{Primitivos.lineHeight.4xl}",      "type": "lineHeights",  "description": "44px" }
+      },
+      "sectionHeading": {
+        "fontSize":   { "value": "{Primitivos.fontSize.xl}",        "type": "fontSizes",    "description": "20px" },
+        "fontFamily": { "value": "{Primitivos.fontFamily.display}",  "type": "fontFamilies", "description": "Plus Jakarta Sans" },
+        "fontWeight": { "value": "{Primitivos.fontWeight.extrabold}","type": "fontWeights",  "description": "800 ExtraBold" },
+        "lineHeight": { "value": "{Primitivos.lineHeight.xl}",       "type": "lineHeights",  "description": "32px" }
+      },
+      "helpHeading": {
+        "fontSize":   { "value": "{Primitivos.fontSize.lg}",        "type": "fontSizes",    "description": "18px" },
+        "fontFamily": { "value": "{Primitivos.fontFamily.display}",  "type": "fontFamilies", "description": "Plus Jakarta Sans" },
+        "fontWeight": { "value": "{Primitivos.fontWeight.extrabold}","type": "fontWeights",  "description": "800 ExtraBold" },
+        "lineHeight": { "value": "{Primitivos.lineHeight.lg}",       "type": "lineHeights",  "description": "28px" }
+      },
+      "cardTitle": {
+        "fontSize":   { "value": "{Primitivos.fontSize.xs-11}",     "type": "fontSizes",    "description": "11px" },
+        "fontFamily": { "value": "{Primitivos.fontFamily.display}",  "type": "fontFamilies", "description": "Plus Jakarta Sans" },
+        "fontWeight": { "value": "{Primitivos.fontWeight.bold}",     "type": "fontWeights",  "description": "700 Bold" },
+        "lineHeight": { "value": "{Primitivos.lineHeight.2xs}",      "type": "lineHeights",  "description": "16px" }
+      },
+      "cardFeaturedTitle": {
+        "fontSize":   { "value": "{Primitivos.fontSize.sm}",        "type": "fontSizes",    "description": "14px" },
+        "fontFamily": { "value": "{Primitivos.fontFamily.display}",  "type": "fontFamilies", "description": "Plus Jakarta Sans" },
+        "fontWeight": { "value": "{Primitivos.fontWeight.bold}",     "type": "fontWeights",  "description": "700 Bold" },
+        "lineHeight": { "value": "{Primitivos.lineHeight.tight}",    "type": "lineHeights",  "description": "20px" }
+      },
+      "navLabel": {
+        "fontSize":   { "value": "{Primitivos.fontSize.2xs}",       "type": "fontSizes",    "description": "10px — chips filtro nav row" },
+        "fontFamily": { "value": "{Primitivos.fontFamily.display}",  "type": "fontFamilies", "description": "Plus Jakarta Sans" },
+        "fontWeight": { "value": "{Primitivos.fontWeight.extrabold}","type": "fontWeights",  "description": "800 ExtraBold" },
+        "lineHeight": { "value": "{Primitivos.lineHeight.2xs}",      "type": "lineHeights",  "description": "16px" }
+      },
+      "sidebarItem": {
+        "fontSize":   { "value": "{Primitivos.fontSize.sm}",        "type": "fontSizes",    "description": "14px — items del sidebar" },
+        "fontFamily": { "value": "{Primitivos.fontFamily.body}",     "type": "fontFamilies", "description": "Plus Jakarta Sans" },
+        "fontWeight": { "value": "{Primitivos.fontWeight.semibold}", "type": "fontWeights",  "description": "600 SemiBold" },
+        "lineHeight": { "value": "{Primitivos.lineHeight.tight}",    "type": "lineHeights",  "description": "20px" }
+      },
+      "price": {
+        "fontSize":   { "value": "{Primitivos.fontSize.xs}",        "type": "fontSizes",    "description": "12px — tabular-nums OBLIGATORIO" },
+        "fontFamily": { "value": "{Primitivos.fontFamily.body}",     "type": "fontFamilies", "description": "Plus Jakarta Sans" },
+        "fontWeight": { "value": "{Primitivos.fontWeight.semibold}", "type": "fontWeights",  "description": "600 SemiBold" },
+        "lineHeight": { "value": "{Primitivos.lineHeight.tight}",    "type": "lineHeights",  "description": "20px" }
+      },
+      "buttonText": {
+        "fontSize":   { "value": "{Primitivos.fontSize.2xs}",       "type": "fontSizes",    "description": "10px — INGRESA, BUSCAR, IR AL PERFIL" },
+        "fontFamily": { "value": "{Primitivos.fontFamily.body}",     "type": "fontFamilies", "description": "Plus Jakarta Sans" },
+        "fontWeight": { "value": "{Primitivos.fontWeight.semibold}", "type": "fontWeights",  "description": "600 SemiBold" },
+        "lineHeight": { "value": "{Primitivos.lineHeight.2xs}",      "type": "lineHeights",  "description": "16px" }
+      },
+      "labelMicro": {
+        "fontSize":   { "value": "{Primitivos.fontSize.micro}",     "type": "fontSizes",    "description": "8px — PRECIO BASE, UBICACIÓN" },
+        "fontFamily": { "value": "{Primitivos.fontFamily.body}",     "type": "fontFamilies", "description": "Plus Jakarta Sans" },
+        "fontWeight": { "value": "{Primitivos.fontWeight.semibold}", "type": "fontWeights",  "description": "600 SemiBold" },
+        "lineHeight": { "value": "{Primitivos.lineHeight.micro}",    "type": "lineHeights",  "description": "12px" }
+      },
+      "timerMini": {
+        "fontSize":   { "value": "{Primitivos.fontSize.2xs}",       "type": "fontSizes",    "description": "10px — tabular-nums OBLIGATORIO" },
+        "fontFamily": { "value": "{Primitivos.fontFamily.body}",     "type": "fontFamilies", "description": "Plus Jakarta Sans" },
+        "fontWeight": { "value": "{Primitivos.fontWeight.semibold}", "type": "fontWeights",  "description": "600 SemiBold" },
+        "lineHeight": { "value": "{Primitivos.lineHeight.2xs}",      "type": "lineHeights",  "description": "16px" }
+      },
+      "heroSubtitle": {
+        "fontSize":   { "value": "{Primitivos.fontSize.xs-11}",     "type": "fontSizes",    "description": "11px" },
+        "fontFamily": { "value": "{Primitivos.fontFamily.body}",     "type": "fontFamilies", "description": "Plus Jakarta Sans" },
+        "fontWeight": { "value": "{Primitivos.fontWeight.regular}",  "type": "fontWeights",  "description": "400 Regular" },
+        "lineHeight": { "value": "{Primitivos.lineHeight.2xs}",      "type": "lineHeights",  "description": "16px" }
+      },
+      "body": {
+        "fontSize":   { "value": "{Primitivos.fontSize.base}",      "type": "fontSizes",    "description": "16px" },
+        "fontFamily": { "value": "{Primitivos.fontFamily.body}",     "type": "fontFamilies", "description": "Plus Jakarta Sans" },
+        "fontWeight": { "value": "{Primitivos.fontWeight.regular}",  "type": "fontWeights",  "description": "400 Regular" },
+        "lineHeight": { "value": "{Primitivos.lineHeight.base}",     "type": "lineHeights",  "description": "24px" }
+      },
+      "bodySm": {
+        "fontSize":   { "value": "{Primitivos.fontSize.sm}",        "type": "fontSizes",    "description": "14px" },
+        "fontFamily": { "value": "{Primitivos.fontFamily.body}",     "type": "fontFamilies", "description": "Plus Jakarta Sans" },
+        "fontWeight": { "value": "{Primitivos.fontWeight.regular}",  "type": "fontWeights",  "description": "400 Regular" },
+        "lineHeight": { "value": "{Primitivos.lineHeight.tight}",    "type": "lineHeights",  "description": "20px" }
+      },
+      "label": {
+        "fontSize":   { "value": "{Primitivos.fontSize.xs}",        "type": "fontSizes",    "description": "12px" },
+        "fontFamily": { "value": "{Primitivos.fontFamily.body}",     "type": "fontFamilies", "description": "Plus Jakarta Sans" },
+        "fontWeight": { "value": "{Primitivos.fontWeight.semibold}", "type": "fontWeights",  "description": "600 SemiBold" },
+        "lineHeight": { "value": "{Primitivos.lineHeight.tight}",    "type": "lineHeights",  "description": "20px" }
+      },
+      "badge": {
+        "fontSize":   { "value": "{Primitivos.fontSize.2xs}",       "type": "fontSizes",    "description": "10px" },
+        "fontFamily": { "value": "{Primitivos.fontFamily.body}",     "type": "fontFamilies", "description": "Plus Jakarta Sans" },
+        "fontWeight": { "value": "{Primitivos.fontWeight.bold}",     "type": "fontWeights",  "description": "700 Bold" },
+        "lineHeight": { "value": "{Primitivos.lineHeight.2xs}",      "type": "lineHeights",  "description": "16px" }
+      },
+      "displayLg": {
+        "fontSize":   { "value": "{Primitivos.fontSize.display-lg}", "type": "fontSizes",    "description": "56px" },
+        "fontFamily": { "value": "{Primitivos.fontFamily.display}",  "type": "fontFamilies", "description": "Plus Jakarta Sans" },
+        "fontWeight": { "value": "{Primitivos.fontWeight.extrabold}","type": "fontWeights",  "description": "800 ExtraBold" },
+        "lineHeight": { "value": "{Primitivos.lineHeight.display-lg}","type": "lineHeights", "description": "84px" }
+      }
+    },
+    "brand": {
+      "vault": {
+        "value": "{Primitivos.color.purple-800}",
+        "type": "color",
+        "description": "DESIGN.md Primary — The Vault (#22005c). Navegacion, CTAs primarios, estructura."
+      },
+      "enVivo": {
+        "value": "{Primitivos.color.orange-500}",
+        "type": "color",
+        "description": "DESIGN.md Secondary — En Vivo (#ed8936). Eventos en vivo, status urgentes."
+      },
+      "negociable": {
+        "value": "{Primitivos.color.cyan-400}",
+        "type": "color",
+        "description": "DESIGN.md Tertiary — Negociable (#00cace). Status negociable, highlights interactivos."
+      },
+      "vaultLight": {
+        "value": "{Primitivos.color.purple-600}",
+        "type": "color",
+        "description": "Extremo claro del Vault Gradient (#3b1782). DESIGN.md Glass & Gradient Rule."
+      },
+      "vaultGradient": {
+        "value": "linear-gradient(135deg, #22005c 0%, #3b1782 100%)",
+        "type": "other",
+        "description": "DESIGN.md Vault Gradient — hero banners, primary action areas. 135deg #22005c -> #391383"
+      }
+    }
+  }
+}

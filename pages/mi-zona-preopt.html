@@ -1,0 +1,1928 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <title>Mi Zona — VMC Subastas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       RESET — prefers-reduced-motion (obligatorio)
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ============================================================
+       TIPOGRAFÍA — Buenos Aires (local fallback)
+       ============================================================ */
+    @font-face {
+      font-family: 'Buenos Aires';
+      font-weight: 400;
+      src: local('Buenos Aires'), local('BuenosAires-Regular');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Buenos Aires';
+      font-weight: 600;
+      src: local('Buenos Aires SemiBold'), local('BuenosAires-SemiBold');
+      font-display: swap;
+    }
+
+    /* ============================================================
+       BASE
+       ============================================================ */
+    html, body {
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+      background: #f0f0f0;
+      color: #121212;
+      min-height: 100%;
+    }
+
+    /* ============================================================
+       LAYOUT SHELL
+       ============================================================ */
+    .page-shell {
+      background: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page-container {
+      width: 1024px;
+      max-width: 1024px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: row;
+      overflow: hidden;
+    }
+
+    /* ============================================================
+       SIDEBAR (280px)
+       Normalización: 280px (exact ÷4), gradient #391383→#2e0f70
+       Shadow: 0 25px 50px rgba(0,0,0,0.25) → --shadow-lg
+       ============================================================ */
+    .sidebar {
+      width: 280px;
+      min-height: 100vh;
+      flex-shrink: 0;
+      background: linear-gradient(180deg, #391383 0%, #2e0f70 100%);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.10);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    /* --- Logo container ---
+       H: 95.824px → 96px (4×24), border-bottom rgba(255,255,255,0.1) */
+    .sidebar__logo {
+      height: 96px;
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 40px;
+      flex-shrink: 0;
+    }
+
+    .sidebar__logo img {
+      height: 32px; /* 31.09px → 32px */
+      max-width: 208px; /* 207.996px → 208px */
+      object-fit: contain;
+    }
+
+    /* Placeholder logo text para pre-opt */
+    .sidebar__logo-text {
+      font-family: 'Buenos Aires', 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+    }
+
+    /* --- Navigation ---
+       PT: 24px, PX: 20px (19.992→20), gap: 8px (7.992→8) */
+    .sidebar__nav {
+      flex: 1;
+      padding: 24px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .sidebar__nav-section-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 16px;
+      color: rgba(255,255,255,0.40);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      padding: 0 16px;
+      margin-bottom: 4px;
+    }
+
+    /* --- NavItem ---
+       H: 51.973px → 52px, PX: 16px (15.996→16), radius: 16px */
+    .nav-item {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: background 150ms cubic-bezier(0.3, 0, 0, 1);
+      text-decoration: none;
+      color: rgba(255,255,255,0.90);
+      /* State: Default */
+    }
+
+    /* State: Hover */
+    .nav-item:hover {
+      background: rgba(255,255,255,0.10);
+    }
+
+    /* State: Focus */
+    .nav-item:focus-visible {
+      outline: 2px solid rgba(255,255,255,0.80);
+      outline-offset: 2px;
+    }
+
+    /* State: Active */
+    .nav-item:active,
+    .nav-item--active {
+      background: rgba(255,255,255,0.15);
+    }
+
+    /* State: Disabled */
+    .nav-item--disabled {
+      opacity: 0.38;
+      pointer-events: none;
+    }
+
+    .nav-item__content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-item__icon {
+      width: 20px; /* 19.992→20 */
+      height: 20px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-item__label {
+      font-family: 'Buenos Aires', 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: -0.3px;
+      color: rgba(255,255,255,0.90);
+    }
+
+    .nav-item__chevron {
+      width: 18px; /* 18px exact */
+      height: 18px;
+      flex-shrink: 0;
+      color: rgba(255,255,255,0.70);
+    }
+
+    /* --- Social footer --- */
+    .sidebar__footer {
+      padding: 20px;
+      border-top: 1px solid rgba(255,255,255,0.10);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .social-icon {
+      width: 20px;
+      height: 20px;
+      color: rgba(255,255,255,0.70);
+      cursor: pointer;
+      transition: color 150ms cubic-bezier(0.3,0,0,1);
+    }
+
+    .social-icon:hover { color: #ffffff; }
+
+    /* ============================================================
+       MAIN AREA
+       ============================================================ */
+    .main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      background: #f7f7f9;
+    }
+
+    /* --- Topbar / Header ---
+       H: 90px → 92px (4×23), bg white, border-bottom #f3f4f6 */
+    .topbar {
+      height: 92px;
+      background: #ffffff;
+      border-bottom: 1px solid #f3f4f6;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 16px 32px; /* 15.996→16, 31.992→32 */
+      flex-shrink: 0;
+    }
+
+    /* --- Botón Ingresa ---
+       H: 47.988px → 48px, radius: 14px → 16px (11-24 rango),
+       bg: #391383, shadow: glow púrpura → shadow-lg variant */
+    .btn-primary {
+      height: 48px;
+      padding: 0 32px;
+      background: #391383;
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(57,19,131,0.20);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: background 150ms cubic-bezier(0.3,0,0,1),
+                  box-shadow 150ms cubic-bezier(0.3,0,0,1);
+      font-family: 'Buenos Aires', 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 18px; /* 17→18 */
+      line-height: 28px;
+      letter-spacing: 0.14px;
+      color: #ffffff;
+      white-space: nowrap;
+      /* State: Default */
+    }
+
+    /* State: Hover */
+    .btn-primary:hover {
+      background: #2e0f70;
+      box-shadow: 0 8px 16px rgba(46,15,112,0.25);
+    }
+
+    /* State: Focus */
+    .btn-primary:focus-visible {
+      outline: 2px solid #391383;
+      outline-offset: 3px;
+    }
+
+    /* State: Active */
+    .btn-primary:active {
+      background: #260861;
+      transform: translateY(1px);
+    }
+
+    /* State: Disabled */
+    .btn-primary:disabled,
+    .btn-primary--disabled {
+      background: #4a5565;
+      box-shadow: none;
+      cursor: not-allowed;
+      opacity: 0.60;
+    }
+
+    /* State: Loading */
+    .btn-primary--loading {
+      pointer-events: none;
+      opacity: 0.80;
+    }
+
+    /* State: Error (n/a para Ingresa — definido para variantes de form) */
+
+    /* --- Content area ---
+       PT: 32px, PX: 32px, PB: 32px */
+    .content {
+      flex: 1;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* ============================================================
+       PAGE TITLE SECTION
+       H: 90px → 92px (4×23)
+       ============================================================ */
+    .page-title-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .page-title-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Dot indicator: bg #00e0c1, opacity 0.5, 12px circle */
+    .page-title-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 9999px;
+      background: #00e0c1;
+      opacity: 0.50;
+      flex-shrink: 0;
+    }
+
+    /* H1: 33px → 34px (NUEVO), line-height 52px (4×round(51/4)=4×13=52) */
+    .page-title {
+      font-family: 'Buenos Aires', 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 34px;
+      line-height: 52px;
+      color: #121212;
+    }
+
+    .page-title span.accent { color: #4f2eff; }
+
+    .page-subtitle {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 14px; /* 15→14 */
+      line-height: 20px;
+      color: #555555;
+      letter-spacing: 0.12px;
+    }
+
+    /* ============================================================
+       CONTENT GRID — 2 columnas
+       Left: 300px | Gap: 20px | Right: calc(100% - 320px)
+       ============================================================ */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .col-left {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .col-right {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ============================================================
+       CARD BASE
+       bg white, border, radius 16px (11-24 → 16), shadow-sm
+       ============================================================ */
+    .card {
+      background: #ffffff;
+      border: 1px solid #f3f4f6;
+      border-radius: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+      padding: 20px;
+    }
+
+    .card--border-md {
+      border-color: #dee2e6;
+    }
+
+    /* ============================================================
+       USER PROFILE CARD
+       H original: 270px, padding 20px
+       ============================================================ */
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 16px; /* 15.996→16 */
+      margin-bottom: 20px;
+    }
+
+    /* Avatar: 64px circle (63.996→64), gradient, shadow-md */
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 9999px;
+      background: linear-gradient(180deg, #4f2eff 0%, #3d23cc 100%);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .avatar__initial {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 32px;
+      color: #ffffff;
+      letter-spacing: 0.07px;
+    }
+
+    .profile-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* H2: 23px → 24px, line-height 36px */
+    .profile-name {
+      font-family: 'Buenos Aires', 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 36px;
+      color: #121212;
+      letter-spacing: 0.12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Body small: 13px → 12px, line-height 20px */
+    .profile-subtitle {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      color: #555555;
+      letter-spacing: 0.10px;
+    }
+
+    /* Link: 13px → 12px, color #4f2eff */
+    .profile-link {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 20px;
+      color: #4f2eff;
+      letter-spacing: 0.10px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 150ms cubic-bezier(0.3,0,0,1);
+      white-space: nowrap;
+    }
+    .profile-link:hover { opacity: 0.75; }
+    .profile-link:focus-visible { outline: 2px solid #4f2eff; outline-offset: 2px; }
+
+    /* --- Stats mini grid (Risk + Points) --- */
+    .profile-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat-block {
+      background: #f7f7f9;
+      border-radius: 16px;
+      padding: 20px; /* 19.992→20 */
+      display: flex;
+      flex-direction: column;
+      gap: 12px; /* 11.988→12 */
+    }
+
+    .stat-block__header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Stat icon container: 32px (31.992→32), white bg, radius 8px (10→8) */
+    .stat-icon-wrap {
+      width: 32px;
+      height: 32px;
+      background: #ffffff;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stat-icon-wrap svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Body medium label: 15px → 14px */
+    .stat-label {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 14px; /* 15→14 */
+      line-height: 20px;
+      color: #555555;
+      letter-spacing: 0.12px;
+    }
+
+    /* Risk bar */
+    .risk-bar-wrap {
+      background: #ffffff;
+      border-radius: 9999px;
+      height: 8px; /* 7.992→8 */
+      overflow: hidden;
+    }
+
+    .risk-bar-fill {
+      height: 100%;
+      background: #2bc155;
+      border-radius: 9999px;
+      width: 20%; /* "Muy bajo" — ca. 20% */
+      transition: width 300ms cubic-bezier(0.3,0,0,1);
+    }
+
+    /* Subtitle/Large Bold: 17px → 18px, color #2bc155 */
+    .risk-value {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 700;
+      font-size: 18px; /* 17→18 */
+      line-height: 28px;
+      color: #2bc155;
+      letter-spacing: 0.14px;
+    }
+
+    /* Points value: 28px → 27px, lh 40px */
+    .points-value {
+      font-family: 'Buenos Aires', 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 27px;
+      line-height: 40px;
+      color: #4f2eff;
+      letter-spacing: -0.22px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Points description: 13px → 12px */
+    .points-desc {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      color: #555555;
+      letter-spacing: 0.10px;
+    }
+
+    /* Points badge: amber tint */
+    .points-badge {
+      background: rgba(255,180,0,0.10);
+      border-radius: 9999px;
+      padding: 4px 12px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 20px;
+      color: #ffa000;
+      white-space: nowrap;
+    }
+
+    /* ============================================================
+       BILLETERA CARD
+       ============================================================ */
+    .billetera__heading-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #e5e7eb;
+      margin-bottom: 16px;
+    }
+
+    /* Heading "BILLETERA": 33px → 34px */
+    .billetera__title {
+      font-family: 'Buenos Aires', 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 34px;
+      line-height: 52px;
+      color: #2e0f70;
+      letter-spacing: 0;
+    }
+
+    /* Link button inline: 15px → 14px */
+    .billetera__link {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 14px; /* 15→14 */
+      line-height: 20px;
+      color: #2e0f70;
+      text-decoration: none;
+      letter-spacing: 0.12px;
+      cursor: pointer;
+      transition: opacity 150ms cubic-bezier(0.3,0,0,1);
+    }
+    .billetera__link:hover { opacity: 0.75; }
+    .billetera__link:focus-visible { outline: 2px solid #2e0f70; outline-offset: 2px; }
+
+    .billetera__rows {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 16px; /* before button */
+    }
+
+    .billetera__row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Row label: 17px → 18px, bold, #555 */
+    .billetera__row-label {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 700;
+      font-size: 18px; /* 17→18 */
+      line-height: 28px;
+      color: #555555;
+      letter-spacing: 0.14px;
+    }
+
+    /* Row value: 18px, bold, #121212 */
+    .billetera__row-value {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 28px;
+      color: #121212;
+      letter-spacing: 0.14px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* CTA Adquiere SubasCoins: bg #0897a7, radius 16px (14→16), H 48px (50→48) */
+    .btn-cta-billetera {
+      width: 100%;
+      height: 48px;
+      background: #0897a7;
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 4px 8px rgba(79,46,255,0.20);
+      font-family: 'Buenos Aires', 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 18px; /* 17→18 */
+      line-height: 28px;
+      color: #ffffff;
+      cursor: pointer;
+      text-align: center;
+      transition: background 150ms cubic-bezier(0.3,0,0,1),
+                  box-shadow 150ms cubic-bezier(0.3,0,0,1);
+      /* State: Default */
+    }
+
+    .btn-cta-billetera:hover {
+      background: #0897a7;
+      filter: brightness(1.08);
+    }
+    .btn-cta-billetera:focus-visible {
+      outline: 2px solid #0897a7;
+      outline-offset: 3px;
+    }
+    .btn-cta-billetera:active {
+      filter: brightness(0.92);
+      transform: translateY(1px);
+    }
+    .btn-cta-billetera:disabled {
+      background: #4a5565;
+      box-shadow: none;
+      cursor: not-allowed;
+      opacity: 0.60;
+    }
+
+    /* ============================================================
+       ACTIVITY SECTION
+       ============================================================ */
+    .activity__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .activity__title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Icon container: 40px (39.996→40), bg rgba(79,46,255,0.1), radius 16px */
+    .activity__icon-wrap {
+      width: 40px;
+      height: 40px;
+      background: rgba(79,46,255,0.10);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Section heading: 20px exact */
+    .activity__heading {
+      font-family: 'Buenos Aires', 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 32px;
+      color: #121212;
+      letter-spacing: 0.10px;
+    }
+
+    /* Section subtitle: 13px → 12px */
+    .activity__subtitle {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      color: #555555;
+      letter-spacing: 0.10px;
+    }
+
+    /* Filter chips row */
+    .activity__filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .chip {
+      height: 28px;
+      padding: 0 12px;
+      border-radius: 9999px;
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      color: #555555;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 150ms cubic-bezier(0.3,0,0,1),
+                  border-color 150ms cubic-bezier(0.3,0,0,1),
+                  color 150ms cubic-bezier(0.3,0,0,1);
+      /* State: Default */
+    }
+
+    .chip:hover {
+      background: #f7f7f9;
+      border-color: #a4abb3;
+    }
+
+    .chip:focus-visible {
+      outline: 2px solid #4f2eff;
+      outline-offset: 2px;
+    }
+
+    .chip--active {
+      background: #4f2eff;
+      border-color: #4f2eff;
+      color: #ffffff;
+    }
+
+    .chip:disabled,
+    .chip--disabled {
+      opacity: 0.38;
+      pointer-events: none;
+    }
+
+    /* Activity items list */
+    .activity__list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Activity item row: H 68px → 68px (≈70/4×round=68→actually 70/4=17.5→18→72... let me use auto) */
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 12px; /* radius 10→8, but 12px is used for items in context */
+      background: #f7f7f9;
+      transition: background 150ms cubic-bezier(0.3,0,0,1);
+    }
+
+    .activity-item:hover {
+      background: #f0f0f0;
+    }
+
+    .activity-item__icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .activity-item__icon--green { background: rgba(43,193,85,0.10); }
+    .activity-item__icon--amber { background: rgba(255,180,0,0.10); }
+    .activity-item__icon--red   { background: rgba(239,78,78,0.10); }
+    .activity-item__icon--blue  { background: rgba(79,46,255,0.10); }
+
+    .activity-item__text { flex: 1; min-width: 0; }
+
+    .activity-item__title {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 14px; /* 15→14 */
+      line-height: 20px;
+      color: #121212;
+      letter-spacing: 0.12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .activity-item__meta {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      color: #555555;
+      letter-spacing: 0.10px;
+    }
+
+    .activity-item__amount {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 700;
+      font-size: 14px; /* 15→14 */
+      line-height: 20px;
+      color: #121212;
+      letter-spacing: 0.12px;
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
+
+    .activity-item__amount--green { color: #2bc155; }
+    .activity-item__amount--red   { color: #d32f2f; }
+
+    /* ============================================================
+       HELP BANNER — dark bg (left col, or standalone section)
+       ============================================================ */
+    .help-banner {
+      background: linear-gradient(180deg, #391383 0%, #2e0f70 100%);
+      border-radius: 16px;
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px; /* 21.841→20 */
+      text-align: center;
+    }
+
+    /* Icon container: 68px (68.266→68), bg rgba(8,151,167,0.2), radius 16px (19.115→16) */
+    .help-banner__icon-wrap {
+      width: 68px;
+      height: 68px;
+      background: rgba(8,151,167,0.20);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Heading: 28px → 27px, lh 40px, white */
+    .help-banner__heading {
+      font-family: 'Buenos Aires', 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 27px;
+      line-height: 40px;
+      color: #ffffff;
+      letter-spacing: -0.22px;
+    }
+
+    /* Body: 17px → 18px, rgba(255,255,255,0.7) */
+    .help-banner__body {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 18px; /* 17→18 */
+      line-height: 28px;
+      color: rgba(255,255,255,0.70);
+      letter-spacing: 0.14px;
+    }
+
+    /* CTA button: bg #00cace, radius 16px (19.115→16), H 60px → 60px (60.034→60) */
+    .btn-help {
+      width: 100%;
+      height: 60px;
+      background: #00cace;
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: 'Buenos Aires', 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 32px;
+      color: #ffffff;
+      cursor: pointer;
+      transition: filter 150ms cubic-bezier(0.3,0,0,1);
+      /* State: Default */
+    }
+
+    .btn-help:hover { filter: brightness(1.08); }
+    .btn-help:focus-visible { outline: 2px solid #00cace; outline-offset: 3px; }
+    .btn-help:active { filter: brightness(0.90); transform: translateY(1px); }
+    .btn-help:disabled { background: #4a5565; box-shadow: none; cursor: not-allowed; opacity: 0.60; }
+
+    /* ============================================================
+       SUBAS PASS BANNER — full width
+       Gradient: #260861 → #420ea3 → #340b82
+       ============================================================ */
+    .subaspass-banner {
+      background: linear-gradient(135deg, #260861 0%, #420ea3 50%, #340b82 100%);
+      border-radius: 16px;
+      padding: 32px;
+      overflow: hidden;
+      position: relative;
+      min-height: 288px; /* 290→288px (4×72) */
+      display: flex;
+      align-items: center;
+    }
+
+    /* Decorative blur circles */
+    .subaspass-banner::before {
+      content: '';
+      position: absolute;
+      width: 256px;
+      height: 256px;
+      border-radius: 9999px;
+      background: rgba(0,172,193,0.20);
+      filter: blur(64px);
+      top: -50px;
+      left: -40px;
+      pointer-events: none;
+    }
+
+    .subaspass-banner__content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Badge "BENEFICIO EXCLUSIVO": bg #00acc1, radius 8px (10→8), H 28px (27.996→28) */
+    .subaspass-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 28px;
+      padding: 0 12px;
+      background: #00acc1;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.10);
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 20px;
+      color: #ffffff;
+      letter-spacing: 0.10px;
+      width: fit-content;
+    }
+
+    /* Heading: 28px → 27px, lh 40px, white */
+    .subaspass-banner__heading {
+      font-family: 'Buenos Aires', 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 27px;
+      line-height: 40px;
+      color: #ffffff;
+      letter-spacing: -0.22px;
+    }
+
+    /* SubasPass brand + description */
+    .subaspass-banner__body {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 18px; /* 17→18 */
+      line-height: 28px;
+      color: rgba(255,255,255,0.90);
+      letter-spacing: 0.14px;
+    }
+
+    .subaspass-brand {
+      color: #7edee9;
+      font-weight: 400;
+    }
+
+    /* CTA button: bg white, text #420ea3, radius 16px (14→16), H 56px (55.98→56px=4×14) */
+    .btn-subaspass {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 56px;
+      padding: 0 28px;
+      background: #ffffff;
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.10);
+      font-family: 'Buenos Aires', 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 18px; /* 17→18 */
+      line-height: 28px;
+      color: #420ea3;
+      letter-spacing: 0.14px;
+      cursor: pointer;
+      transition: filter 150ms cubic-bezier(0.3,0,0,1),
+                  box-shadow 150ms cubic-bezier(0.3,0,0,1);
+      width: fit-content;
+      /* State: Default */
+    }
+
+    .btn-subaspass:hover { filter: brightness(0.96); box-shadow: 0 8px 16px rgba(0,0,0,0.12); }
+    .btn-subaspass:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }
+    .btn-subaspass:active { filter: brightness(0.90); transform: translateY(1px); }
+    .btn-subaspass:disabled { opacity: 0.50; cursor: not-allowed; }
+
+    /* Decorative tags (Sin consignación, Acceso VIP) */
+    .subaspass-banner__tags {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .subaspass-tag {
+      height: 32px; /* 31.98→32 */
+      padding: 0 12px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.10);
+      display: flex;
+      align-items: center;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 16px;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    .subaspass-tag--amber { background: #ffa000; }
+    .subaspass-tag--cyan  { background: #00acc1; }
+
+    /* ============================================================
+       RECOMMENDATIONS / INTERESTS SECTION
+       ============================================================ */
+    .interests-section {
+      background: #ffffff;
+      border: 1px solid #dee2e6;
+      border-radius: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+      padding: 20px;
+    }
+
+    .interests__header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    /* Icon wrap: 50px, bg rgba(0,172,193,0.1), radius 16px (14→16) */
+    .interests__icon-wrap {
+      width: 48px; /* 50→48 (4×12) */
+      height: 48px;
+      background: rgba(0,172,193,0.10);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Heading "RECOMENDADOS": 20px exact */
+    .interests__heading {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 32px;
+      color: #24282c;
+      letter-spacing: -0.45px;
+    }
+
+    .interests__meta {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 16px;
+      color: #a4abb3;
+      letter-spacing: 0.01px;
+    }
+
+    /* Auction cards grid: 3 cols, gap 28px (27→28) */
+    .auction-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px; /* 27→28 */
+    }
+
+    /* ============================================================
+       AUCTION CARD
+       bg white, radius 16px (24→16), shadow-sm
+       ============================================================ */
+    .auction-card {
+      background: #ffffff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 300ms cubic-bezier(0.3,0,0,1),
+                  transform 300ms cubic-bezier(0.3,0,0,1);
+      cursor: pointer;
+      /* State: Default */
+    }
+
+    /* State: Hover */
+    .auction-card:hover {
+      box-shadow: 0 8px 16px rgba(0,0,0,0.10);
+      transform: translateY(-2px);
+    }
+
+    /* State: Focus */
+    .auction-card:focus-visible {
+      outline: 2px solid #4f2eff;
+      outline-offset: 2px;
+    }
+
+    /* State: Active */
+    .auction-card:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    }
+
+    /* State: Disabled */
+    .auction-card--disabled {
+      opacity: 0.50;
+      pointer-events: none;
+    }
+
+    /* State: Loading */
+    .auction-card--loading {
+      pointer-events: none;
+    }
+
+    /* State: Error */
+    .auction-card--error {
+      border: 1px solid #d32f2f;
+    }
+
+    .auction-card__image {
+      width: 100%;
+      height: 140px; /* proportional at 1/3 of 420px width */
+      background: #f7f7f9;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .auction-card__image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Image placeholder */
+    .auction-card__image-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #f7f7f9 0%, #e5e7eb 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auction-card__body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .auction-card__name {
+      font-family: 'Buenos Aires', 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 14px; /* 15→14 */
+      line-height: 20px;
+      color: #121212;
+      letter-spacing: 0.12px;
+    }
+
+    .auction-card__location {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      color: #555555;
+      letter-spacing: 0.10px;
+    }
+
+    .auction-card__price-label {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 10px;
+      line-height: 16px;
+      color: #a4abb3;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .auction-card__price {
+      font-family: 'Buenos Aires', 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 28px;
+      color: #121212;
+      letter-spacing: -0.22px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ME INTERESA button */
+    .btn-me-interesa {
+      width: 100%;
+      height: 40px;
+      background: #4f2eff;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 14px; /* 15→14 */
+      line-height: 20px;
+      color: #ffffff;
+      letter-spacing: 0.12px;
+      cursor: pointer;
+      transition: background 150ms cubic-bezier(0.3,0,0,1),
+                  box-shadow 150ms cubic-bezier(0.3,0,0,1);
+      /* State: Default */
+    }
+
+    .btn-me-interesa:hover { background: #3d23cc; box-shadow: 0 4px 8px rgba(79,46,255,0.20); }
+    .btn-me-interesa:focus-visible { outline: 2px solid #4f2eff; outline-offset: 3px; }
+    .btn-me-interesa:active { background: #260861; transform: translateY(1px); }
+    .btn-me-interesa:disabled { background: #4a5565; cursor: not-allowed; opacity: 0.60; }
+
+    /* ============================================================
+       SEGUNDA INTERESTS SECTION (Favoritos)
+       icon: rgba(198,40,40,0.1) — red tint
+       ============================================================ */
+    .interests__icon-wrap--red {
+      background: rgba(198,40,40,0.10);
+    }
+
+    .interests__heading--dark { color: #24282c; }
+
+    /* ============================================================
+       UTILITY
+       ============================================================ */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .text-tabular { font-variant-numeric: tabular-nums; }
+
+    /* Skeleton loading state */
+    @keyframes skeleton-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .skeleton {
+      background: #e5e7eb;
+      border-radius: 4px;
+      animation: skeleton-pulse 1.5s ease-in-out infinite;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="page-shell">
+    <div class="page-container">
+
+      <!-- =========================================================
+           SIDEBAR — 280px
+           Gradient: #391383 → #2e0f70
+           Shadow: shadow-lg
+           ========================================================= -->
+      <aside class="sidebar" role="navigation" aria-label="Menú principal">
+
+        <!-- Logo -->
+        <div class="sidebar__logo">
+          <span class="sidebar__logo-text">VMC Subastas</span>
+          <!-- En producción: <img src="/assets/logo-vmc-white.svg" alt="VMC Subastas" /> -->
+        </div>
+
+        <!-- Navigation -->
+        <nav class="sidebar__nav" aria-label="Navegación de filtros">
+
+          <!-- NavItem: Mañana -->
+          <a href="#" class="nav-item" tabindex="0" aria-current="false">
+            <span class="nav-item__content">
+              <span class="nav-item__icon" aria-hidden="true">
+                <!-- Icon: calendar/mañana -->
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="2" y="3" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                  <path d="M6 1v4M14 1v4M2 8h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <span class="nav-item__label">Mañana</span>
+            </span>
+            <span class="nav-item__chevron" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M7 5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+
+          <!-- NavItem: Tipo de oferta -->
+          <a href="#" class="nav-item" tabindex="0">
+            <span class="nav-item__content">
+              <span class="nav-item__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                  <path d="M10 6v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <span class="nav-item__label">Tipo de oferta</span>
+            </span>
+            <span class="nav-item__chevron" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M7 5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+
+          <!-- NavItem: Categorías -->
+          <a href="#" class="nav-item" tabindex="0">
+            <span class="nav-item__content">
+              <span class="nav-item__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <rect x="2" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                  <rect x="11" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                  <rect x="2" y="11" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                  <rect x="11" y="11" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                </svg>
+              </span>
+              <span class="nav-item__label">Categorías</span>
+            </span>
+            <span class="nav-item__chevron" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M7 5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+
+          <!-- NavItem: Empresas -->
+          <a href="#" class="nav-item" tabindex="0">
+            <span class="nav-item__content">
+              <span class="nav-item__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M3 18V7l7-5 7 5v11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                  <rect x="8" y="12" width="4" height="6" rx="0.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                </svg>
+              </span>
+              <span class="nav-item__label">Empresas</span>
+            </span>
+            <span class="nav-item__chevron" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M7 5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+
+          <!-- Soporte section label -->
+          <div style="height: 24px;"></div>
+          <span class="sidebar__nav-section-label">Soporte</span>
+
+          <!-- NavItem: Centro de ayuda -->
+          <a href="#" class="nav-item" tabindex="0">
+            <span class="nav-item__content">
+              <span class="nav-item__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                  <path d="M10 14v-1M10 7a2 2 0 0 1 0 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <span class="nav-item__label">Centro de ayuda</span>
+            </span>
+            <span class="nav-item__chevron" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M7 5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+
+        </nav>
+
+        <!-- Footer social icons -->
+        <div class="sidebar__footer">
+          <!-- Facebook -->
+          <a href="#" class="social-icon" aria-label="Facebook" tabindex="0">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M10 2a8 8 0 1 0 0 16A8 8 0 0 0 10 2zm1.5 5h-1c-.28 0-.5.22-.5.5V9h1.5l-.25 2H10v5H8v-5H6.5V9H8V7.5A2.5 2.5 0 0 1 10.5 5H11.5v2z"/>
+            </svg>
+          </a>
+          <!-- Instagram -->
+          <a href="#" class="social-icon" aria-label="Instagram" tabindex="0">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+              <rect x="3" y="3" width="14" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="10" cy="10" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="14.5" cy="5.5" r="0.75" fill="currentColor"/>
+            </svg>
+          </a>
+          <!-- YouTube -->
+          <a href="#" class="social-icon" aria-label="YouTube" tabindex="0">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M17.5 6.5s-.2-1.4-.8-2c-.77-.8-1.63-.81-2.02-.86C12.3 3.5 10 3.5 10 3.5s-2.3 0-4.68.14c-.39.05-1.25.06-2.02.86-.6.6-.8 2-.8 2S2.3 8.07 2.3 9.65v1.45c0 1.58.2 3.15.2 3.15s.2 1.4.8 2c.77.8 1.78.77 2.23.85C6.7 17.25 10 17.27 10 17.27s2.3 0 4.68-.17c.39-.05 1.25-.06 2.02-.86.6-.6.8-2 .8-2s.2-1.57.2-3.15V9.65c0-1.58-.2-3.15-.2-3.15zM8.25 12.5v-5l5.25 2.5-5.25 2.5z"/>
+            </svg>
+          </a>
+          <!-- X / Twitter -->
+          <a href="#" class="social-icon" aria-label="X / Twitter" tabindex="0">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M3 3l5.86 7.84L3 17h2l4.48-4.97L13.5 17H17l-6.1-8.17L17 3h-2l-4.1 4.56L6.5 3H3zm2.3 1.4h1.6L15 15.6h-1.6L5.3 4.4z"/>
+            </svg>
+          </a>
+        </div>
+
+      </aside>
+
+      <!-- =========================================================
+           MAIN AREA
+           ========================================================= -->
+      <main class="main" role="main">
+
+        <!-- Topbar / Header -->
+        <header class="topbar">
+          <button class="btn-primary" type="button" aria-label="Ingresar a tu cuenta">
+            <!-- Icon -->
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M12 4l6 6-6 6M18 10H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 4H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            Ingresa
+          </button>
+        </header>
+
+        <!-- Content -->
+        <div class="content">
+
+          <!-- ─────────────────────────────────────────────────────
+               PAGE TITLE SECTION
+               ──────────────────────────────────────────────────── -->
+          <section class="page-title-section" aria-label="Título de página">
+            <div class="page-title-row">
+              <div class="page-title-dot" aria-hidden="true"></div>
+              <h1 class="page-title">
+                Mi <span class="accent">Zona</span>
+              </h1>
+            </div>
+            <p class="page-subtitle">Panel de control de tu cuenta VMC Subastas</p>
+          </section>
+
+          <!-- ─────────────────────────────────────────────────────
+               TWO-COLUMN GRID
+               Left: 300px  |  Right: auto
+               ──────────────────────────────────────────────────── -->
+          <div class="content-grid">
+
+            <!-- LEFT COLUMN -->
+            <div class="col-left">
+
+              <!-- USER PROFILE CARD -->
+              <div class="card" role="region" aria-label="Perfil de usuario">
+
+                <div class="profile-header">
+                  <!-- Avatar -->
+                  <div class="avatar" aria-hidden="true">
+                    <span class="avatar__initial">E</span>
+                  </div>
+                  <!-- Info -->
+                  <div class="profile-info">
+                    <p class="profile-name">¡Hola, EME6DE!</p>
+                    <p class="profile-subtitle">Bienvenido a tu zona personal</p>
+                  </div>
+                  <!-- Link Tu perfil -->
+                  <a href="#" class="profile-link" aria-label="Ir a tu perfil">Tu perfil →</a>
+                </div>
+
+                <!-- Stats: Riesgo + Puntos -->
+                <div class="profile-stats">
+
+                  <!-- Riesgo del Perfil -->
+                  <div class="stat-block">
+                    <div class="stat-block__header">
+                      <div class="stat-icon-wrap" aria-hidden="true">
+                        <!-- Shield icon -->
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                          <path d="M8 2L3 4.5V8c0 3 2.5 5.5 5 6 2.5-.5 5-3 5-6V4.5L8 2z" stroke="#4f2eff" stroke-width="1.2" fill="none"/>
+                          <path d="M5.5 8l2 2 3-3" stroke="#4f2eff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </div>
+                      <span class="stat-label">Riesgo del Perfil</span>
+                    </div>
+                    <div class="risk-bar-wrap" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" aria-label="Riesgo Muy bajo">
+                      <div class="risk-bar-fill"></div>
+                    </div>
+                    <div style="display:flex; align-items:center; justify-content:space-between;">
+                      <span class="risk-value">Muy bajo</span>
+                      <a href="#" class="profile-link" aria-label="Ver historial de riesgo">Historial →</a>
+                    </div>
+                  </div>
+
+                  <!-- Puntos VMC -->
+                  <div class="stat-block">
+                    <div class="stat-block__header">
+                      <div class="stat-icon-wrap" aria-hidden="true">
+                        <!-- Star/points icon -->
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                          <path d="M8 2l1.5 4h4l-3.2 2.5 1.2 4-3.5-2.3-3.5 2.3 1.2-4L2.5 6H6.5L8 2z" stroke="#ffa000" stroke-width="1.2" fill="none"/>
+                        </svg>
+                      </div>
+                      <span class="stat-label">Puntos VMC</span>
+                    </div>
+                    <p class="points-value text-tabular" aria-label="500 puntos">500</p>
+                    <p class="points-desc">puntos acumulados</p>
+                    <span class="points-badge">Nivel Bronce</span>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- BILLETERA CARD -->
+              <div class="card" role="region" aria-label="Billetera">
+
+                <div class="billetera__heading-row">
+                  <h2 class="billetera__title">BILLETERA</h2>
+                  <a href="#" class="billetera__link" aria-label="Ver transacciones">
+                    Transacciones
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="M8 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </a>
+                </div>
+
+                <div class="billetera__rows">
+                  <!-- SubasCoins -->
+                  <div class="billetera__row">
+                    <span class="billetera__row-label">SubasCoins:</span>
+                    <span class="billetera__row-value text-tabular" aria-label="1250 SubasCoins">SC&nbsp;1,250</span>
+                  </div>
+                  <!-- Saldo -->
+                  <div class="billetera__row">
+                    <span class="billetera__row-label">Saldo:</span>
+                    <span class="billetera__row-value text-tabular" aria-label="Saldo 450 dólares">US$ 450.00</span>
+                  </div>
+                </div>
+
+                <button class="btn-cta-billetera" type="button" aria-label="Adquirir SubasCoins">
+                  Adquiere SubasCoins
+                </button>
+
+              </div>
+
+            </div><!-- /col-left -->
+
+            <!-- RIGHT COLUMN -->
+            <div class="col-right">
+
+              <!-- ACTIVITY SECTION -->
+              <div class="card" role="region" aria-label="Tu actividad reciente">
+
+                <div class="activity__header">
+                  <div class="activity__title-group">
+                    <div class="activity__icon-wrap" aria-hidden="true">
+                      <!-- Activity icon -->
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M3 10h3l2-7 3 14 2-7h4" stroke="#4f2eff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h2 class="activity__heading">TU ACTIVIDAD</h2>
+                      <p class="activity__subtitle">Últimas acciones y notificaciones</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Filter chips -->
+                <div class="activity__filters" role="group" aria-label="Filtrar actividad">
+                  <button class="chip chip--active" type="button" aria-pressed="true">Consignaciones</button>
+                  <button class="chip" type="button" aria-pressed="false">Ganadas</button>
+                  <button class="chip" type="button" aria-pressed="false">Procesos de compra</button>
+                  <button class="chip" type="button" aria-pressed="false">Rechazadas</button>
+                </div>
+
+                <!-- Activity items -->
+                <div class="activity__list" aria-live="polite">
+
+                  <div class="activity-item">
+                    <div class="activity-item__icon activity-item__icon--green" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M5 10l4 4 6-7" stroke="#2bc155" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                    <div class="activity-item__text">
+                      <p class="activity-item__title">FOTON AUMAN 2023</p>
+                      <p class="activity-item__meta">Consignación aprobada · 14 mar</p>
+                    </div>
+                    <span class="activity-item__amount activity-item__amount--green text-tabular">+SC 250</span>
+                  </div>
+
+                  <div class="activity-item">
+                    <div class="activity-item__icon activity-item__icon--amber" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <circle cx="10" cy="10" r="7" stroke="#ffa000" stroke-width="1.5" fill="none"/>
+                        <path d="M10 7v4" stroke="#ffa000" stroke-width="1.5" stroke-linecap="round"/>
+                        <circle cx="10" cy="14" r="0.75" fill="#ffa000"/>
+                      </svg>
+                    </div>
+                    <div class="activity-item__text">
+                      <p class="activity-item__title">EXCAVADORA CAT 320</p>
+                      <p class="activity-item__meta">Proceso de compra · 12 mar</p>
+                    </div>
+                    <span class="activity-item__amount text-tabular">US$ 18,500</span>
+                  </div>
+
+                  <div class="activity-item">
+                    <div class="activity-item__icon activity-item__icon--blue" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M10 3v14M3 10h14" stroke="#4f2eff" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                    <div class="activity-item__text">
+                      <p class="activity-item__title">OFICINA MIRAFLORES</p>
+                      <p class="activity-item__meta">Oferta realizada · 10 mar</p>
+                    </div>
+                    <span class="activity-item__amount text-tabular">US$ 95,000</span>
+                  </div>
+
+                  <div class="activity-item">
+                    <div class="activity-item__icon activity-item__icon--red" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M6 6l8 8M14 6l-8 8" stroke="#d32f2f" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                    <div class="activity-item__text">
+                      <p class="activity-item__title">FOTON AUMAN 2022</p>
+                      <p class="activity-item__meta">Oferta rechazada · 8 mar</p>
+                    </div>
+                    <span class="activity-item__amount activity-item__amount--red text-tabular">−SC 0</span>
+                  </div>
+
+                </div>
+              </div>
+
+            </div><!-- /col-right -->
+
+          </div><!-- /content-grid -->
+
+          <!-- ─────────────────────────────────────────────────────
+               HELP BANNER
+               ──────────────────────────────────────────────────── -->
+          <section class="help-banner" role="complementary" aria-label="Centro de ayuda">
+            <div class="help-banner__icon-wrap" aria-hidden="true">
+              <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+                <circle cx="19" cy="19" r="14" stroke="rgba(255,255,255,0.80)" stroke-width="2" fill="none"/>
+                <path d="M19 13a4 4 0 0 1 0 8" stroke="rgba(255,255,255,0.80)" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="19" cy="27" r="1.5" fill="rgba(255,255,255,0.80)"/>
+              </svg>
+            </div>
+            <h2 class="help-banner__heading">CENTRO DE AYUDA</h2>
+            <p class="help-banner__body">
+              ¿Necesitas asistencia con tus ofertas o el proceso de subasta? Accede a nuestra guía completa para usuarios y soporte técnico especializado.
+            </p>
+            <button class="btn-help" type="button" aria-label="Ir al Centro de Ayuda">
+              IR AL CENTRO DE AYUDA
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M5 10h10M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </section>
+
+          <!-- ─────────────────────────────────────────────────────
+               SUBAS PASS BANNER — full width
+               ──────────────────────────────────────────────────── -->
+          <section class="subaspass-banner" role="complementary" aria-label="SubasPass — Beneficio exclusivo">
+            <div class="subaspass-banner__content">
+              <span class="subaspass-badge">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M7 2l1 3h3l-2.5 2 1 3L7 8.5 4.5 10l1-3L3 5h3l1-3z" stroke="#ffffff" stroke-width="1.1" fill="none"/>
+                </svg>
+                BENEFICIO EXCLUSIVO
+              </span>
+              <h2 class="subaspass-banner__heading">¿Quieres participar sin consignar?</h2>
+              <p class="subaspass-banner__body">
+                <span class="subaspass-brand">SubasPass</span>
+                &nbsp;es para ti. Participa en subastas exclusivas sin necesidad de consignación previa.
+              </p>
+              <button class="btn-subaspass" type="button" aria-label="Conocer SubasPass">
+                Conoce SubasPass
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M5 10h10M12 6l4 4-4 4" stroke="#420ea3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+            <!-- Decorative tags -->
+            <div class="subaspass-banner__tags" aria-hidden="true">
+              <span class="subaspass-tag subaspass-tag--amber">Sin consignación</span>
+              <span class="subaspass-tag subaspass-tag--cyan">Acceso VIP</span>
+            </div>
+          </section>
+
+          <!-- ─────────────────────────────────────────────────────
+               RECOMMENDATIONS SECTION (RECOMENDADOS)
+               ──────────────────────────────────────────────────── -->
+          <section class="interests-section" role="region" aria-label="Vehículos recomendados">
+            <div class="interests__header">
+              <div class="interests__icon-wrap" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M10 3l2 5h5l-4 3.5 1.5 5L10 13.5l-4.5 3 1.5-5L3 8h5l2-5z" stroke="#00acc1" stroke-width="1.5" fill="none"/>
+                </svg>
+              </div>
+              <div>
+                <h2 class="interests__heading">RECOMENDADOS</h2>
+                <p class="interests__meta">Basados en tu actividad</p>
+              </div>
+            </div>
+
+            <div class="auction-cards-grid">
+
+              <!-- Card 1: FOTON AUMAN -->
+              <article class="auction-card" tabindex="0" role="article" aria-label="Subasta FOTON AUMAN">
+                <div class="auction-card__image">
+                  <div class="auction-card__image-placeholder" aria-hidden="true">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                      <rect x="4" y="14" width="40" height="28" rx="3" stroke="#a4abb3" stroke-width="2" fill="none"/>
+                      <path d="M8 18l4-4h24l4 4" stroke="#a4abb3" stroke-width="2" stroke-linecap="round"/>
+                      <circle cx="14" cy="38" r="4" stroke="#a4abb3" stroke-width="2" fill="none"/>
+                      <circle cx="34" cy="38" r="4" stroke="#a4abb3" stroke-width="2" fill="none"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="auction-card__body">
+                  <p class="auction-card__name">FOTON AUMAN</p>
+                  <p class="auction-card__location">Lima, Perú</p>
+                  <p class="auction-card__price-label">Precio base</p>
+                  <p class="auction-card__price text-tabular">US$ 12,000</p>
+                  <button class="btn-me-interesa" type="button" aria-label="Me interesa FOTON AUMAN">
+                    ME INTERESA
+                  </button>
+                </div>
+              </article>
+
+              <!-- Card 2: OFICINA MIRAFLORES -->
+              <article class="auction-card" tabindex="0" role="article" aria-label="Subasta OFICINA MIRAFLORES">
+                <div class="auction-card__image">
+                  <div class="auction-card__image-placeholder" aria-hidden="true">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                      <rect x="8" y="8" width="32" height="36" rx="2" stroke="#a4abb3" stroke-width="2" fill="none"/>
+                      <rect x="16" y="28" width="6" height="16" rx="1" stroke="#a4abb3" stroke-width="1.5" fill="none"/>
+                      <rect x="26" y="28" width="6" height="16" rx="1" stroke="#a4abb3" stroke-width="1.5" fill="none"/>
+                      <rect x="14" y="14" width="6" height="6" rx="1" stroke="#a4abb3" stroke-width="1.5" fill="none"/>
+                      <rect x="28" y="14" width="6" height="6" rx="1" stroke="#a4abb3" stroke-width="1.5" fill="none"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="auction-card__body">
+                  <p class="auction-card__name">OFICINA MIRAFLORES</p>
+                  <p class="auction-card__location">Miraflores, Lima</p>
+                  <p class="auction-card__price-label">Precio base</p>
+                  <p class="auction-card__price text-tabular">US$ 90,000</p>
+                  <button class="btn-me-interesa" type="button" aria-label="Me interesa Oficina Miraflores">
+                    ME INTERESA
+                  </button>
+                </div>
+              </article>
+
+              <!-- Card 3: EXCAVADORA CAT -->
+              <article class="auction-card" tabindex="0" role="article" aria-label="Subasta EXCAVADORA CAT">
+                <div class="auction-card__image">
+                  <div class="auction-card__image-placeholder" aria-hidden="true">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                      <rect x="6" y="24" width="36" height="12" rx="2" stroke="#a4abb3" stroke-width="2" fill="none"/>
+                      <path d="M14 24V16l8-6 10 6v8" stroke="#a4abb3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <circle cx="14" cy="38" r="4" stroke="#a4abb3" stroke-width="2" fill="none"/>
+                      <circle cx="34" cy="38" r="4" stroke="#a4abb3" stroke-width="2" fill="none"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="auction-card__body">
+                  <p class="auction-card__name">EXCAVADORA CAT 320</p>
+                  <p class="auction-card__location">Callao, Perú</p>
+                  <p class="auction-card__price-label">Precio base</p>
+                  <p class="auction-card__price text-tabular">US$ 18,500</p>
+                  <button class="btn-me-interesa" type="button" aria-label="Me interesa Excavadora CAT 320">
+                    ME INTERESA
+                  </button>
+                </div>
+              </article>
+
+            </div>
+          </section>
+
+          <!-- ─────────────────────────────────────────────────────
+               FAVORITOS SECTION (Tus favoritos guardados)
+               ──────────────────────────────────────────────────── -->
+          <section class="interests-section" role="region" aria-label="Tus favoritos guardados">
+            <div class="interests__header">
+              <div class="interests__icon-wrap interests__icon-wrap--red" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M10 17s-7-5.5-7-9a4 4 0 0 1 7-2.65A4 4 0 0 1 17 8c0 3.5-7 9-7 9z" stroke="#c62828" stroke-width="1.5" fill="none"/>
+                </svg>
+              </div>
+              <div>
+                <h2 class="interests__heading interests__heading--dark">Tus favoritos guardados</h2>
+                <p class="interests__meta">Artículos que marcaste</p>
+              </div>
+            </div>
+
+            <div class="auction-cards-grid">
+
+              <!-- Card placeholder (loading state) -->
+              <article class="auction-card auction-card--loading" aria-label="Cargando subasta">
+                <div class="auction-card__image">
+                  <div class="skeleton" style="width:100%;height:140px;border-radius:0;"></div>
+                </div>
+                <div class="auction-card__body" style="gap:8px;">
+                  <div class="skeleton" style="height:16px;width:80%;border-radius:4px;"></div>
+                  <div class="skeleton" style="height:12px;width:60%;border-radius:4px;"></div>
+                  <div class="skeleton" style="height:24px;width:50%;border-radius:4px;"></div>
+                  <div class="skeleton" style="height:40px;width:100%;border-radius:8px;"></div>
+                </div>
+              </article>
+
+              <!-- Card 2 placeholder -->
+              <article class="auction-card auction-card--loading" aria-label="Cargando subasta">
+                <div class="auction-card__image">
+                  <div class="skeleton" style="width:100%;height:140px;border-radius:0;"></div>
+                </div>
+                <div class="auction-card__body" style="gap:8px;">
+                  <div class="skeleton" style="height:16px;width:70%;border-radius:4px;"></div>
+                  <div class="skeleton" style="height:12px;width:55%;border-radius:4px;"></div>
+                  <div class="skeleton" style="height:24px;width:45%;border-radius:4px;"></div>
+                  <div class="skeleton" style="height:40px;width:100%;border-radius:8px;"></div>
+                </div>
+              </article>
+
+              <!-- Card 3 placeholder -->
+              <article class="auction-card auction-card--loading" aria-label="Cargando subasta">
+                <div class="auction-card__image">
+                  <div class="skeleton" style="width:100%;height:140px;border-radius:0;"></div>
+                </div>
+                <div class="auction-card__body" style="gap:8px;">
+                  <div class="skeleton" style="height:16px;width:75%;border-radius:4px;"></div>
+                  <div class="skeleton" style="height:12px;width:50%;border-radius:4px;"></div>
+                  <div class="skeleton" style="height:24px;width:55%;border-radius:4px;"></div>
+                  <div class="skeleton" style="height:40px;width:100%;border-radius:8px;"></div>
+                </div>
+              </article>
+
+            </div>
+          </section>
+
+        </div><!-- /content -->
+      </main><!-- /main -->
+
+    </div><!-- /page-container -->
+  </div><!-- /page-shell -->
+</body>
+</html>

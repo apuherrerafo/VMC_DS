@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Roboto+Mono:wght@400;500&display=swap');
+@import './tokens.css';
+@import 'tailwindcss';
+
+/* ── Base ────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-surface-body);
+  font-family: var(--font-body);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-lh);
+  color: var(--color-text-on-surface);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  max-width: var(--layout-max-width);
+  margin: 0 auto;
+  background: var(--color-surface-page);
+}

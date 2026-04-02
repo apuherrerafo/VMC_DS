@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1024" />
+  <title>VMC Subastas — Index Desktop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+
+    /* ── Base ── */
+    html, body {
+      width: 1024px;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 24px;
+      background: #f9fafb;
+      color: #3d1b82;
+    }
+
+    /* ── Layout ── */
+    .app {
+      display: flex;
+      width: 1024px;
+    }
+
+    /* ══════════════════════════════════════
+       SIDEBAR
+    ══════════════════════════════════════ */
+    .sidebar {
+      width: 240px;
+      flex-shrink: 0;
+      background: linear-gradient(to bottom, #391383, #2e0f70);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.10);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    /* Logo */
+    .sidebar__logo {
+      padding: 20px 16px;
+      height: 88px; /* 20px padding + 28px logo-text + 4px gap + 16px logo-sub + 20px padding — snap 4px */
+      box-sizing: border-box;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .sidebar__logo img {
+      height: 32px;
+      width: auto;
+    }
+    .sidebar__logo-text {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 28px; /* 4×⌊(18×1.5)/4⌉ = 4×7 = 28px */
+      color: #ffffff;
+      letter-spacing: -0.3px;
+    }
+    .sidebar__logo-sub {
+      font-size: 10px;
+      font-weight: 400;
+      line-height: 16px; /* 4×⌊(10×1.5)/4⌉ = 4×4 = 16px */
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.4px;
+      margin-top: 4px; /* snapeado de 2px → 4px para mantener grilla */
+    }
+
+    /* Nav */
+    .sidebar__nav {
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+    .sidebar__section-label {
+      font-size: 10px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      line-height: 16px;
+      padding: 16px 16px 8px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      height: 48px; /* 12px padding + 24px line-height + 12px padding — snap 4px */
+      box-sizing: border-box;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: background 150ms cubic-bezier(0.3,0,0,1);
+      text-decoration: none;
+    }
+    .nav-item:hover {
+      background: rgba(255,255,255,0.08);
+    }
+    .nav-item:focus {
+      outline: 2px solid rgba(255,255,255,0.5);
+      outline-offset: 2px;
+    }
+    .nav-item:active {
+      background: rgba(255,255,255,0.12);
+    }
+    .nav-item--active {
+      background: rgba(255,255,255,0.12);
+    }
+    .nav-item__left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .nav-item__icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      opacity: 0.9;
+    }
+    .nav-item__label {
+      font-size: 16px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.9);
+      line-height: 24px;
+      letter-spacing: -0.3px;
+    }
+    .nav-item__chevron {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      opacity: 0.5;
+    }
+
+    /* ══════════════════════════════════════
+       MAIN CONTENT
+    ══════════════════════════════════════ */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    /* ── Header ── */
+    .header {
+      height: 72px;
+      background: #ffffff;
+      border-bottom: 1px solid #f3f4f6;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+    }
+    .header__inner {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: 100%;
+    }
+    .btn-login {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 44px;
+      padding: 0 20px;
+      background: #3d1b82;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      letter-spacing: -0.3px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+      transition: background 150ms cubic-bezier(0.3,0,0,1), box-shadow 150ms cubic-bezier(0.3,0,0,1);
+      text-decoration: none;
+    }
+    .btn-login:hover { background: #2e0f70; box-shadow: 0 8px 16px rgba(0,0,0,0.10); }
+    .btn-login:focus { outline: 2px solid #3d1b82; outline-offset: 2px; }
+    .btn-login:active { background: #1a0b3d; }
+    .btn-login:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ── Page body ── */
+    .page-body {
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* ══════════════════════════════════════
+       HERO SECTION
+    ══════════════════════════════════════ */
+    .hero {
+      background: #1a0b3d;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      height: 360px;
+    }
+    .hero__image {
+      flex: 0 0 55%;
+      position: relative;
+      background: #2e0f70;
+      overflow: hidden;
+    }
+    .hero__image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .hero__image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0));
+    }
+    .hero__image-nav {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      display: flex;
+      gap: 8px;
+    }
+    .hero__nav-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 9999px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 150ms cubic-bezier(0.3,0,0,1);
+    }
+    .hero__nav-btn:hover { background: rgba(255,255,255,0.2); }
+    .hero__nav-btn:focus { outline: 2px solid rgba(255,255,255,0.5); outline-offset: 2px; }
+
+    .hero__info {
+      flex: 1;
+      background: #2e0f70;
+      padding: 24px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      height: 28px;
+      padding: 0 12px;
+      background: #ffa000;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 16px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      align-self: flex-start;
+    }
+    .hero__titles {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .hero__series {
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 32px;
+      letter-spacing: 0.07px;
+    }
+    .hero__model {
+      font-size: 38px;
+      font-weight: 700;
+      font-style: italic;
+      color: #00cace;
+      line-height: 56px;
+      letter-spacing: 0.35px;
+    }
+    .hero__specs {
+      display: flex;
+      gap: 16px;
+    }
+    .hero__spec {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.9);
+      line-height: 20px;
+    }
+    .hero__spec svg { flex-shrink: 0; }
+    .hero__divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .hero__price-block {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .hero__price-label {
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.6);
+      line-height: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .hero__price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .hero__price-amount {
+      font-size: 38px;
+      font-weight: 700;
+      color: #ffa000;
+      line-height: 56px;
+      letter-spacing: 0.35px;
+      font-variant-numeric: tabular-nums;
+    }
+    .hero__price-currency {
+      font-size: 18px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.6);
+      line-height: 28px;
+    }
+    .btn-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 52px;
+      background: #00cace;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 24px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+      transition: background 150ms cubic-bezier(0.3,0,0,1), box-shadow 150ms cubic-bezier(0.3,0,0,1);
+    }
+    .btn-cta:hover { background: #00b5b9; box-shadow: 0 8px 16px rgba(0,0,0,0.10); }
+    .btn-cta:focus { outline: 2px solid #00cace; outline-offset: 2px; }
+    .btn-cta:active { background: #009da1; }
+    .btn-cta:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ══════════════════════════════════════
+       FILTER BAR
+    ══════════════════════════════════════ */
+    .filter-bar {
+      background: #ffffff;
+      border: 1px solid #f3f4f6;
+      border-radius: 16px;
+      padding: 16px 20px;
+      height: 68px; /* 16px padding + 36px btn-height + 16px padding — snap 4px */
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .filter-bar__label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #99a1af;
+      line-height: 20px;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .filter-bar__label svg { flex-shrink: 0; }
+    .filter-bar__buttons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 36px;
+      padding: 0 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 20px;
+      letter-spacing: -0.15px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: none;
+      transition: background 150ms cubic-bezier(0.3,0,0,1), color 150ms cubic-bezier(0.3,0,0,1);
+    }
+    .filter-btn--active {
+      background: #3d1b82;
+      color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    }
+    .filter-btn--inactive {
+      background: transparent;
+      color: #3d1b82;
+    }
+    .filter-btn--inactive:hover { background: #f3f4f6; }
+    .filter-btn:focus { outline: 2px solid #3d1b82; outline-offset: 2px; }
+    .filter-bar__grid-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      background: #3d1b82;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+      transition: background 150ms cubic-bezier(0.3,0,0,1);
+    }
+    .filter-bar__grid-btn:hover { background: #2e0f70; }
+    .filter-bar__grid-btn:focus { outline: 2px solid #3d1b82; outline-offset: 2px; }
+
+    /* ══════════════════════════════════════
+       FEATURED SECTION
+    ══════════════════════════════════════ */
+    .section {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .section__header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    .section__meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .section__eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      font-weight: 400;
+      color: #00cace;
+      line-height: 16px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .section__eyebrow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: #00cace;
+      flex-shrink: 0;
+    }
+    .section__title {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .section__title-bold {
+      font-size: 27px;
+      font-weight: 700;
+      color: #3d1b82;
+      line-height: 40px;
+      letter-spacing: 0.4px;
+    }
+    .section__title-light {
+      font-size: 27px;
+      font-weight: 300;
+      color: #d1d5dc;
+      line-height: 40px;
+      letter-spacing: 0.4px;
+    }
+    .section__subtitle {
+      font-size: 14px;
+      font-weight: 400;
+      color: #4a5565;
+      line-height: 20px;
+      letter-spacing: -0.15px;
+    }
+    .btn-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #3d1b82;
+      line-height: 20px;
+      text-decoration: none;
+      padding: 8px 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transition: color 150ms cubic-bezier(0.3,0,0,1);
+    }
+    .btn-link:hover { color: #2e0f70; }
+    .btn-link:focus { outline: 2px solid #3d1b82; outline-offset: 2px; border-radius: 4px; }
+    .btn-link svg { flex-shrink: 0; }
+
+    /* ── Vehicle Cards Grid ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .vehicle-card {
+      background: #ffffff;
+      border: 1px solid #f3f4f6;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 372px; /* 200px imagen + 172px body (32px padding + 140px contenido) — snap 4px */
+      transition: box-shadow 150ms cubic-bezier(0.3,0,0,1), transform 150ms cubic-bezier(0.3,0,0,1);
+    }
+    .vehicle-card:hover {
+      box-shadow: 0 8px 16px rgba(0,0,0,0.10);
+      transform: translateY(-2px);
+    }
+    .vehicle-card__image {
+      height: 200px;
+      background: #f3f4f6;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .vehicle-card__image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .vehicle-card__body {
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+    .vehicle-card__titles {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .vehicle-card__name {
+      font-size: 20px;
+      font-weight: 700;
+      color: #3d1b82;
+      line-height: 32px;
+      letter-spacing: 0.07px;
+    }
+    .vehicle-card__meta {
+      font-size: 12px;
+      font-weight: 400;
+      color: #99a1af;
+      line-height: 20px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .vehicle-card__price-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      border-top: 1px solid #f3f4f6;
+      padding-top: 12px;
+    }
+    .vehicle-card__price-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .vehicle-card__price-label {
+      font-size: 10px;
+      font-weight: 400;
+      color: #99a1af;
+      line-height: 16px;
+      letter-spacing: 0.37px;
+      text-transform: uppercase;
+    }
+    .vehicle-card__price-amount-row {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+    .vehicle-card__currency {
+      font-size: 14px;
+      font-weight: 500;
+      color: #99a1af;
+      line-height: 20px;
+    }
+    .vehicle-card__price {
+      font-size: 27px;
+      font-weight: 700;
+      color: #3d1b82;
+      line-height: 40px;
+      letter-spacing: 0.37px;
+      font-variant-numeric: tabular-nums;
+    }
+    .vehicle-card__fav-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 9999px;
+      background: #3d1b82;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+      transition: background 150ms cubic-bezier(0.3,0,0,1), box-shadow 150ms cubic-bezier(0.3,0,0,1);
+    }
+    .vehicle-card__fav-btn:hover { background: #2e0f70; box-shadow: 0 8px 16px rgba(0,0,0,0.10); }
+    .vehicle-card__fav-btn:focus { outline: 2px solid #3d1b82; outline-offset: 2px; }
+    .vehicle-card__fav-btn:active { background: #1a0b3d; }
+
+    /* ══════════════════════════════════════
+       HELP SECTION
+    ══════════════════════════════════════ */
+    .help-section {
+      background: #ffffff;
+      border: 1px solid #f3f4f6;
+      border-radius: 16px;
+      padding: 32px;
+      height: 144px; /* 32px padding + 80px contenido (title 32px + gap 8px + desc 40px) + 32px padding — snap 4px */
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      overflow: hidden;
+    }
+    .help-section__left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .help-section__icon {
+      width: 56px;
+      height: 56px;
+      background: #f3f4f6;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .help-section__texts {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .help-section__title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #3d1b82;
+      line-height: 32px;
+      display: flex;
+      gap: 8px;
+    }
+    .help-section__title-accent { color: #00cace; }
+    .help-section__desc {
+      font-size: 14px;
+      font-weight: 400;
+      color: #4a5565;
+      line-height: 20px;
+      max-width: 480px;
+    }
+    .btn-help {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 44px;
+      padding: 0 24px;
+      background: #3d1b82;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+      transition: background 150ms cubic-bezier(0.3,0,0,1);
+      text-decoration: none;
+    }
+    .btn-help:hover { background: #2e0f70; }
+    .btn-help:focus { outline: 2px solid #3d1b82; outline-offset: 2px; }
+    .btn-help:active { background: #1a0b3d; }
+    .btn-help:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    .footer {
+      background: #ffffff;
+      border-top: 1px solid #f3f4f6;
+      padding: 40px 32px 24px;
+      margin-top: 16px;
+    }
+    .footer__top {
+      display: grid;
+      grid-template-columns: 220px 1fr 1fr 160px;
+      gap: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .footer__logo-col {}
+    .footer__logo-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #3d1b82;
+      line-height: 24px;
+    }
+    .footer__logo-powered {
+      font-size: 10px;
+      color: #99a1af;
+      line-height: 16px;
+      margin-top: 2px;
+    }
+    .footer__logo-desc {
+      font-size: 12px;
+      font-weight: 400;
+      color: #4a5565;
+      line-height: 20px;
+      margin-top: 16px;
+    }
+    .footer__col-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #3d1b82;
+      line-height: 20px;
+      margin-bottom: 16px;
+    }
+    .footer__links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .footer__link {
+      font-size: 14px;
+      font-weight: 400;
+      color: #4a5565;
+      line-height: 20px;
+      text-decoration: none;
+      transition: color 150ms cubic-bezier(0.3,0,0,1);
+      display: block;
+    }
+    .footer__link:hover { color: #3d1b82; }
+    .footer__link:focus { outline: 2px solid #3d1b82; outline-offset: 2px; border-radius: 2px; }
+    .footer__social {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .footer__social-icon {
+      width: 20px;
+      height: 20px;
+      color: #4a5565;
+      transition: color 150ms cubic-bezier(0.3,0,0,1);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .footer__social-icon:hover { color: #3d1b82; }
+    .footer__bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 24px;
+    }
+    .footer__copyright {
+      font-size: 12px;
+      font-weight: 400;
+      color: #99a1af;
+      line-height: 20px;
+    }
+    .footer__bottom-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .footer__bottom-link {
+      font-size: 12px;
+      font-weight: 400;
+      color: #99a1af;
+      line-height: 20px;
+      text-decoration: none;
+      transition: color 150ms cubic-bezier(0.3,0,0,1);
+    }
+    .footer__bottom-link:hover { color: #3d1b82; }
+    .footer__dot { color: #d1d5dc; }
+
+    /* ── SVG Icon helper ── */
+    .icon { display: block; }
+  </style>
+</head>
+<body>
+  <div class="app">
+
+    <!-- ══ SIDEBAR ══ -->
+    <aside class="sidebar" role="navigation" aria-label="Menú principal">
+      <div class="sidebar__logo">
+        <div>
+          <div class="sidebar__logo-text">VMC Subastas</div>
+          <div class="sidebar__logo-sub">Powered by SUBASTOP.Co</div>
+        </div>
+      </div>
+
+      <nav class="sidebar__nav">
+        <a href="#" class="nav-item nav-item--active" aria-current="page">
+          <span class="nav-item__left">
+            <svg class="nav-item__icon icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <rect x="2" y="2" width="7" height="7" rx="1" fill="rgba(255,255,255,0.9)"/>
+              <rect x="11" y="2" width="7" height="7" rx="1" fill="rgba(255,255,255,0.9)"/>
+              <rect x="2" y="11" width="7" height="7" rx="1" fill="rgba(255,255,255,0.9)"/>
+              <rect x="11" y="11" width="7" height="7" rx="1" fill="rgba(255,255,255,0.9)"/>
+            </svg>
+            <span class="nav-item__label">Mañana</span>
+          </span>
+          <svg class="nav-item__chevron icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M6.75 4.5L11.25 9L6.75 13.5" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+
+        <a href="#" class="nav-item">
+          <span class="nav-item__left">
+            <svg class="nav-item__icon icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M3 6h14M3 10h14M3 14h8" stroke="rgba(255,255,255,0.9)" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="nav-item__label">Tipo de oferta</span>
+          </span>
+          <svg class="nav-item__chevron icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M6.75 4.5L11.25 9L6.75 13.5" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+
+        <a href="#" class="nav-item">
+          <span class="nav-item__left">
+            <svg class="nav-item__icon icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M10 2L3 7v11h5v-5h4v5h5V7L10 2z" stroke="rgba(255,255,255,0.9)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="nav-item__label">Categorías</span>
+          </span>
+          <svg class="nav-item__chevron icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M6.75 4.5L11.25 9L6.75 13.5" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+
+        <a href="#" class="nav-item">
+          <span class="nav-item__left">
+            <svg class="nav-item__icon icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M4 9a6 6 0 1012 0A6 6 0 004 9z" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/>
+              <path d="M10 6v3l2 2" stroke="rgba(255,255,255,0.9)" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="nav-item__label">Empresas</span>
+          </span>
+          <svg class="nav-item__chevron icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M6.75 4.5L11.25 9L6.75 13.5" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+
+        <div class="sidebar__section-label">Soporte</div>
+
+        <a href="#" class="nav-item">
+          <span class="nav-item__left">
+            <svg class="nav-item__icon icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <circle cx="10" cy="10" r="7" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/>
+              <path d="M10 7v4M10 13h.01" stroke="rgba(255,255,255,0.9)" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="nav-item__label">Centro de ayuda</span>
+          </span>
+          <svg class="nav-item__chevron icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M6.75 4.5L11.25 9L6.75 13.5" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- ══ MAIN ══ -->
+    <main class="main">
+
+      <!-- Header -->
+      <header class="header">
+        <div class="header__inner">
+          <a href="#" class="btn-login" aria-label="Ingresar a tu cuenta">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+              <path d="M9 2a4 4 0 100 8 4 4 0 000-8zM3 15c0-3 2.7-5 6-5s6 2 6 5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            Ingresa
+          </a>
+        </div>
+      </header>
+
+      <!-- Page body -->
+      <div class="page-body">
+
+        <!-- Hero -->
+        <section class="hero" aria-label="Subasta destacada">
+          <div class="hero__image">
+            <img src="https://www.figma.com/api/mcp/asset/19537cb6-bfa7-472f-94e5-b0e74937eeec" alt="BMW 320i — vista lateral" />
+            <div class="hero__image-overlay" aria-hidden="true"></div>
+            <div class="hero__image-nav" aria-label="Navegar imágenes">
+              <button class="hero__nav-btn" aria-label="Imagen anterior">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M10 12L6 8l4-4" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </button>
+              <button class="hero__nav-btn" aria-label="Imagen siguiente">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="hero__info">
+            <span class="hero__badge" aria-label="Subasta en vivo: 26 enero 3:00 p.m.">
+              Subasta en vivo: 26 enero · 3:00 p.m.
+            </span>
+            <div class="hero__titles">
+              <span class="hero__series">SERIES 3</span>
+              <span class="hero__model">BMW 320i</span>
+            </div>
+            <div class="hero__specs">
+              <div class="hero__spec">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <circle cx="8" cy="8" r="5.5" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/>
+                  <path d="M8 5v3l2 1.5" stroke="rgba(255,255,255,0.9)" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span>65,000 km</span>
+              </div>
+              <div class="hero__spec">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M8 2C5.8 2 4 3.8 4 6c0 3 4 8 4 8s4-5 4-8c0-2.2-1.8-4-4-4z" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/>
+                  <circle cx="8" cy="6" r="1.5" fill="rgba(255,255,255,0.9)"/>
+                </svg>
+                <span>Lima</span>
+              </div>
+            </div>
+            <hr class="hero__divider" aria-hidden="true" />
+            <div class="hero__price-block">
+              <span class="hero__price-label">Precio Base</span>
+              <div class="hero__price-row">
+                <span class="hero__price-amount" aria-label="14,000 dólares">$14,000</span>
+                <span class="hero__price-currency">USD</span>
+              </div>
+            </div>
+            <button class="btn-cta" aria-label="Participar en la subasta del BMW 320i">
+              PARTICIPAR AHORA
+            </button>
+          </div>
+        </section>
+
+        <!-- Filter Bar -->
+        <section class="filter-bar" aria-label="Filtros de búsqueda">
+          <div class="filter-bar__label" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+              <path d="M3 4h12M5 9h8M7 14h4" stroke="#99a1af" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            FILTRAR POR
+          </div>
+          <div class="filter-bar__buttons" role="group" aria-label="Tipo de activo">
+            <button class="filter-btn filter-btn--active" aria-pressed="true">TODOS</button>
+            <button class="filter-btn filter-btn--inactive" aria-pressed="false">NEGOCIABLE</button>
+            <button class="filter-btn filter-btn--inactive" aria-pressed="false">SUBASTA</button>
+            <button class="filter-btn filter-btn--inactive" aria-pressed="false">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M2 12l3-4 3 3 3-5 3 6" stroke="#3d1b82" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              VEHÍCULOS
+            </button>
+            <button class="filter-btn filter-btn--inactive" aria-pressed="false">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <rect x="2" y="6" width="12" height="8" rx="1" stroke="#3d1b82" stroke-width="1.5"/>
+                <path d="M5 6V4a3 3 0 016 0v2" stroke="#3d1b82" stroke-width="1.5"/>
+              </svg>
+              MAQUINARIA
+            </button>
+            <button class="filter-btn filter-btn--inactive" aria-pressed="false">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M8 2L2 6v8h4V9h4v5h4V6L8 2z" stroke="#3d1b82" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              INMUEBLES
+            </button>
+          </div>
+          <button class="filter-bar__grid-btn" aria-label="Vista en cuadrícula">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+              <rect x="2" y="2" width="6" height="6" rx="1" fill="white"/>
+              <rect x="10" y="2" width="6" height="6" rx="1" fill="white"/>
+              <rect x="2" y="10" width="6" height="6" rx="1" fill="white"/>
+              <rect x="10" y="10" width="6" height="6" rx="1" fill="white"/>
+            </svg>
+          </button>
+        </section>
+
+        <!-- Featured Section -->
+        <section class="section" aria-labelledby="featured-title">
+          <div class="section__header">
+            <div class="section__meta">
+              <div class="section__eyebrow">
+                <span class="section__eyebrow-dot" aria-hidden="true"></span>
+                ACTIVOS DESTACADOS
+              </div>
+              <div class="section__title" id="featured-title">
+                <span class="section__title-bold">MAF PERÚ</span>
+                <span class="section__title-light">X VMC</span>
+              </div>
+              <p class="section__subtitle">Inventarios verificados disponibles para entrega inmediata</p>
+            </div>
+            <a href="#" class="btn-link" aria-label="Ver todos los activos destacados">
+              VER TODO
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="#3d1b82" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Cards Grid -->
+          <div class="cards-grid">
+
+            <!-- Card: Toyota Hilux -->
+            <article class="vehicle-card">
+              <div class="vehicle-card__image">
+                <img src="https://www.figma.com/api/mcp/asset/3b36a2ee-a131-4d73-a8b5-6948baf54daf" alt="Toyota Hilux 2024" loading="lazy" />
+              </div>
+              <div class="vehicle-card__body">
+                <div class="vehicle-card__titles">
+                  <h3 class="vehicle-card__name">TOYOTA HILUX</h3>
+                  <p class="vehicle-card__meta">2024 · LIMA · DIESEL</p>
+                </div>
+                <div class="vehicle-card__price-row">
+                  <div class="vehicle-card__price-block">
+                    <span class="vehicle-card__price-label">Oferta Inicial</span>
+                    <div class="vehicle-card__price-amount-row">
+                      <span class="vehicle-card__currency">US$</span>
+                      <span class="vehicle-card__price" aria-label="17,999 dólares">17,999</span>
+                    </div>
+                  </div>
+                  <button class="vehicle-card__fav-btn" aria-label="Guardar Toyota Hilux en favoritos">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <path d="M9 15l-6.4-6.4a4 4 0 015.65-5.65L9 3.9l.75-.95a4 4 0 015.65 5.65L9 15z" stroke="white" stroke-width="1.5"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card: Toyota Etios -->
+            <article class="vehicle-card">
+              <div class="vehicle-card__image">
+                <img src="https://www.figma.com/api/mcp/asset/a028f16c-56cc-4281-b4d1-a8612e79ed49" alt="Toyota Etios 2024" loading="lazy" />
+              </div>
+              <div class="vehicle-card__body">
+                <div class="vehicle-card__titles">
+                  <h3 class="vehicle-card__name">TOYOTA ETIOS</h3>
+                  <p class="vehicle-card__meta">2024 · BARCELONA · MÁLAGA</p>
+                </div>
+                <div class="vehicle-card__price-row">
+                  <div class="vehicle-card__price-block">
+                    <span class="vehicle-card__price-label">Oferta Inicial</span>
+                    <div class="vehicle-card__price-amount-row">
+                      <span class="vehicle-card__currency">US$</span>
+                      <span class="vehicle-card__price" aria-label="4,999 dólares">4,999</span>
+                    </div>
+                  </div>
+                  <button class="vehicle-card__fav-btn" aria-label="Guardar Toyota Etios en favoritos">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <path d="M9 15l-6.4-6.4a4 4 0 015.65-5.65L9 3.9l.75-.95a4 4 0 015.65 5.65L9 15z" stroke="white" stroke-width="1.5"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card: Nissan Versa -->
+            <article class="vehicle-card">
+              <div class="vehicle-card__image">
+                <img src="https://www.figma.com/api/mcp/asset/e3fb31f9-f2f3-4363-93e2-713d2acd63c2" alt="Nissan Versa 2015" loading="lazy" />
+              </div>
+              <div class="vehicle-card__body">
+                <div class="vehicle-card__titles">
+                  <h3 class="vehicle-card__name">NISSAN VERSA</h3>
+                  <p class="vehicle-card__meta">2015 · TRUJILLO · MXS</p>
+                </div>
+                <div class="vehicle-card__price-row">
+                  <div class="vehicle-card__price-block">
+                    <span class="vehicle-card__price-label">Oferta Inicial</span>
+                    <div class="vehicle-card__price-amount-row">
+                      <span class="vehicle-card__currency">US$</span>
+                      <span class="vehicle-card__price" aria-label="3,999 dólares">3,999</span>
+                    </div>
+                  </div>
+                  <button class="vehicle-card__fav-btn" aria-label="Guardar Nissan Versa en favoritos">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <path d="M9 15l-6.4-6.4a4 4 0 015.65-5.65L9 3.9l.75-.95a4 4 0 015.65 5.65L9 15z" stroke="white" stroke-width="1.5"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card: BMW X4 -->
+            <article class="vehicle-card">
+              <div class="vehicle-card__image">
+                <img src="https://www.figma.com/api/mcp/asset/305db721-739f-4d2b-8887-d7b273f1d798" alt="BMW X4 2023" loading="lazy" />
+              </div>
+              <div class="vehicle-card__body">
+                <div class="vehicle-card__titles">
+                  <h3 class="vehicle-card__name">BMW X4</h3>
+                  <p class="vehicle-card__meta">2023 · LIMA · AREQUIPA</p>
+                </div>
+                <div class="vehicle-card__price-row">
+                  <div class="vehicle-card__price-block">
+                    <span class="vehicle-card__price-label">Oferta Inicial</span>
+                    <div class="vehicle-card__price-amount-row">
+                      <span class="vehicle-card__currency">US$</span>
+                      <span class="vehicle-card__price" aria-label="19,999 dólares">19,999</span>
+                    </div>
+                  </div>
+                  <button class="vehicle-card__fav-btn" aria-label="Guardar BMW X4 en favoritos">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <path d="M9 15l-6.4-6.4a4 4 0 015.65-5.65L9 3.9l.75-.95a4 4 0 015.65 5.65L9 15z" stroke="white" stroke-width="1.5"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <!-- Help Section -->
+        <section class="help-section" aria-labelledby="help-title">
+          <div class="help-section__left">
+            <div class="help-section__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                <circle cx="14" cy="14" r="10" stroke="#3d1b82" stroke-width="1.5"/>
+                <path d="M14 10v5M14 17h.01" stroke="#3d1b82" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="help-section__texts">
+              <h2 class="help-section__title" id="help-title">
+                CENTRO DE <span class="help-section__title-accent">AYUDA</span>
+              </h2>
+              <p class="help-section__desc">
+                ¿Necesitas asistencia con tus ofertas o el proceso de subasta? Estamos aquí para ayudarte.
+              </p>
+            </div>
+          </div>
+          <a href="#" class="btn-help" aria-label="Ir al centro de ayuda">
+            IR AL CENTRO DE AYUDA
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </section>
+
+      </div><!-- /page-body -->
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="footer__top">
+          <div class="footer__logo-col">
+            <div class="footer__logo-name">VMC Subastas</div>
+            <div class="footer__logo-powered">Powered by SUBASTOP.Co</div>
+            <p class="footer__logo-desc">Información y referencias sobre el equipo corporativo de VMC Subastas.</p>
+          </div>
+
+          <div>
+            <h4 class="footer__col-title">Plataforma</h4>
+            <ul class="footer__links">
+              <li><a href="#" class="footer__link">SubasCars</a></li>
+              <li><a href="#" class="footer__link">SubasBlog</a></li>
+              <li><a href="#" class="footer__link">¿Quiénes somos?</a></li>
+              <li><a href="#" class="footer__link">¿Cómo vender?</a></li>
+              <li><a href="#" class="footer__link">¿Cómo obtener acceso ilimitado a las subastas?</a></li>
+              <li><a href="#" class="footer__link">BlackSheep Nation</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="footer__col-title">Legal &amp; Compliance</h4>
+            <ul class="footer__links">
+              <li><a href="#" class="footer__link">Condiciones y Términos</a></li>
+              <li><a href="#" class="footer__link">Política de Protección de Datos Personales</a></li>
+              <li><a href="#" class="footer__link">Política de privacidad General</a></li>
+              <li><a href="#" class="footer__link">Testimonios</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="footer__col-title">Contacto</h4>
+            <a href="#" class="footer__link">Contáctanos</a>
+            <h4 class="footer__col-title" style="margin-top: 20px;">Encuéntranos en</h4>
+            <div class="footer__social" aria-label="Redes sociales">
+              <a href="#" aria-label="Facebook" class="footer__social-icon">
+                <svg viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="4" fill="#4a5565"/><path d="M11 8h-1V7c0-.6.4-1 1-1h1V4h-1c-1.7 0-3 1.3-3 3v1H7v2h1v6h2v-6h1.5l.5-2z" fill="white"/></svg>
+              </a>
+              <a href="#" aria-label="Instagram" class="footer__social-icon">
+                <svg viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="4" fill="#4a5565"/><circle cx="10" cy="10" r="3.5" stroke="white" stroke-width="1.2"/><circle cx="14" cy="6" r="1" fill="white"/></svg>
+              </a>
+              <a href="#" aria-label="YouTube" class="footer__social-icon">
+                <svg viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="4" fill="#4a5565"/><path d="M4 7.5C4 6.7 4.7 6 5.5 6h9c.8 0 1.5.7 1.5 1.5v5c0 .8-.7 1.5-1.5 1.5h-9C4.7 14 4 13.3 4 12.5v-5z" stroke="white" stroke-width="1.2"/><path d="M8.5 8l3 2-3 2V8z" fill="white"/></svg>
+              </a>
+              <a href="#" aria-label="X / Twitter" class="footer__social-icon">
+                <svg viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="4" fill="#4a5565"/><path d="M5 5l4.5 5.5L5 15h1.5l3.7-4.5L14 15h1.5l-4.7-5.8L15.5 5H14l-3.5 4.2L7 5H5z" fill="white"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer__bottom">
+          <p class="footer__copyright">© 2026 VMC Subastas. Todos los derechos reservados.</p>
+          <div class="footer__bottom-links">
+            <a href="#" class="footer__bottom-link">Política de Cookies</a>
+            <span class="footer__dot" aria-hidden="true">•</span>
+            <a href="#" class="footer__bottom-link">Mapa del Sitio</a>
+            <span class="footer__dot" aria-hidden="true">•</span>
+            <a href="#" class="footer__bottom-link">Accesibilidad</a>
+          </div>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+</body>
+</html>
