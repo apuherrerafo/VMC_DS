@@ -163,15 +163,15 @@ export const COMPONENT_PREVIEWS: Record<string, ReactNode> = {
       <PreviewLabel>Tamaños sm · md · lg</PreviewLabel>
       <div className="flex items-end gap-4">
         <div className="flex flex-col items-center gap-1">
-          <Avatar size="sm" fallback="JR" />
+          <Avatar size="sm" name="JR" />
           <span className="text-[9px] text-[var(--gray-400)]">24px</span>
         </div>
         <div className="flex flex-col items-center gap-1">
-          <Avatar size="md" fallback="JR" />
+          <Avatar size="md" name="JR" />
           <span className="text-[9px] text-[var(--gray-400)]">40px</span>
         </div>
         <div className="flex flex-col items-center gap-1">
-          <Avatar size="lg" fallback="JR" />
+          <Avatar size="lg" name="JR" />
           <span className="text-[9px] text-[var(--gray-400)]">56px</span>
         </div>
       </div>
@@ -181,9 +181,9 @@ export const COMPONENT_PREVIEWS: Record<string, ReactNode> = {
   'Image': (
     <PreviewWrap pad={false}>
       <div className="grid grid-cols-3 gap-1">
-        <div><DSImage aspectRatio="1/1"  alt="Square"   /></div>
-        <div><DSImage aspectRatio="16/9" alt="Landscape"/></div>
-        <div><DSImage aspectRatio="3/4"  alt="Portrait" /></div>
+        <div><DSImage src="" ratio="1/1"  alt="Square"   /></div>
+        <div><DSImage src="" ratio="16/9" alt="Landscape"/></div>
+        <div><DSImage src="" ratio="3/2"  alt="Portrait" /></div>
       </div>
     </PreviewWrap>
   ),
@@ -279,7 +279,7 @@ export const COMPONENT_PREVIEWS: Record<string, ReactNode> = {
 
   'Header': (
     <div className="pointer-events-none">
-      <Header user={null} />
+      <Header user={undefined} />
     </div>
   ),
 

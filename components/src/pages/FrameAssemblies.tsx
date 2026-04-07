@@ -70,7 +70,7 @@ export function DetalleFrameAssembly() {
     <div style={{ width: '1024px', background: 'var(--color-surface-page)', overflow: 'hidden' }}>
 
       {/* Header */}
-      <Header user={null} />
+      <Header user={undefined} />
 
       {/* Body: sidebar + content */}
       <div style={{ display: 'flex', alignItems: 'stretch' }}>
@@ -151,7 +151,7 @@ export function HomepageFrameAssembly() {
     <div style={{ width: '1024px', background: 'var(--color-surface-page)', overflow: 'hidden' }}>
 
       {/* Header */}
-      <Header user={null} />
+      <Header user={undefined} />
 
       {/* Body: sidebar + content */}
       <div style={{ display: 'flex', alignItems: 'stretch' }}>
