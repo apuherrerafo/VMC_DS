@@ -436,6 +436,24 @@ Timer en tiempo real. Dato crítico — contraste APCA Lc 90 obligatorio.
 
 ---
 
+**DataQualityBadge**
+`Display / DataQualityBadge`
+
+Indicador visual del nivel de completitud del expediente de un lote. Se muestra
+como una fila de N puntos coloreados según el score de calidad del dato.
+No es un Badge de estado — es un indicador de confiabilidad de la información.
+
+| Campo | Valor |
+|-------|-------|
+| **Figma** | `Display / DataQualityBadge / {Level}` |
+| **React** | `<DataQualityBadge level="high" />` |
+| **Variantes por nivel** | `High` (3 dots verdes) · `Medium` (2 dots — verde + amber) · `Low` (1 dot — amber o red) |
+| **Estados** | Default · Disabled |
+| **Tokens clave** | `--color-status-success` (nuevo — verde) · `--color-status-warning` (`--amber-500`) · `--color-status-error` (`--red-500`) · `--space-1` (gap entre dots) |
+| **Notas** | Cada dot: 8×8px, `--radius-full`. Siempre acompañado de label "Calidad de información" en `--type-label`. Token `--color-status-success` pendiente de agregar a tokens.css: `oklch(0.702 0.165 145.000)`. Sin borde — color define el estado. |
+
+---
+
 **Divider**
 `Display / Divider`
 
@@ -765,6 +783,47 @@ Balance y crédito disponible del postor. Widget compacto usado en Header o pane
 
 ---
 
+#### 2.D — Content
+
+---
+
+**DocumentDownloadRow**
+`Content / DocumentDownloadRow`
+
+Fila de descarga de documento. Muestra ícono de tipo de archivo + label del
+documento + botón de descarga. Se agrupa en bloques ("Descarga toda la
+información", "Documentos requeridos") dentro de la página de detalle del lote.
+
+| Campo | Valor |
+|-------|-------|
+| **Figma** | `Content / DocumentDownloadRow / {State}` |
+| **React** | `<DocumentDownloadRow label="Términos de la oferta" href={url} />` |
+| **Variantes** | `Default` · `WithFileType` (muestra extensión — PDF, XLS) |
+| **Composición** | `hasIcon` (ícono de documento SVG inline) |
+| **Estados** | Default · Hover · Loading (descargando) · Downloaded |
+| **Tokens clave** | `--color-surface-section` (fondo) · `--color-action-primary` (ícono + link) · `--type-body-sm` · `--radius-sm` · `--shadow-none` |
+| **Notas** | Fondo `--color-surface-section` — sin border (regla No-Line). Ícono SVG inline, tamaño 20px. Botón "Descargar" usa `Button variant=tertiary size=sm`. Estado `Loading` reemplaza botón con Skeleton. |
+
+---
+
+**HelpCenterBanner**
+`Content / HelpCenterBanner`
+
+Franja promocional persistente al final del contenido de página. Lleva al
+usuario al centro de ayuda. Contiene avatar + heading + subtext + CTA.
+Aparece en página de detalle de lote y otras páginas de alto tráfico.
+
+| Campo | Valor |
+|-------|-------|
+| **Figma** | `Content / HelpCenterBanner` |
+| **React** | `<HelpCenterBanner ctaHref="/ayuda" />` |
+| **Variantes** | `Default` · `Compact` (sin subtext — para espacios reducidos) |
+| **Estados** | Default |
+| **Tokens clave** | `--color-surface-section` · `--type-help-heading` (18px ExtraBold) · `--type-body-sm` · `--color-text-body` · `--color-action-primary` |
+| **Notas** | Avatar `size=lg` (56px). CTA usa `Button variant=secondary`. Fondo `--color-surface-section` — sin borde superior (cambio de superficie define límite). Heading: "Visita nuestro Centro de ayuda". Subtext: `--color-text-muted`. |
+
+---
+
 ### LAYER 3 — Bloques de Negocio
 
 Componentes acoplados al dominio transaccional de VMC Subastas. Usan
@@ -921,6 +980,83 @@ decisión de puja sin navegar.
 
 ---
 
+**VehicleCard**
+`Vehicle / Card`
+
+Card compacta de vehículo optimizada para carruseles horizontales. Muestra
+imagen + título + año/ciudad + precio base + favorito. No tiene contexto de
+subasta (sin badge Live, sin countdown) — es una card de catálogo/listado.
+Usada dentro de `AuctioneerSection`.
+
+| Campo | Valor |
+|-------|-------|
+| **Figma** | `Vehicle / Card / {State}` |
+| **React** | `<VehicleCard title="TOYOTA HILUX" price="17,999" currency="US$" />` |
+| **Variantes** | `Default` · `Favorited` |
+| **Composición** | `isFavorited` · `onClick` |
+| **Estados** | Default · Hover · Loading (Skeleton) |
+| **Tokens clave** | `--color-surface-card` · `--shadow-card` · `--radius-sm` · `--color-action-cta` (franja inferior 4px) · `--type-card-title` (12px Bold UC) · tabular-nums |
+| **Notas** | Ancho fijo 163px — diseñado para carrusel, no para grid. Imagen 128px height fija, `object-cover`. Título 12px Bold uppercase. Precio en `--color-brand-live` (naranja). Franja `--color-action-cta` 4px en base — signature finish. Botón favorito: `IconButton isCircular size=sm`. Sin badge de estado de subasta — para eso usar `AuctionCard`. |
+
+---
+
+**AuctioneerSection**
+`Auction / AuctioneerSection`
+
+Sección que agrupa los vehículos de un rematador (operador) específico.
+Encabezado con nombre del rematador + conteo de ofertas + link "IR AL PERFIL" +
+carrusel horizontal de `VehicleCard` con fade gradient en el borde derecho.
+
+| Campo | Valor |
+|-------|-------|
+| **Figma** | `Auction / AuctioneerSection / {State}` |
+| **React** | `<AuctioneerSection title="MAF PERÚ" offerCount={12} cards={[...]} />` |
+| **Variantes** | `Default` · `WithProfileLink` |
+| **Estados** | Default · Loading (Skeleton cards) |
+| **Contiene** | `VehicleCard` (N tarjetas) · `Button variant=tertiary` (IR AL PERFIL) |
+| **Tokens clave** | `--color-surface-section` · `--type-section-heading` (20px ExtraBold UC) · `--type-label` · `--color-action-primary` · `--space-5` (padding) · `--gap-card-grid` |
+| **Notas** | Carrusel: `overflow-x: auto`, scroll suave, scrollbar oculta. Fade gradient derecho: `linear-gradient(to right, transparent, --color-surface-section)` — activo solo cuando hay scroll disponible. Título en uppercase. Conteo "N OFERTAS" en `--type-label` `--color-text-muted`. |
+
+---
+
+**AuctionActionBar**
+`Auction / ActionBar`
+
+Fila de CTAs secundarias del flujo de puja, ubicada debajo del BidForm
+principal. Contiene acciones contextuales: activar precio reserva, guardar
+oferta, consultar límites de participación. Se muestra solo cuando la
+subasta está activa.
+
+| Campo | Valor |
+|-------|-------|
+| **Figma** | `Auction / ActionBar / {State}` |
+| **React** | `<AuctionActionBar lotId={id} hasReservePrice offerCount={3} />` |
+| **Variantes** | `Full` (3 acciones) · `Compact` (2 acciones) · `Minimal` (solo guardar oferta) |
+| **Composición** | `hasReservePrice` · `showParticipationLimits` |
+| **Estados** | Default · Disabled (subasta cerrada) · Loading |
+| **Tokens clave** | `--color-surface-input` (fondo de cada botón) · `--color-action-primary` · `--type-label` · `--radius-sm` · `--space-2` (gap entre botones) |
+| **Notas** | Cada acción usa `Button variant=secondary size=sm`. Fondo `--color-surface-input` para diferenciar del BidForm sin usar border (regla No-Line). Oculto cuando `status=Closed` o `status=Upcoming`. "Guardar Oferta" activa Toast de confirmación. |
+
+---
+
+**SubascoinsPromoBanner**
+`Market / SubascoinsPromoBanner`
+
+Banner promocional del sistema de créditos Subascoins. Aparece en página de
+detalle de lote entre el BidForm y las Ofertas Relacionadas. CTA directo a
+la compra/canje de Subascoins.
+
+| Campo | Valor |
+|-------|-------|
+| **Figma** | `Market / SubascoinsPromoBanner / {Variant}` |
+| **React** | `<SubascoinsPromoBanner href="/subascoins" />` |
+| **Variantes** | `Default` (ancho completo) · `Compact` (sin descripción) |
+| **Estados** | Default · Hover |
+| **Tokens clave** | `--color-action-cta` (`--orange-500`, fondo) · `--color-text-on-dark` (texto blanco) · `--type-label` · `--radius-sm` · `--duration-micro` |
+| **Notas** | Fondo `--color-action-cta`. Texto y flecha en `--color-text-on-dark`. Hover: `filter: brightness(0.92)` — no cambiar color, solo oscurecer. Ícono de moneda SVG inline 20px. Flecha `›` al final en `--type-label`. `role=link` + `aria-label="Adquirir Subascoins"`. |
+
+---
+
 ### LAYER 4 — Layouts
 
 Marcos estructurales macro. Definen la arquitectura de página, no el
@@ -1008,14 +1144,15 @@ Sección destacada de la homepage. Contiene el lote featured + CTA principal.
 | Layer | # | Componentes |
 |-------|---|-------------|
 | L0 — Primitivas | 3 | Box · Stack · Grid |
-| L1 — Elementos | 15 | Button · IconButton · Badge · Icon · Image · Avatar · Slider · PriceDisplay · CountdownTimer · Divider · TextField · SelectField · SearchInput · Checkbox · RadioButton |
-| L2 — Componentes | 11 | TabBar · Breadcrumb · Pagination · Toast · Alert · Skeleton · Modal · Tooltip · Dropdown · Accordion · UserWallet |
-| L3 — Bloques | 9 | AuctionCard · VehicleSpecsRow · AuctionStatusBanner · BidForm · FilterBar · BidHistoryList · VehicleImageGallery · SellerCard · AuctionSummaryWidget |
+| L1 — Elementos | 16 | Button · IconButton · Badge · **DataQualityBadge** · Icon · Image · Avatar · Slider · PriceDisplay · CountdownTimer · Divider · TextField · SelectField · SearchInput · Checkbox · RadioButton |
+| L2 — Componentes | 13 | TabBar · Breadcrumb · Pagination · Toast · Alert · Skeleton · Modal · Tooltip · Dropdown · Accordion · UserWallet · **DocumentDownloadRow** · **HelpCenterBanner** |
+| L3 — Bloques | 14 | AuctionCard · VehicleSpecsRow · AuctionStatusBanner · BidForm · FilterBar · BidHistoryList · VehicleImageGallery · SellerCard · AuctionSummaryWidget · **VehicleCard** · **AuctioneerSection** · **AuctionActionBar** · **SubascoinsPromoBanner** |
 | L4 — Layouts | 5 | PageLayout · Header · Sidebar · Footer · HeroSection |
-| **Total** | **43** | |
+| **Total** | **51** | |
 
 > v1.1 — 6 componentes agregados post-auditoría Flow: `Image` · `Avatar` · `Slider` (L1) · `Accordion` · `UserWallet` (L2) · `AuctionSummaryWidget` (L3)
 > v1.2 — Enriquecimiento documental post gap analysis v2: referencia PHI en `Image`, 11 variantes Flow en `Accordion`, lógica Checkout Flow en `BidForm`. Catálogo sellado — 43 componentes. Column 3 (38 items) pendiente de revisión con equipo para posible expansión en v2.
+> v1.3 — 7 componentes nuevos derivados de auditoría UI página de detalle de lote (vmcsubastas.com/oferta/61019): `DataQualityBadge` (L1) · `DocumentDownloadRow` · `HelpCenterBanner` (L2) · `VehicleCard` · `AuctioneerSection` · `AuctionActionBar` · `SubascoinsPromoBanner` (L3). Token pendiente: `--color-status-success` oklch(0.702 0.165 145.000).
 
 ---
 

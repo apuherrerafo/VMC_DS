@@ -15,7 +15,7 @@ export function VehicleImageGallery({ images, className = '' }: VehicleImageGall
 
   if (images.length === 0) {
     return (
-      <div className={['flex items-center justify-center bg-[var(--gray-100)] rounded-[var(--radius-card)] aspect-video', className].join(' ')}>
+      <div className={['flex items-center justify-center bg-[var(--gray-100)] rounded-[var(--radius-card)] aspect-[4/3]', className].join(' ')}>
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" className="text-[var(--gray-300)]">
           <rect x="4" y="8" width="40" height="32" rx="4" stroke="currentColor" strokeWidth="2"/>
           <circle cx="16" cy="19" r="4" stroke="currentColor" strokeWidth="2"/>
@@ -31,7 +31,7 @@ export function VehicleImageGallery({ images, className = '' }: VehicleImageGall
   return (
     <div className={['flex flex-col gap-2', className].join(' ')}>
       {/* Main image */}
-      <div className="relative overflow-hidden rounded-[var(--radius-card)] bg-[var(--gray-100)] aspect-video">
+      <div className="relative overflow-hidden rounded-[var(--radius-card)] bg-[var(--gray-100)] aspect-[4/3]">
         <img
           src={images[active].src}
           alt={images[active].alt}

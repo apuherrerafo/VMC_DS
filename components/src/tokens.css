@@ -184,7 +184,8 @@
   --color-text-disabled:     var(--gray-600);
   --color-text-accent:       var(--cyan-400);                         /* CIERRA HOY, timer activo                        */
   --color-text-link:         var(--purple-600);
-  --color-text-on-dark:      var(--white);                            /* texto sobre sidebar, header, hero               */
+  --color-text-on-dark:        var(--white);                          /* texto sobre sidebar, header, hero               */
+  --color-text-on-dark-strong: oklch(1.000 0.000 0.000 / 0.80);      /* white / 80% — headings de sección en footer     */
   --color-text-on-dark-muted:  oklch(1.000 0.000 0.000 / 0.60);      /* white / 60% — subtítulo hero                    */
   --color-text-on-dark-subtle: oklch(1.000 0.000 0.000 / 0.30);      /* white / 30% — placeholder search bar            */
 
@@ -290,8 +291,9 @@
      SEMÁNTICOS — LAYOUT
      ============================================================== */
 
-  --layout-max-width:    1024px;
-  --color-surface-body:  var(--gray-100);   /* outer shell — fondo detrás del max-width container */
+  --layout-max-width:     1024px;
+  --layout-sidebar-width: 256px;
+  --color-surface-body:   var(--gray-100);   /* outer shell — fondo detrás del max-width container */
 
 
   /* ==============================================================

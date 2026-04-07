@@ -41,6 +41,28 @@ import { TabBar } from '../components/TabBar'
 import TabBarSrc from '../components/TabBar/TabBar.tsx?raw'
 import { Accordion } from '../components/Accordion'
 import AccordionSrc from '../components/Accordion/Accordion.tsx?raw'
+import { IconButton } from '../components/IconButton'
+import IconButtonSrc from '../components/IconButton/IconButton.tsx?raw'
+import { Divider } from '../components/Divider'
+import DividerSrc from '../components/Divider/Divider.tsx?raw'
+import { Avatar } from '../components/Avatar'
+import AvatarSrc from '../components/Avatar/Avatar.tsx?raw'
+import { Image as DSImage } from '../components/Image'
+import ImageSrc from '../components/Image/Image.tsx?raw'
+import { Slider, RangeSlider } from '../components/Slider'
+import SliderSrc from '../components/Slider/Slider.tsx?raw'
+import { UserWallet } from '../components/UserWallet'
+import UserWalletSrc from '../components/UserWallet/UserWallet.tsx?raw'
+import { HeroSection } from '../components/HeroSection'
+import HeroSectionSrc from '../components/HeroSection/HeroSection.tsx?raw'
+import { Dropdown } from '../components/Dropdown'
+import DropdownSrc from '../components/Dropdown/Dropdown.tsx?raw'
+import { Tooltip } from '../components/Tooltip'
+import TooltipSrc from '../components/Tooltip/Tooltip.tsx?raw'
+import { Breadcrumb } from '../components/Breadcrumb'
+import BreadcrumbSrc from '../components/Breadcrumb/Breadcrumb.tsx?raw'
+import { Pagination } from '../components/Pagination'
+import PaginationSrc from '../components/Pagination/Pagination.tsx?raw'
 import { FilterBar } from '../components/FilterBar'
 import FilterBarSrc from '../components/FilterBar/FilterBar.tsx?raw'
 import { AuctionStatusBanner } from '../components/AuctionStatusBanner'
@@ -109,7 +131,7 @@ function CopyButton({ text }: { text: string }) {
     void navigator.clipboard.writeText(text).then(() => { setState('copied'); setTimeout(() => setState('idle'), 2000) })
   }, [text])
   return (
-    <button type="button" onClick={copy} className={['inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-semibold font-["Inter",sans-serif] transition-all duration-150 border', state === 'copied' ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400' : 'bg-white/6 border-white/12 text-white/50 hover:bg-white/12 hover:text-white/80'].join(' ')}>
+    <button type="button" onClick={copy} className={['inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-semibold transition-all duration-150 border', state === 'copied' ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400' : 'bg-white/6 border-white/12 text-white/50 hover:bg-white/12 hover:text-white/80'].join(' ')}>
       {state === 'copied'
         ? <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5 5.5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
         : <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="4" y="4" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.2"/><path d="M8 4V2.5A1.5 1.5 0 0 0 6.5 1h-4A1.5 1.5 0 0 0 1 2.5v4A1.5 1.5 0 0 0 2.5 8H4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>
@@ -122,7 +144,7 @@ function CopyButton({ text }: { text: string }) {
 function SectionDivider({ title }: { title: string }) {
   return (
     <div className="flex items-center gap-3 mb-6">
-      <h2 className="text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--gray-400)] font-['Inter',sans-serif] whitespace-nowrap">{title}</h2>
+      <h2 className="text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--gray-400)] whitespace-nowrap">{title}</h2>
       <div className="flex-1 h-px bg-[var(--gray-200)]" />
     </div>
   )
@@ -243,7 +265,7 @@ function ColorSwatch({ token, hex, label }: { token: string; hex: string; label:
       <div className="px-2.5 py-2 bg-white flex-1">
         <p className="text-[10px] font-mono text-[var(--gray-600)] truncate leading-tight">{token}</p>
         <p className="text-[10px] font-mono text-[var(--gray-400)] mt-0.5">{hex}</p>
-        <p className="text-[9px] text-[var(--gray-400)] mt-0.5 font-['Inter',sans-serif] truncate">{label}</p>
+        <p className="text-[9px] text-[var(--gray-400)] mt-0.5 truncate">{label}</p>
       </div>
     </button>
   )
@@ -267,7 +289,7 @@ function SemanticColorRow({ token, value, desc }: { token: string; value: string
         <code className="text-[11px] text-[var(--purple-700)] font-mono">{token}</code>
       </td>
       <td className="py-2.5 pr-4 text-[11px] font-mono text-[var(--gray-500)]">{value}</td>
-      <td className="py-2.5 text-[11px] text-[var(--gray-400)] font-['Inter',sans-serif]">{desc}</td>
+      <td className="py-2.5 text-[11px] text-[var(--gray-400)]">{desc}</td>
     </tr>
   )
 }
@@ -329,16 +351,16 @@ function TokensSection() {
       <div className="flex flex-col gap-8 mb-12">
         {SEMANTIC_COLOR_GROUPS.map(group => (
           <div key={group.group}>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--gray-400)] font-['Inter',sans-serif] mb-3">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--gray-400)] mb-3">
               {group.group}
             </p>
             <table className="w-full border-collapse">
               <thead>
                 <tr className="border-b-2 border-[var(--gray-200)]">
-                  <th className="pb-2 text-left text-[10px] font-bold text-[var(--gray-400)] font-['Inter',sans-serif] w-8">·</th>
-                  <th className="pb-2 text-left text-[10px] font-bold text-[var(--gray-400)] font-['Inter',sans-serif]">Token</th>
-                  <th className="pb-2 text-left text-[10px] font-bold text-[var(--gray-400)] font-['Inter',sans-serif]">Valor</th>
-                  <th className="pb-2 text-left text-[10px] font-bold text-[var(--gray-400)] font-['Inter',sans-serif]">Uso</th>
+                  <th className="pb-2 text-left text-[10px] font-bold text-[var(--gray-400)] w-8">·</th>
+                  <th className="pb-2 text-left text-[10px] font-bold text-[var(--gray-400)]">Token</th>
+                  <th className="pb-2 text-left text-[10px] font-bold text-[var(--gray-400)]">Valor</th>
+                  <th className="pb-2 text-left text-[10px] font-bold text-[var(--gray-400)]">Uso</th>
                 </tr>
               </thead>
               <tbody>
@@ -361,12 +383,12 @@ function TokensSection() {
           >
             <div className="w-[200px] shrink-0 flex flex-col gap-0.5">
               <code className="text-[10px] text-[var(--purple-700)] font-mono">{t.token}</code>
-              <span className="text-[9px] text-[var(--gray-400)] font-['Inter',sans-serif]">
+              <span className="text-[9px] text-[var(--gray-400)]">
                 {t.px} / lh {t.lh} / w{t.weight}
               </span>
             </div>
             <span
-              className={['text-[var(--gray-600)] font-["Inter",sans-serif] truncate', t.cls].join(' ')}
+              className={['text-[var(--gray-600)] truncate', t.cls].join(' ')}
               style={{ fontStyle: t.cls.includes('italic') ? 'italic' : undefined }}
             >
               {t.sample}
@@ -400,7 +422,7 @@ function TokensSection() {
               style={{ borderRadius: `var(${r.token})` }}
             />
             <code className="text-[10px] font-mono text-[var(--purple-700)] text-center">{r.token}</code>
-            <span className="text-[9px] text-[var(--gray-400)] font-['Inter',sans-serif] text-center max-w-[90px]">{r.label}</span>
+            <span className="text-[9px] text-[var(--gray-400)] text-center max-w-[90px]">{r.label}</span>
           </div>
         ))}
       </div>
@@ -415,7 +437,7 @@ function TokensSection() {
               style={{ boxShadow: s.value }}
             />
             <code className="text-[10px] font-mono text-[var(--purple-700)] text-center">{s.token}</code>
-            <span className="text-[9px] text-[var(--gray-400)] font-['Inter',sans-serif] text-center max-w-[100px]">{s.label}</span>
+            <span className="text-[9px] text-[var(--gray-400)] text-center max-w-[100px]">{s.label}</span>
           </div>
         ))}
       </div>
@@ -431,7 +453,7 @@ function TokensSection() {
           <div key={a.token} className="flex flex-col gap-1 px-4 py-3 rounded-lg border border-[var(--gray-200)] bg-white">
             <code className="text-[11px] font-mono text-[var(--purple-700)]">{a.token}</code>
             <code className="text-[11px] font-mono text-[var(--gray-500)]">{a.value}</code>
-            <span className="text-[10px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">{a.label}</span>
+            <span className="text-[10px] text-[var(--gray-400)] mt-0.5">{a.label}</span>
           </div>
         ))}
       </div>
@@ -1186,11 +1208,11 @@ function AuctioneerSectionDoc() {
     <section id="auctioneer-section" className="scroll-mt-8">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-[15px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif] m-0">AuctioneerSection</h3>
-          <p className="text-[11px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5 mb-0">Sección rematador — carousel horizontal con fade + clip</p>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)] m-0">AuctioneerSection</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5 mb-0">Sección rematador — carousel horizontal con fade + clip</p>
         </div>
         <button onClick={() => setShowCode(s => !s)}
-          className="text-[11px] px-3 py-1.5 rounded-md border border-[var(--gray-300)] text-[var(--gray-500)] hover:border-[var(--purple-700)] hover:text-[var(--purple-700)] transition-colors bg-white cursor-pointer font-['Inter',sans-serif]">
+          className="text-[11px] px-3 py-1.5 rounded-md border border-[var(--gray-300)] text-[var(--gray-500)] hover:border-[var(--purple-700)] hover:text-[var(--purple-700)] transition-colors bg-white cursor-pointer">
           {showCode ? 'Ocultar código' : 'Ver código'}
         </button>
       </div>
@@ -1235,17 +1257,17 @@ function VehicleCardDoc() {
     <section id="vehicle-card" className="scroll-mt-8">
       <div className="flex items-start justify-between mb-1">
         <div className="flex items-center gap-3">
-          <h1 className="text-[22px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif] leading-tight">Vehicle Card</h1>
-          <span className="text-[11px] font-semibold text-[var(--gray-400)] font-['Inter',sans-serif]">🟢 Confirmado</span>
+          <h1 className="text-[22px] font-bold text-[var(--purple-900)] leading-tight">Vehicle Card</h1>
+          <span className="text-[11px] font-semibold text-[var(--gray-400)]">🟢 Confirmado</span>
         </div>
         <button type="button" onClick={() => setShowCode(v => !v)}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-semibold font-['Inter',sans-serif] border transition-all duration-150 text-[var(--gray-500)] border-[var(--gray-300)] hover:border-[var(--purple-700)] hover:text-[var(--purple-700)]">
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-semibold border transition-all duration-150 text-[var(--gray-500)] border-[var(--gray-300)] hover:border-[var(--purple-700)] hover:text-[var(--purple-700)]">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3.5 3L1 6l2.5 3M8.5 3L11 6l-2.5 3M7 1.5l-2 9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
           {showCode ? 'Ocultar' : 'Ver fuente'}
         </button>
       </div>
 
-      <p className="text-[13px] text-[var(--gray-500)] font-['Inter',sans-serif] leading-5 mb-6 max-w-[560px]">
+      <p className="text-[13px] text-[var(--gray-500)] leading-5 mb-6 max-w-[560px]">
         Tarjeta de vehículo con imagen, precio y acción. 228px fijo, radio 16px, shadow SM en reposo y LG en hover.
       </p>
 
@@ -1263,7 +1285,7 @@ function VehicleCardDoc() {
         </div>
 
         <div className="w-[210px] shrink-0">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--gray-400)] font-['Inter',sans-serif] mb-3">Design specs</p>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--gray-400)] mb-3">Design specs</p>
           <table className="w-full border-collapse">
             <tbody>
               <SpecRow label="Width"        value="flexible (w-full)"               token="parent grid"          />
@@ -1308,15 +1330,23 @@ function VehicleCardDoc() {
 type NavItem = { id: string; label: string; category: string; status: 'done' | 'wip' | 'pending' }
 
 const NAV_ITEMS: NavItem[] = [
+  // Frames
+  { id: 'frame-homepage', label: 'Homepage',        category: 'Frames',     status: 'done' },
+  { id: 'frame-detalle',  label: 'Detalle de Lote', category: 'Frames',     status: 'done' },
   // Foundation
   { id: 'tokens',       label: 'Tokens',        category: 'Fundación',  status: 'done' },
   // Átomos
   { id: 'button-cta',      label: 'Button / CTA',     category: 'Átomos',     status: 'done' },
+  { id: 'iconbutton',      label: 'IconButton',       category: 'Átomos',     status: 'done' },
   { id: 'badge',           label: 'Badge',            category: 'Átomos',     status: 'done' },
+  { id: 'avatar',          label: 'Avatar',           category: 'Átomos',     status: 'done' },
+  { id: 'divider',         label: 'Divider',          category: 'Átomos',     status: 'done' },
+  { id: 'image',           label: 'Image',            category: 'Átomos',     status: 'done' },
   { id: 'textfield',       label: 'TextField',        category: 'Átomos',     status: 'done' },
   { id: 'checkbox-radio',  label: 'Checkbox / Radio', category: 'Átomos',     status: 'done' },
   { id: 'searchinput',     label: 'SearchInput',      category: 'Átomos',     status: 'done' },
   { id: 'selectfield',     label: 'SelectField',      category: 'Átomos',     status: 'done' },
+  { id: 'slider',          label: 'Slider',           category: 'Átomos',     status: 'done' },
   { id: 'countdown-price', label: 'Countdown / Price',category: 'Átomos',     status: 'done' },
   { id: 'alert',           label: 'Alert',            category: 'Átomos',     status: 'done' },
   { id: 'toast',           label: 'Toast',            category: 'Átomos',     status: 'done' },
@@ -1325,11 +1355,17 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'tabbar',           label: 'TabBar',           category: 'Moléculas',  status: 'done' },
   { id: 'accordion',        label: 'Accordion',        category: 'Moléculas',  status: 'done' },
   { id: 'modal',            label: 'Modal',            category: 'Moléculas',  status: 'done' },
+  { id: 'dropdown',         label: 'Dropdown',         category: 'Moléculas',  status: 'done' },
+  { id: 'tooltip',          label: 'Tooltip',          category: 'Moléculas',  status: 'done' },
+  { id: 'breadcrumb',       label: 'Breadcrumb',       category: 'Moléculas',  status: 'done' },
+  { id: 'pagination',       label: 'Pagination',       category: 'Moléculas',  status: 'done' },
   { id: 'auction-card',     label: 'AuctionCard',      category: 'Moléculas',  status: 'done' },
   { id: 'bid-form',         label: 'BidForm',          category: 'Moléculas',  status: 'done' },
   { id: 'vehicle-card',     label: 'Vehicle Card',     category: 'Organismos', status: 'done' },
   { id: 'auctioneer-section', label: 'Auctioneer Section', category: 'Organismos', status: 'done' },
   { id: 'page-layout',      label: 'PageLayout',       category: 'Organismos', status: 'done' },
+  { id: 'hero-section',     label: 'HeroSection',      category: 'Organismos', status: 'done' },
+  { id: 'user-wallet',      label: 'UserWallet',       category: 'Moléculas',  status: 'done' },
   // L3 Bloques
   { id: 'filter-bar',            label: 'FilterBar',            category: 'Bloques', status: 'done' },
   { id: 'auction-status-banner', label: 'AuctionStatusBanner',  category: 'Bloques', status: 'done' },
@@ -1354,19 +1390,20 @@ function DocsSidebar({ activeId }: { activeId: string }) {
           <div className="size-6 rounded bg-[var(--cyan-500)] flex items-center justify-center shrink-0">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l2.5 4 2.5-4 2.5 4L12 7" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </div>
-          <span className="font-bold text-[13px] text-[var(--purple-900)] font-['Inter',sans-serif]">
+          <span className="font-bold text-[13px] text-[var(--purple-900)]">
             VMC <span className="text-[var(--cyan-500)]">Design</span>
           </span>
         </div>
-        <p className="text-[10px] text-[var(--gray-400)] font-['Inter',sans-serif] pl-8">Fase 3 — UI Kit</p>
+        <p className="text-[10px] text-[var(--gray-400)] pl-8">Fase 3 — UI Kit</p>
       </div>
 
       {categories.map(cat => (
         <div key={cat} className="mb-4 px-2">
-          <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-[var(--gray-400)] font-['Inter',sans-serif] px-2 mb-1.5">{cat}</p>
+          <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-[var(--gray-400)] px-2 mb-1.5">{cat}</p>
           {NAV_ITEMS.filter(i => i.category === cat).map(item => (
-            <a key={item.id} href={`#${item.id}`}
-              className={['flex items-center gap-2 px-2 py-1.5 rounded-md text-[12px] font-["Inter",sans-serif] transition-all duration-100 no-underline',
+            <a key={item.id}
+              href={item.category === 'Frames' ? `#/frames/${item.id.replace('frame-', '')}` : `#${item.id}`}
+              className={['flex items-center gap-2 px-2 py-1.5 rounded-md text-[12px] transition-all duration-100 no-underline',
                 activeId === item.id
                   ? 'bg-[var(--purple-700)] text-white font-semibold'
                   : 'text-[var(--gray-500)] hover:text-[var(--gray-600)] hover:bg-[var(--gray-50)]'].join(' ')}
@@ -1379,7 +1416,7 @@ function DocsSidebar({ activeId }: { activeId: string }) {
       ))}
 
       <div className="mt-auto px-4 py-4 border-t border-[var(--gray-100)]">
-        <p className="text-[9px] text-[var(--gray-400)] font-['Inter',sans-serif] leading-4">
+        <p className="text-[9px] text-[var(--gray-400)] leading-4">
           React · TS · Tailwind v4<br/>Tokens OKLCH · W3C DTCG
         </p>
       </div>
@@ -1400,21 +1437,21 @@ function CheckboxRadioDoc() {
     <section id="checkbox-radio" className="mb-10 scroll-mt-6">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
-          <h3 className="text-[15px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">Checkbox / RadioButton</h3>
-          <p className="text-[11px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Controles de selección accesibles con estado controlado y hint.</p>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">Checkbox / RadioButton</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Controles de selección accesibles con estado controlado y hint.</p>
         </div>
-        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] font-['Inter',sans-serif] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
       </div>
       <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
         <div className="p-6 bg-[var(--gray-50)] flex flex-wrap gap-10">
           <div className="flex flex-col gap-3">
-            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] font-['Inter',sans-serif] mb-1">Checkbox</p>
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] mb-1">Checkbox</p>
             <Checkbox label="Activo (checked)" checked={cb1} onChange={setCb1} />
             <Checkbox label="Inactivo" checked={cb2} onChange={setCb2} hint="Selecciona esta opción para continuar" />
             <Checkbox label="Deshabilitado" checked disabled />
           </div>
           <div className="flex flex-col gap-3">
-            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] font-['Inter',sans-serif] mb-1">RadioButton</p>
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] mb-1">RadioButton</p>
             <RadioButton label="Opción 1" value="op1" name="demo-radio" checked={radio === 'op1'} onChange={setRadio} />
             <RadioButton label="Opción 2" value="op2" name="demo-radio" checked={radio === 'op2'} onChange={setRadio} hint="Con descripción adicional" />
             <RadioButton label="Deshabilitada" value="op3" name="demo-radio" checked={false} disabled />
@@ -1439,10 +1476,10 @@ function SearchInputDoc() {
     <section id="searchinput" className="mb-10 scroll-mt-6">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
-          <h3 className="text-[15px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">SearchInput</h3>
-          <p className="text-[11px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Input de búsqueda con ícono leading, botón clear y soporte Enter/Escape.</p>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">SearchInput</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Input de búsqueda con ícono leading, botón clear y soporte Enter/Escape.</p>
         </div>
-        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] font-['Inter',sans-serif] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
       </div>
       <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
         <div className="p-6 bg-[var(--gray-50)] flex flex-col gap-4 max-w-[400px]">
@@ -1474,10 +1511,10 @@ function SelectFieldDoc() {
     <section id="selectfield" className="mb-10 scroll-mt-6">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
-          <h3 className="text-[15px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">SelectField</h3>
-          <p className="text-[11px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Select nativo con chevron overlay, label semibold uppercase, hint y error.</p>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">SelectField</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Select nativo con chevron overlay, label semibold uppercase, hint y error.</p>
         </div>
-        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] font-['Inter',sans-serif] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
       </div>
       <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
         <div className="p-6 bg-[var(--gray-50)] flex flex-wrap gap-4 items-start">
@@ -1503,10 +1540,10 @@ function AlertDoc() {
     <section id="alert" className="mb-10 scroll-mt-6">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
-          <h3 className="text-[15px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">Alert</h3>
-          <p className="text-[11px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Bandas de feedback inline: success / error / warning / info. Dismissible opcional.</p>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">Alert</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Bandas de feedback inline: success / error / warning / info. Dismissible opcional.</p>
         </div>
-        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] font-['Inter',sans-serif] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
       </div>
       <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
         <div className="p-6 bg-[var(--gray-50)] flex flex-col gap-3 max-w-[480px]">
@@ -1540,17 +1577,17 @@ function ToastDoc() {
     <section id="toast" className="mb-10 scroll-mt-6">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
-          <h3 className="text-[15px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">Toast</h3>
-          <p className="text-[11px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Notificaciones flotantes con auto-dismiss, entrada animada y ToastContainer.</p>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">Toast</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Notificaciones flotantes con auto-dismiss, entrada animada y ToastContainer.</p>
         </div>
-        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] font-['Inter',sans-serif] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
       </div>
       <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
         <div className="p-6 bg-[var(--gray-50)] flex flex-wrap gap-2">
-          <button type="button" onClick={() => add('success', 'Oferta registrada correctamente.')} className="px-3 py-1.5 rounded-md bg-emerald-500 text-white text-[11px] font-semibold font-['Inter',sans-serif] border-0 cursor-pointer">+ Success</button>
-          <button type="button" onClick={() => add('error', 'Error al procesar el pago.')} className="px-3 py-1.5 rounded-md bg-red-500 text-white text-[11px] font-semibold font-['Inter',sans-serif] border-0 cursor-pointer">+ Error</button>
-          <button type="button" onClick={() => add('warning', 'Subasta cierra en 5 minutos.')} className="px-3 py-1.5 rounded-md bg-amber-500 text-white text-[11px] font-semibold font-['Inter',sans-serif] border-0 cursor-pointer">+ Warning</button>
-          <button type="button" onClick={() => add('info', 'Las pujas son vinculantes.')} className="px-3 py-1.5 rounded-md bg-blue-500 text-white text-[11px] font-semibold font-['Inter',sans-serif] border-0 cursor-pointer">+ Info</button>
+          <button type="button" onClick={() => add('success', 'Oferta registrada correctamente.')} className="px-3 py-1.5 rounded-md bg-emerald-500 text-white text-[11px] font-semibold border-0 cursor-pointer">+ Success</button>
+          <button type="button" onClick={() => add('error', 'Error al procesar el pago.')} className="px-3 py-1.5 rounded-md bg-red-500 text-white text-[11px] font-semibold border-0 cursor-pointer">+ Error</button>
+          <button type="button" onClick={() => add('warning', 'Subasta cierra en 5 minutos.')} className="px-3 py-1.5 rounded-md bg-amber-500 text-white text-[11px] font-semibold border-0 cursor-pointer">+ Warning</button>
+          <button type="button" onClick={() => add('info', 'Las pujas son vinculantes.')} className="px-3 py-1.5 rounded-md bg-blue-500 text-white text-[11px] font-semibold border-0 cursor-pointer">+ Info</button>
         </div>
         {showCode && (
           <div className="border-t border-[var(--gray-200)] bg-[#1e1e1e] p-4 overflow-x-auto">
@@ -1579,25 +1616,25 @@ function SkeletonDoc() {
     <section id="skeleton" className="mb-10 scroll-mt-6">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
-          <h3 className="text-[15px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">Skeleton</h3>
-          <p className="text-[11px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Estados de carga: text · rect · circle · card. animate-pulse sobre gray-200.</p>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">Skeleton</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Estados de carga: text · rect · circle · card. animate-pulse sobre gray-200.</p>
         </div>
-        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] font-['Inter',sans-serif] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
       </div>
       <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
         <div className="p-6 bg-[var(--gray-50)] flex flex-wrap gap-8 items-start">
           <div className="flex flex-col gap-3 min-w-[200px]">
-            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] font-['Inter',sans-serif]">Text / Lines</p>
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)]">Text / Lines</p>
             <Skeleton variant="text" width={200} />
             <Skeleton variant="text" width={200} lines={3} />
           </div>
           <div className="flex flex-col gap-3">
-            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] font-['Inter',sans-serif]">Shapes</p>
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)]">Shapes</p>
             <Skeleton variant="circle" width={40} />
             <Skeleton variant="rect" width={120} height={36} />
           </div>
           <div className="flex flex-col gap-3">
-            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] font-['Inter',sans-serif]">Card</p>
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)]">Card</p>
             <Skeleton variant="card" className="w-[200px]" />
           </div>
         </div>
@@ -1631,19 +1668,19 @@ function TabBarDoc() {
     <section id="tabbar" className="mb-10 scroll-mt-6">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
-          <h3 className="text-[15px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">TabBar</h3>
-          <p className="text-[11px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Navegación por pestañas: variante underline y pill. Con badges de conteo.</p>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">TabBar</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Navegación por pestañas: variante underline y pill. Con badges de conteo.</p>
         </div>
-        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] font-['Inter',sans-serif] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
       </div>
       <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
         <div className="p-6 bg-[var(--gray-50)] flex flex-col gap-6">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] font-['Inter',sans-serif] mb-3">Underline (default)</p>
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] mb-3">Underline (default)</p>
             <TabBar items={TABS} activeId={activeU} onChange={setActiveU} />
           </div>
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] font-['Inter',sans-serif] mb-3">Pill</p>
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] mb-3">Pill</p>
             <TabBar items={TABS2} activeId={activeP} onChange={setActiveP} variant="pill" />
           </div>
         </div>
@@ -1670,19 +1707,19 @@ function AccordionDoc() {
     <section id="accordion" className="mb-10 scroll-mt-6">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
-          <h3 className="text-[15px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">Accordion</h3>
-          <p className="text-[11px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Disclosure accesible con aria-expanded. Single o multi-panel. Chevron animado.</p>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">Accordion</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Disclosure accesible con aria-expanded. Single o multi-panel. Chevron animado.</p>
         </div>
-        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] font-['Inter',sans-serif] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
       </div>
       <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
         <div className="p-6 bg-[var(--gray-50)] flex flex-col gap-6">
           <div className="max-w-[480px]">
-            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] font-['Inter',sans-serif] mb-3">Single open (default)</p>
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] mb-3">Single open (default)</p>
             <Accordion items={ITEMS} />
           </div>
           <div className="max-w-[480px]">
-            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] font-['Inter',sans-serif] mb-3">Multi open</p>
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] mb-3">Multi open</p>
             <Accordion items={ITEMS} allowMultiple />
           </div>
         </div>
@@ -1707,16 +1744,16 @@ function ModalDoc() {
     <section id="modal" className="mb-10 scroll-mt-6">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
-          <h3 className="text-[15px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">Modal</h3>
-          <p className="text-[11px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Dialog accesible con portal, backdrop blur, Escape, focus-trap header/footer opcionales.</p>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">Modal</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Dialog accesible con portal, backdrop blur, Escape, focus-trap header/footer opcionales.</p>
         </div>
-        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] font-['Inter',sans-serif] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
       </div>
       <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
         <div className="p-6 bg-[var(--gray-50)] flex flex-wrap gap-2">
-          <button type="button" onClick={() => setOpenSm(true)} className="px-3 py-1.5 rounded-md bg-[var(--purple-700)] text-white text-[11px] font-semibold font-['Inter',sans-serif] border-0 cursor-pointer">Abrir sm</button>
-          <button type="button" onClick={() => setOpenMd(true)} className="px-3 py-1.5 rounded-md bg-[var(--purple-700)] text-white text-[11px] font-semibold font-['Inter',sans-serif] border-0 cursor-pointer">Abrir md</button>
-          <button type="button" onClick={() => setOpenLg(true)} className="px-3 py-1.5 rounded-md bg-[var(--purple-700)] text-white text-[11px] font-semibold font-['Inter',sans-serif] border-0 cursor-pointer">Abrir lg con footer</button>
+          <button type="button" onClick={() => setOpenSm(true)} className="px-3 py-1.5 rounded-md bg-[var(--purple-700)] text-white text-[11px] font-semibold border-0 cursor-pointer">Abrir sm</button>
+          <button type="button" onClick={() => setOpenMd(true)} className="px-3 py-1.5 rounded-md bg-[var(--purple-700)] text-white text-[11px] font-semibold border-0 cursor-pointer">Abrir md</button>
+          <button type="button" onClick={() => setOpenLg(true)} className="px-3 py-1.5 rounded-md bg-[var(--purple-700)] text-white text-[11px] font-semibold border-0 cursor-pointer">Abrir lg con footer</button>
         </div>
         {showCode && (
           <div className="border-t border-[var(--gray-200)] bg-[#1e1e1e] p-4 overflow-x-auto">
@@ -1734,10 +1771,407 @@ function ModalDoc() {
         <p className="mt-3">Precio base: <strong>S/ 48,000</strong></p>
       </Modal>
       <Modal isOpen={openLg} onClose={() => setOpenLg(false)} title="Reglamento de subastas" size="lg"
-        footer={<><button type="button" onClick={() => setOpenLg(false)} className="px-4 py-2 rounded-[var(--radius-btn)] text-[var(--color-text-muted)] bg-transparent border border-[var(--color-border-ghost)] cursor-pointer text-[13px] font-['Inter',sans-serif]">Cerrar</button><button type="button" className="px-4 py-2 rounded-[var(--radius-btn)] bg-[var(--purple-700)] text-white border-0 cursor-pointer text-[13px] font-semibold font-['Inter',sans-serif]">Aceptar</button></>}>
+        footer={<><button type="button" onClick={() => setOpenLg(false)} className="px-4 py-2 rounded-[var(--radius-btn)] text-[var(--color-text-muted)] bg-transparent border border-[var(--color-border-ghost)] cursor-pointer text-[13px]">Cerrar</button><button type="button" className="px-4 py-2 rounded-[var(--radius-btn)] bg-[var(--purple-700)] text-white border-0 cursor-pointer text-[13px] font-semibold">Aceptar</button></>}>
         <p>Las pujas realizadas en VMC Subastas son vinculantes. Al ofertar, el participante acepta las condiciones del lote y se compromete a completar el pago en el plazo indicado.</p>
         <p className="mt-3">El ganador debe presentar DNI o RUC vigente junto con el comprobante de pago.</p>
       </Modal>
+    </section>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// L1 faltantes — IconButton, Avatar, Divider, Image, Slider
+// ─────────────────────────────────────────────────────────────────────────────
+
+function IconButtonDoc() {
+  const [showCode, setShowCode] = useState(false)
+  const [fav, setFav] = useState(false)
+  const HeartIcon = ({ filled }: { filled: boolean }) => (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill={filled ? 'currentColor' : 'none'}>
+      <path d="M8 13.5S2 9.5 2 5.5a3.5 3.5 0 017 0 3.5 3.5 0 017 0C16 9.5 8 13.5 8 13.5z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/>
+    </svg>
+  )
+  const ShareIcon = () => <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="11" cy="3" r="1.8" stroke="currentColor" strokeWidth="1.3"/><circle cx="11" cy="12" r="1.8" stroke="currentColor" strokeWidth="1.3"/><circle cx="4" cy="7.5" r="1.8" stroke="currentColor" strokeWidth="1.3"/><path d="M9.2 4l-3.5 2m3.5 3-3.5-2" stroke="currentColor" strokeWidth="1.3"/></svg>
+  const CloseIcon = () => <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+  return (
+    <section id="iconbutton" className="mb-10 scroll-mt-6">
+      <div className="flex items-start justify-between gap-4 mb-4">
+        <div>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">IconButton</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Botón solo ícono. Variantes ghost / filled / outline. Tamaños sm/md/lg. Estado isActive.</p>
+        </div>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+      </div>
+      <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
+        <div className="p-6 bg-[var(--gray-50)] flex flex-wrap gap-6 items-center">
+          <div className="flex flex-col gap-2 items-start">
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)]">Ghost</p>
+            <div className="flex gap-2 items-center">
+              <IconButton icon={<HeartIcon filled={fav} />} label="Favorito" variant="ghost" isActive={fav} onClick={() => setFav(f => !f)} />
+              <IconButton icon={<ShareIcon />} label="Compartir" variant="ghost" size="sm" />
+              <IconButton icon={<CloseIcon />} label="Cerrar" variant="ghost" size="lg" />
+              <IconButton icon={<CloseIcon />} label="Deshabilitado" variant="ghost" disabled />
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 items-start">
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)]">Filled</p>
+            <div className="flex gap-2 items-center">
+              <IconButton icon={<HeartIcon filled />} label="Favorito" variant="filled" size="sm" />
+              <IconButton icon={<HeartIcon filled />} label="Favorito" variant="filled" size="md" />
+              <IconButton icon={<HeartIcon filled />} label="Favorito" variant="filled" size="lg" />
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 items-start">
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)]">Outline</p>
+            <div className="flex gap-2 items-center">
+              <IconButton icon={<ShareIcon />} label="Compartir" variant="outline" size="sm" />
+              <IconButton icon={<ShareIcon />} label="Compartir" variant="outline" size="md" />
+              <IconButton icon={<ShareIcon />} label="Compartir" variant="outline" size="lg" />
+            </div>
+          </div>
+        </div>
+        {showCode && <div className="border-t border-[var(--gray-200)] bg-[#1e1e1e] p-4 overflow-x-auto"><pre className="text-[11px] leading-relaxed m-0 font-mono whitespace-pre"><CodeHighlight code={IconButtonSrc} /></pre></div>}
+      </div>
+    </section>
+  )
+}
+
+function AvatarDoc() {
+  const [showCode, setShowCode] = useState(false)
+  return (
+    <section id="avatar" className="mb-10 scroll-mt-6">
+      <div className="flex items-start justify-between gap-4 mb-4">
+        <div>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">Avatar</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Foto de perfil con fallback a iniciales. Color generado desde el nombre. Status indicator.</p>
+        </div>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+      </div>
+      <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
+        <div className="p-6 bg-[var(--gray-50)] flex flex-wrap gap-6 items-end">
+          <div className="flex flex-col gap-2 items-center">
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)]">Tamaños</p>
+            <div className="flex gap-3 items-end">
+              <Avatar name="Carlos Paredes" size="xs" />
+              <Avatar name="Carlos Paredes" size="sm" />
+              <Avatar name="Carlos Paredes" size="md" />
+              <Avatar name="Carlos Paredes" size="lg" />
+              <Avatar name="Carlos Paredes" size="xl" />
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 items-center">
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)]">Status</p>
+            <div className="flex gap-3 items-end">
+              <Avatar name="Ana Torres" size="md" status="online" />
+              <Avatar name="Roberto M" size="md" status="busy" />
+              <Avatar name="Lucia F" size="md" status="away" />
+              <Avatar name="Jorge H" size="md" status="offline" />
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 items-center">
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)]">Colores auto</p>
+            <div className="flex gap-2">
+              {['VMC Subastas', 'Pedro Ruiz', 'Diana Castro', 'Marco Silva'].map(n => <Avatar key={n} name={n} size="sm" />)}
+            </div>
+          </div>
+        </div>
+        {showCode && <div className="border-t border-[var(--gray-200)] bg-[#1e1e1e] p-4 overflow-x-auto"><pre className="text-[11px] leading-relaxed m-0 font-mono whitespace-pre"><CodeHighlight code={AvatarSrc} /></pre></div>}
+      </div>
+    </section>
+  )
+}
+
+function DividerDoc() {
+  const [showCode, setShowCode] = useState(false)
+  return (
+    <section id="divider" className="mb-10 scroll-mt-6">
+      <div className="flex items-start justify-between gap-4 mb-4">
+        <div>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">Divider</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Separador horizontal y vertical. Con label centrado opcional.</p>
+        </div>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+      </div>
+      <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
+        <div className="p-6 bg-[var(--gray-50)] flex flex-col gap-5 max-w-[400px]">
+          <Divider />
+          <Divider label="o continúa con" />
+          <Divider label="Sección 2" />
+          <div className="flex gap-4 items-stretch h-12">
+            <span className="font-[var(--font-body)] text-[11px] text-[var(--gray-500)] self-center">Izq</span>
+            <Divider orientation="vertical" />
+            <span className="font-[var(--font-body)] text-[11px] text-[var(--gray-500)] self-center">Centro</span>
+            <Divider orientation="vertical" />
+            <span className="font-[var(--font-body)] text-[11px] text-[var(--gray-500)] self-center">Der</span>
+          </div>
+        </div>
+        {showCode && <div className="border-t border-[var(--gray-200)] bg-[#1e1e1e] p-4 overflow-x-auto"><pre className="text-[11px] leading-relaxed m-0 font-mono whitespace-pre"><CodeHighlight code={DividerSrc} /></pre></div>}
+      </div>
+    </section>
+  )
+}
+
+function ImageDoc() {
+  const [showCode, setShowCode] = useState(false)
+  return (
+    <section id="image" className="mb-10 scroll-mt-6">
+      <div className="flex items-start justify-between gap-4 mb-4">
+        <div>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">Image</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Wrapper con aspect-ratio (16/9, 4/3, PHI, 1/1, 3/2), lazy load, shimmer y fallback.</p>
+        </div>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+      </div>
+      <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
+        <div className="p-6 bg-[var(--gray-50)] flex flex-wrap gap-4 items-start">
+          <div className="w-[200px]">
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] mb-2">16/9</p>
+            <DSImage src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=400&q=80" alt="Auto" ratio="16/9" />
+          </div>
+          <div className="w-[180px]">
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] mb-2">PHI (1.618)</p>
+            <DSImage src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&q=80" alt="Camioneta" ratio="phi" />
+          </div>
+          <div className="w-[160px]">
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] mb-2">1/1</p>
+            <DSImage src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&q=80" alt="Detalle" ratio="1/1" />
+          </div>
+          <div className="w-[160px]">
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] mb-2">Error fallback</p>
+            <DSImage src="https://url-invalida.xyz/foto.jpg" alt="Error" ratio="16/9" />
+          </div>
+        </div>
+        {showCode && <div className="border-t border-[var(--gray-200)] bg-[#1e1e1e] p-4 overflow-x-auto"><pre className="text-[11px] leading-relaxed m-0 font-mono whitespace-pre"><CodeHighlight code={ImageSrc} /></pre></div>}
+      </div>
+    </section>
+  )
+}
+
+function SliderDoc() {
+  const [showCode, setShowCode] = useState(false)
+  const [val, setVal] = useState(35000)
+  const [range, setRange] = useState<[number, number]>([20000, 80000])
+  const fmt = (v: number) => `S/ ${v.toLocaleString('es-PE')}`
+  return (
+    <section id="slider" className="mb-10 scroll-mt-6">
+      <div className="flex items-start justify-between gap-4 mb-4">
+        <div>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">Slider / RangeSlider</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Input de rango simple y doble. Usado en FilterBar para precio mín/máx.</p>
+        </div>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+      </div>
+      <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
+        <div className="p-6 bg-[var(--gray-50)] flex flex-col gap-6 max-w-[400px]">
+          <Slider label="Precio máximo" min={0} max={150000} step={1000} value={val} onChange={setVal} formatValue={fmt} />
+          <RangeSlider label="Rango de precio" min={0} max={150000} step={1000} value={range} onChange={setRange} formatValue={fmt} />
+          <Slider label="Deshabilitado" min={0} max={100} value={40} onChange={() => {}} disabled />
+        </div>
+        {showCode && <div className="border-t border-[var(--gray-200)] bg-[#1e1e1e] p-4 overflow-x-auto"><pre className="text-[11px] leading-relaxed m-0 font-mono whitespace-pre"><CodeHighlight code={SliderSrc} /></pre></div>}
+      </div>
+    </section>
+  )
+}
+
+function UserWalletDoc() {
+  const [showCode, setShowCode] = useState(false)
+  return (
+    <section id="user-wallet" className="mb-10 scroll-mt-6">
+      <div className="flex items-start justify-between gap-4 mb-4">
+        <div>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">UserWallet</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Saldo disponible, monto reservado en pujas activas, estado de cuenta, acciones.</p>
+        </div>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+      </div>
+      <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
+        <div className="p-6 bg-[var(--gray-50)] flex flex-wrap gap-4 items-start">
+          <UserWallet balance={12500} reserved={3000} userName="Carlos" status="active" onDeposit={() => {}} onWithdraw={() => {}} className="w-[280px]" />
+          <UserWallet balance={500} status="pending" className="w-[240px]" />
+          <UserWallet balance={8000} reserved={8000} status="suspended" className="w-[240px]" />
+          <div className="flex flex-col gap-2">
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)]">Compact</p>
+            <UserWallet balance={12500} reserved={3000} compact />
+          </div>
+        </div>
+        {showCode && <div className="border-t border-[var(--gray-200)] bg-[#1e1e1e] p-4 overflow-x-auto"><pre className="text-[11px] leading-relaxed m-0 font-mono whitespace-pre"><CodeHighlight code={UserWalletSrc} /></pre></div>}
+      </div>
+    </section>
+  )
+}
+
+function HeroSectionDoc() {
+  const [showCode, setShowCode] = useState(false)
+  return (
+    <section id="hero-section" className="mb-10 scroll-mt-6">
+      <div className="flex items-start justify-between gap-4 mb-4">
+        <div>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">HeroSection</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Sección hero con gradiente brand, eyebrow, título, CTAs y stats. Fondo de imagen opcional.</p>
+        </div>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+      </div>
+      <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
+        <HeroSection
+          eyebrow="The Vault — Subastas Exclusivas"
+          title={<>Vehículos premium.<br />Subastas en tiempo real.</>}
+          subtitle="Participa en subastas curadas de los mejores vehículos del mercado peruano. Ofertas vinculantes, pagos seguros."
+          primaryAction={{ label: 'Ver subastas activas', onClick: () => {} }}
+          secondaryAction={{ label: 'Cómo funciona', onClick: () => {} }}
+          stat1={{ value: '312+', label: 'Subastas realizadas' }}
+          stat2={{ value: 'S/ 48M', label: 'En transacciones' }}
+          stat3={{ value: '2,400+', label: 'Compradores activos' }}
+        />
+        {showCode && <div className="border-t border-[var(--gray-200)] bg-[#1e1e1e] p-4 overflow-x-auto"><pre className="text-[11px] leading-relaxed m-0 font-mono whitespace-pre"><CodeHighlight code={HeroSectionSrc} /></pre></div>}
+      </div>
+    </section>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// L2 — Dropdown, Tooltip, Breadcrumb, Pagination
+// ─────────────────────────────────────────────────────────────────────────────
+
+function DropdownDoc() {
+  const [showCode, setShowCode] = useState(false)
+  const [selected, setSelected] = useState('')
+  const ITEMS = [
+    { id: 'edit',    label: 'Editar',    icon: <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M9 2l2 2L4 11H2V9L9 2z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/></svg> },
+    { id: 'share',   label: 'Compartir', icon: <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="10" cy="2.5" r="1.5" stroke="currentColor" strokeWidth="1.3"/><circle cx="10" cy="10.5" r="1.5" stroke="currentColor" strokeWidth="1.3"/><circle cx="3" cy="6.5" r="1.5" stroke="currentColor" strokeWidth="1.3"/><path d="M8.5 3.5l-4 2m4 3-4-2" stroke="currentColor" strokeWidth="1.3"/></svg>, shortcut: '⌘S', dividerAfter: true },
+    { id: 'archive', label: 'Archivar',  disabled: true },
+    { id: 'delete',  label: 'Eliminar',  danger: true,  icon: <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 3.5h9M5 3.5V2h3v1.5M10.5 3.5L10 11H3L2.5 3.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg> },
+  ]
+  const triggerBtn = (label: string) => (
+    <button type="button" className="inline-flex items-center gap-1.5 h-9 px-3 rounded-[var(--radius-btn)] bg-[var(--color-surface-input)] text-[var(--color-text-body)] font-[var(--font-body)] border-0 cursor-pointer hover:bg-[var(--gray-200)] transition-colors" style={{ fontSize: 'var(--type-body-sm-size)' }}>
+      {label}
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5l3.5 3.5 3.5-3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+    </button>
+  )
+  return (
+    <section id="dropdown" className="mb-10 scroll-mt-6">
+      <div className="flex items-start justify-between gap-4 mb-4">
+        <div>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">Dropdown</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Menú contextual accesible con teclado, ícono, shortcut, peligro, divisor y alineación.</p>
+        </div>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+      </div>
+      <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
+        <div className="p-6 bg-[var(--gray-50)] flex flex-wrap gap-4 items-start min-h-[160px]">
+          <div className="flex flex-col gap-1">
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] mb-1">Align left</p>
+            <Dropdown trigger={triggerBtn('Acciones')} items={ITEMS} onSelect={setSelected} align="left" />
+          </div>
+          <div className="flex flex-col gap-1">
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] mb-1">Align right</p>
+            <Dropdown trigger={triggerBtn('Opciones')} items={ITEMS} onSelect={setSelected} align="right" />
+          </div>
+          {selected && <p className="self-end font-[var(--font-body)] text-[var(--color-text-muted)] text-[11px]">Seleccionado: <strong>{selected}</strong></p>}
+        </div>
+        {showCode && (
+          <div className="border-t border-[var(--gray-200)] bg-[#1e1e1e] p-4 overflow-x-auto">
+            <pre className="text-[11px] leading-relaxed m-0 font-mono whitespace-pre"><CodeHighlight code={DropdownSrc} /></pre>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+function TooltipDoc() {
+  const [showCode, setShowCode] = useState(false)
+  const chip = (label: string) => (
+    <span className="inline-flex items-center h-8 px-3 rounded-[var(--radius-btn)] bg-[var(--color-surface-input)] font-[var(--font-body)] text-[var(--color-text-body)] cursor-default select-none" style={{ fontSize: 'var(--type-body-sm-size)' }}>{label}</span>
+  )
+  return (
+    <section id="tooltip" className="mb-10 scroll-mt-6">
+      <div className="flex items-start justify-between gap-4 mb-4">
+        <div>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">Tooltip</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Hint flotante con 4 posiciones, delay configurable, accesible con aria-describedby.</p>
+        </div>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+      </div>
+      <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
+        <div className="p-10 bg-[var(--gray-50)] flex flex-wrap gap-6 justify-center items-center">
+          <Tooltip content="Aparece arriba" placement="top">{chip('Top')}</Tooltip>
+          <Tooltip content="Aparece abajo" placement="bottom">{chip('Bottom')}</Tooltip>
+          <Tooltip content="Aparece a la izquierda" placement="left">{chip('Left')}</Tooltip>
+          <Tooltip content="Aparece a la derecha" placement="right">{chip('Right')}</Tooltip>
+          <Tooltip content="Sin delay" delay={0} placement="top">{chip('Sin delay')}</Tooltip>
+        </div>
+        {showCode && (
+          <div className="border-t border-[var(--gray-200)] bg-[#1e1e1e] p-4 overflow-x-auto">
+            <pre className="text-[11px] leading-relaxed m-0 font-mono whitespace-pre"><CodeHighlight code={TooltipSrc} /></pre>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+function BreadcrumbDoc() {
+  const [showCode, setShowCode] = useState(false)
+  return (
+    <section id="breadcrumb" className="mb-10 scroll-mt-6">
+      <div className="flex items-start justify-between gap-4 mb-4">
+        <div>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">Breadcrumb</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Navegación jerárquica con ícono home, soporte href y onClick, aria-current en último nodo.</p>
+        </div>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+      </div>
+      <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
+        <div className="p-6 bg-[var(--gray-50)] flex flex-col gap-4">
+          <Breadcrumb items={[{ label: 'Inicio', href: '#' }, { label: 'Subastas', href: '#' }, { label: 'Lote A-0042' }]} />
+          <Breadcrumb items={[{ label: 'Inicio', href: '#' }, { label: 'Mis ofertas', href: '#' }, { label: 'Historial', href: '#' }, { label: 'Toyota Hilux 2022' }]} />
+          <Breadcrumb items={[{ label: 'Inicio', href: '#' }, { label: 'Página actual' }]} />
+        </div>
+        {showCode && (
+          <div className="border-t border-[var(--gray-200)] bg-[#1e1e1e] p-4 overflow-x-auto">
+            <pre className="text-[11px] leading-relaxed m-0 font-mono whitespace-pre"><CodeHighlight code={BreadcrumbSrc} /></pre>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+function PaginationDoc() {
+  const [showCode, setShowCode] = useState(false)
+  const [page1, setPage1] = useState(1)
+  const [page2, setPage2] = useState(5)
+  const [page3, setPage3] = useState(12)
+  return (
+    <section id="pagination" className="mb-10 scroll-mt-6">
+      <div className="flex items-start justify-between gap-4 mb-4">
+        <div>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">Pagination</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Paginación con ellipsis inteligente, página activa resaltada, aria-current.</p>
+        </div>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+      </div>
+      <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
+        <div className="p-6 bg-[var(--gray-50)] flex flex-col gap-5">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] mb-3">5 páginas</p>
+            <Pagination currentPage={page1} totalPages={5} onChange={setPage1} />
+          </div>
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] mb-3">20 páginas — página {page2}</p>
+            <Pagination currentPage={page2} totalPages={20} onChange={setPage2} />
+          </div>
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--gray-400)] mb-3">50 páginas — página {page3}</p>
+            <Pagination currentPage={page3} totalPages={50} onChange={setPage3} />
+          </div>
+        </div>
+        {showCode && (
+          <div className="border-t border-[var(--gray-200)] bg-[#1e1e1e] p-4 overflow-x-auto">
+            <pre className="text-[11px] leading-relaxed m-0 font-mono whitespace-pre"><CodeHighlight code={PaginationSrc} /></pre>
+          </div>
+        )}
+      </div>
     </section>
   )
 }
@@ -1753,10 +2187,10 @@ function FilterBarDoc() {
     <section id="filter-bar" className="mb-10 scroll-mt-6">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
-          <h3 className="text-[15px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">FilterBar</h3>
-          <p className="text-[11px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Barra de filtros para el catálogo: búsqueda, tipo, marca, precio, estado.</p>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">FilterBar</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Barra de filtros para el catálogo: búsqueda, tipo, marca, precio, estado.</p>
         </div>
-        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] font-['Inter',sans-serif] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
       </div>
       <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
         <div className="p-4 bg-[var(--gray-50)]">
@@ -1779,10 +2213,10 @@ function AuctionStatusBannerDoc() {
     <section id="auction-status-banner" className="mb-10 scroll-mt-6">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
-          <h3 className="text-[15px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">AuctionStatusBanner</h3>
-          <p className="text-[11px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Banda de estado con countdown en tiempo real. 6 variantes de estado.</p>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">AuctionStatusBanner</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Banda de estado con countdown en tiempo real. 6 variantes de estado.</p>
         </div>
-        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] font-['Inter',sans-serif] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
       </div>
       <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
         <div className="flex flex-col gap-2 p-4 bg-[var(--gray-50)]">
@@ -1817,10 +2251,10 @@ function VehicleSpecsRowDoc() {
     <section id="vehicle-specs-row" className="mb-10 scroll-mt-6">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
-          <h3 className="text-[15px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">VehicleSpecsRow</h3>
-          <p className="text-[11px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Grid de especificaciones técnicas del vehículo. VIN en Roboto Mono.</p>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">VehicleSpecsRow</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Grid de especificaciones técnicas del vehículo. VIN en Roboto Mono.</p>
         </div>
-        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] font-['Inter',sans-serif] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
       </div>
       <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
         <div className="p-6 bg-[var(--gray-50)]">
@@ -1851,10 +2285,10 @@ function BidHistoryListDoc() {
     <section id="bid-history-list" className="mb-10 scroll-mt-6">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
-          <h3 className="text-[15px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">BidHistoryList</h3>
-          <p className="text-[11px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Historial de pujas: mayor oferta destacada, avatares, tiempo relativo, anonimización.</p>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">BidHistoryList</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Historial de pujas: mayor oferta destacada, avatares, tiempo relativo, anonimización.</p>
         </div>
-        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] font-['Inter',sans-serif] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
       </div>
       <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
         <div className="p-6 bg-[var(--gray-50)] flex flex-wrap gap-4 items-start">
@@ -1884,10 +2318,10 @@ function VehicleImageGalleryDoc() {
     <section id="vehicle-image-gallery" className="mb-10 scroll-mt-6">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
-          <h3 className="text-[15px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">VehicleImageGallery</h3>
-          <p className="text-[11px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Galería con imagen principal, flechas de navegación, miniaturas y contador.</p>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">VehicleImageGallery</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Galería con imagen principal, flechas de navegación, miniaturas y contador.</p>
         </div>
-        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] font-['Inter',sans-serif] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
       </div>
       <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
         <div className="p-6 bg-[var(--gray-50)] flex flex-wrap gap-6 items-start">
@@ -1910,10 +2344,10 @@ function SellerCardDoc() {
     <section id="seller-card" className="mb-10 scroll-mt-6">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
-          <h3 className="text-[15px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">SellerCard</h3>
-          <p className="text-[11px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Card del subastador con avatar, rating, stats y contacto.</p>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">SellerCard</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Card del subastador con avatar, rating, stats y contacto.</p>
         </div>
-        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] font-['Inter',sans-serif] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
       </div>
       <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
         <div className="p-6 bg-[var(--gray-50)] flex flex-wrap gap-4 items-start">
@@ -1937,10 +2371,10 @@ function AuctionSummaryWidgetDoc() {
     <section id="auction-summary-widget" className="mb-10 scroll-mt-6">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
-          <h3 className="text-[15px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">AuctionSummaryWidget</h3>
-          <p className="text-[11px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Widget lateral completo: precio actual, countdown, BidForm integrado. Variantes por estado.</p>
+          <h3 className="text-[15px] font-bold text-[var(--purple-900)]">AuctionSummaryWidget</h3>
+          <p className="text-[11px] text-[var(--gray-400)] mt-0.5">Widget lateral completo: precio actual, countdown, BidForm integrado. Variantes por estado.</p>
         </div>
-        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] font-['Inter',sans-serif] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
+        <button type="button" onClick={() => setShowCode(s => !s)} className="shrink-0 text-[11px] px-3 py-1.5 rounded-md bg-[var(--gray-100)] hover:bg-[var(--gray-200)] text-[var(--gray-600)] border-0 cursor-pointer transition-colors">{showCode ? 'Ocultar' : 'Ver código'}</button>
       </div>
       <div className="rounded-xl border border-[var(--gray-200)] overflow-hidden">
         <div className="p-6 bg-[var(--gray-50)] flex flex-wrap gap-4 items-start">
@@ -1998,16 +2432,16 @@ function TopBar() {
   return (
     <header className="h-12 border-b border-[var(--gray-200)] flex items-center justify-between px-6 bg-white shrink-0">
       <div className="flex items-center gap-3">
-        <span className="text-[12px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">VMC Subastas — Design System</span>
+        <span className="text-[12px] font-bold text-[var(--purple-900)]">VMC Subastas — Design System</span>
         <span className="text-[var(--gray-300)] select-none">/</span>
-        <span className="text-[12px] text-[var(--gray-500)] font-['Inter',sans-serif]">Documentación</span>
+        <span className="text-[12px] text-[var(--gray-500)]">Documentación</span>
       </div>
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-2">
           <div className="w-[80px] h-1.5 rounded-full bg-[var(--gray-100)] overflow-hidden">
             <div className="h-full rounded-full bg-emerald-400 transition-all duration-500" style={{ width: `${Math.round(done / total * 100)}%` }} />
           </div>
-          <span className="text-[11px] text-[var(--gray-400)] font-['Inter',sans-serif]">{done}/{total} listos</span>
+          <span className="text-[11px] text-[var(--gray-400)]">{done}/{total} listos</span>
         </div>
         <span className="text-[10px] font-mono text-[var(--gray-300)] border border-[var(--gray-200)] rounded px-1.5 py-0.5">v0.1</span>
       </div>
@@ -2018,6 +2452,228 @@ function TopBar() {
 // ─────────────────────────────────────────────────────────────────────────────
 // Docs — página principal
 // ─────────────────────────────────────────────────────────────────────────────
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FRAMES — Inventario de componentes por página
+// ─────────────────────────────────────────────────────────────────────────────
+
+type FrameComponent = { name: string; layer: 'L0' | 'L1' | 'L2' | 'L3' | 'L4'; count?: number; docId?: string }
+
+const LAYER_COLOR: Record<string, string> = {
+  L0: 'bg-[var(--gray-100)] text-[var(--gray-500)]',
+  L1: 'bg-[oklch(0.761_0.130_197.000/0.12)] text-[var(--cyan-400)]',
+  L2: 'bg-[oklch(0.784_0.172_68.000/0.12)] text-[var(--orange-500)]',
+  L3: 'bg-[oklch(0.335_0.163_289.500/0.12)] text-[var(--purple-600)]',
+  L4: 'bg-[oklch(0.242_0.138_286.500/0.15)] text-[var(--purple-800)]',
+}
+
+const LAYER_LABEL: Record<string, string> = {
+  L0: 'Primitiva', L1: 'Elemento', L2: 'Componente', L3: 'Bloque', L4: 'Layout',
+}
+
+const FRAME_HOMEPAGE: FrameComponent[] = [
+  { name: 'PageLayout',            layer: 'L4' },
+  { name: 'Header',                layer: 'L4' },
+  { name: 'Sidebar',               layer: 'L4' },
+  { name: 'HeroSection',           layer: 'L4' },
+  { name: 'Footer',                layer: 'L4' },
+  { name: 'AuctionCard (Featured)',layer: 'L3' },
+  { name: 'AuctioneerSection',     layer: 'L3', count: 2 },
+  { name: 'VehicleCard',           layer: 'L3', count: 8 },
+  { name: 'SubascoinsPromoBanner', layer: 'L3' },
+  { name: 'HelpCenterBanner',      layer: 'L2' },
+  { name: 'Button',                layer: 'L1', count: 2 },
+  { name: 'Badge',                 layer: 'L1', count: 3 },
+  { name: 'CountdownTimer',        layer: 'L1' },
+  { name: 'PriceDisplay',          layer: 'L1', count: 5 },
+  { name: 'Image',                 layer: 'L1', count: 9 },
+]
+
+const FRAME_DETALLE: FrameComponent[] = [
+  { name: 'PageLayout',            layer: 'L4' },
+  { name: 'Header',                layer: 'L4' },
+  { name: 'Sidebar',               layer: 'L4' },
+  { name: 'Footer',                layer: 'L4' },
+  { name: 'VehicleImageGallery',   layer: 'L3' },
+  { name: 'AuctionSummaryWidget',  layer: 'L3' },
+  { name: 'AuctionStatusBanner',   layer: 'L3' },
+  { name: 'BidForm',               layer: 'L3' },
+  { name: 'VehicleSpecsRow',       layer: 'L3' },
+  { name: 'AuctionActionBar',      layer: 'L3' },
+  { name: 'AuctioneerSection',     layer: 'L3' },
+  { name: 'SubascoinsPromoBanner', layer: 'L3' },
+  { name: 'Accordion',             layer: 'L2', count: 2 },
+  { name: 'HelpCenterBanner',      layer: 'L2' },
+  { name: 'DocumentDownloadRow',   layer: 'L2', count: 3 },
+  { name: 'Button',                layer: 'L1', count: 4 },
+  { name: 'Badge',                 layer: 'L1', count: 2 },
+  { name: 'PriceDisplay',          layer: 'L1' },
+  { name: 'CountdownTimer',        layer: 'L1' },
+  { name: 'DataQualityBadge',      layer: 'L1' },
+  { name: 'Image',                 layer: 'L1', count: 5 },
+  { name: 'Avatar',                layer: 'L1' },
+]
+
+type FrameDocProps = {
+  id: string
+  title: string
+  figmaUrl?: string
+  totalWidth: number
+  sidebarWidth: number
+  contentWidth: number
+  description: string
+  components: FrameComponent[]
+}
+
+function FrameDoc({ id, title, figmaUrl, totalWidth, sidebarWidth, contentWidth, description, components }: FrameDocProps) {
+  const layers = ['L4', 'L3', 'L2', 'L1', 'L0'] as const
+  const byLayer = (l: string) => components.filter(c => c.layer === l)
+
+  return (
+    <div id={id} className="scroll-mt-8 mb-12">
+      {/* Header del frame */}
+      <div className="flex items-start justify-between mb-6 pb-4 border-b border-[var(--gray-100)]">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--orange-500)]">Frame</span>
+            <span className="size-1 rounded-full bg-[var(--gray-300)]" />
+            <span className="text-[10px] text-[var(--gray-400)]">{totalWidth}px max-width</span>
+          </div>
+          <h3 className="text-[20px] font-bold text-[var(--purple-900)] m-0">{title}</h3>
+          <p className="text-[12px] text-[var(--gray-400)] mt-1 max-w-[500px]">{description}</p>
+        </div>
+        {figmaUrl && (
+          <a href={figmaUrl} target="_blank" rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-semibold no-underline border border-[var(--gray-200)] text-[var(--gray-500)] hover:border-[var(--purple-600)] hover:text-[var(--purple-600)] transition-colors">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7.5M7.5 1H11m0 0v3.5M11 1 5.5 6.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            Ver en Figma
+          </a>
+        )}
+      </div>
+
+      {/* Layout metrics */}
+      <div className="flex gap-3 mb-6">
+        {[
+          { label: 'Frame total', value: `${totalWidth}px` },
+          { label: 'Sidebar', value: `${sidebarWidth}px` },
+          { label: 'Área de contenido', value: `${contentWidth}px` },
+          { label: 'Componentes', value: `${components.length}` },
+        ].map(m => (
+          <div key={m.label} className="flex-1 bg-white rounded-lg border border-[var(--gray-100)] px-3 py-2.5">
+            <p className="text-[9px] font-bold uppercase tracking-widest text-[var(--gray-400)] mb-0.5">{m.label}</p>
+            <p className="text-[18px] font-bold text-[var(--purple-900)] tabular-nums m-0">{m.value}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Dos columnas: sidebar de componentes + layout visual */}
+      <div className="flex gap-6">
+
+        {/* Sub-sidebar: inventario de componentes */}
+        <div className="w-[200px] shrink-0">
+          <p className="text-[9px] font-bold uppercase tracking-widest text-[var(--gray-400)] mb-3">Componentes en frame</p>
+          <div className="flex flex-col gap-3">
+            {layers.map(l => {
+              const items = byLayer(l)
+              if (!items.length) return null
+              return (
+                <div key={l}>
+                  <div className="flex items-center gap-1.5 mb-1.5">
+                    <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${LAYER_COLOR[l]}`}>{l}</span>
+                    <span className="text-[9px] text-[var(--gray-400)]">{LAYER_LABEL[l]}</span>
+                  </div>
+                  <div className="flex flex-col gap-0.5">
+                    {items.map(c => (
+                      <div key={c.name} className="flex items-center justify-between px-2 py-1 rounded-md bg-white border border-[var(--gray-100)]">
+                        <span className="text-[11px] text-[var(--gray-600)]">{c.name}</span>
+                        {c.count && c.count > 1 && (
+                          <span className="text-[9px] font-bold text-[var(--gray-400)] tabular-nums">×{c.count}</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Diagrama de layout */}
+        <div className="flex-1">
+          <p className="text-[9px] font-bold uppercase tracking-widest text-[var(--gray-400)] mb-3">Diagrama de layout (1024px)</p>
+          <div className="bg-[var(--gray-50)] border border-[var(--gray-100)] rounded-lg p-4 overflow-x-auto">
+            <div className="flex gap-0 rounded overflow-hidden border border-[var(--gray-200)]"
+              style={{ width: '100%', minWidth: '400px', fontSize: '9px' }}>
+              {/* Sidebar strip */}
+              <div className="shrink-0 flex flex-col"
+                style={{ width: `${(sidebarWidth / totalWidth) * 100}%`, background: 'var(--purple-800)', minHeight: '320px' }}>
+                <div className="p-2 text-white/60 font-bold uppercase tracking-wider" style={{ fontSize: '8px' }}>
+                  Sidebar<br/>{sidebarWidth}px
+                </div>
+              </div>
+              {/* Content area */}
+              <div className="flex-1 flex flex-col gap-0" style={{ background: 'var(--gray-50)' }}>
+                {/* Header */}
+                <div className="shrink-0 flex items-center px-2" style={{ height: '24px', background: 'var(--purple-800)' }}>
+                  <span className="text-white/70 font-bold uppercase tracking-wider" style={{ fontSize: '8px' }}>Header · 64px</span>
+                </div>
+                {/* Main sections */}
+                <div className="flex-1 flex flex-col gap-1 p-1.5">
+                  {id === 'frame-homepage' ? <>
+                    <div className="rounded px-2 py-1.5 text-white font-semibold" style={{ background: 'var(--purple-900)', fontSize: '8px' }}>HeroSection</div>
+                    <div className="rounded px-2 py-1" style={{ background: 'var(--orange-500)', fontSize: '8px', color: 'white' }}>SubascoinsPromoBanner</div>
+                    <div className="rounded px-2 py-1 bg-white border border-[var(--gray-200)]" style={{ fontSize: '8px', color: 'var(--gray-500)' }}>AuctioneerSection × 2 · VehicleCard × 8 · 196px/card</div>
+                    <div className="rounded px-2 py-1" style={{ background: 'var(--gray-100)', fontSize: '8px', color: 'var(--gray-500)' }}>HelpCenterBanner</div>
+                  </> : <>
+                    <div className="rounded px-2 py-1.5 bg-white border border-[var(--gray-200)]" style={{ fontSize: '8px', color: 'var(--gray-500)' }}>VehicleImageGallery + AuctionSummaryWidget</div>
+                    <div className="rounded px-2 py-1" style={{ background: 'var(--orange-500)', fontSize: '8px', color: 'white' }}>SubascoinsPromoBanner</div>
+                    <div className="rounded px-2 py-1.5 bg-white border border-[var(--gray-200)]" style={{ fontSize: '8px', color: 'var(--gray-500)' }}>Accordion · VehicleSpecsRow · DocumentDownloadRow</div>
+                    <div className="rounded px-2 py-1 bg-white border border-[var(--gray-200)]" style={{ fontSize: '8px', color: 'var(--gray-500)' }}>AuctioneerSection · VehicleCard × 4</div>
+                    <div className="rounded px-2 py-1" style={{ background: 'var(--gray-100)', fontSize: '8px', color: 'var(--gray-500)' }}>HelpCenterBanner</div>
+                  </>}
+                  {/* Footer */}
+                  <div className="shrink-0 flex items-center px-2 mt-auto rounded" style={{ height: '20px', background: 'var(--purple-800)' }}>
+                    <span className="text-white/70 font-bold uppercase tracking-wider" style={{ fontSize: '8px' }}>Footer</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p className="text-[9px] text-[var(--gray-400)] mt-2 text-right tabular-nums">
+              Sidebar {sidebarWidth}px + Contenido {contentWidth}px = {totalWidth}px total
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  )
+}
+
+function FramesSection() {
+  return (
+    <div>
+      <FrameDoc
+        id="frame-homepage"
+        title="Homepage"
+        figmaUrl="https://www.figma.com/design/yt3TvHt7q5PpPrJvmnvi6b/VMC-2026---DESIGN-SYSTEM?node-id=1-615"
+        totalWidth={1024}
+        sidebarWidth={140}
+        contentWidth={884}
+        description="Página principal. Hero con lote destacado + countdown. Secciones por rematador con carrusel horizontal de VehicleCards."
+        components={FRAME_HOMEPAGE}
+      />
+      <FrameDoc
+        id="frame-detalle"
+        title="Detalle de Lote"
+        totalWidth={1024}
+        sidebarWidth={140}
+        contentWidth={884}
+        description="Página de detalle de un lote de subasta. Galería de imágenes + widget de puja + specs técnicas + documentos + ofertas relacionadas."
+        components={FRAME_DETALLE}
+      />
+    </div>
+  )
+}
 
 export default function Docs() {
   return (
@@ -2032,20 +2688,32 @@ export default function Docs() {
 
             {/* Intro */}
             <div className="mb-10">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--cyan-500)] font-['Inter',sans-serif] mb-1">Design System · Fase 3</p>
-              <h1 className="text-[28px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif] leading-tight mb-2">Documentación</h1>
-              <p className="text-[13px] text-[var(--gray-500)] font-['Inter',sans-serif] leading-5">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--cyan-500)] mb-1">Design System · Fase 3</p>
+              <h1 className="text-[28px] font-bold text-[var(--purple-900)] leading-tight mb-2">Documentación</h1>
+              <p className="text-[13px] text-[var(--gray-500)] leading-5">
                 Tokens semánticos OKLCH · W3C DTCG · Componentes React + TypeScript + Tailwind v4.
                 Cada componente incluye los 7 estados del CLAUDE.md.
               </p>
             </div>
 
             <div className="flex flex-col gap-16">
+
+              {/* Frames */}
+              <div>
+                <div className="mb-6">
+                  <h2 className="text-[18px] font-bold text-[var(--purple-900)]">Frames</h2>
+                  <p className="text-[12px] text-[var(--gray-400)] mt-0.5">
+                    Inventario de componentes por página. Max-width 1024px — Sidebar 140px — Contenido 884px.
+                  </p>
+                </div>
+                <FramesSection />
+              </div>
+
               {/* Foundation */}
               <div>
                 <div className="mb-6">
-                  <h2 className="text-[18px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">Foundation</h2>
-                  <p className="text-[12px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Tokens primitivos y semánticos extraídos de Figma y normalizados según CLAUDE.md.</p>
+                  <h2 className="text-[18px] font-bold text-[var(--purple-900)]">Foundation</h2>
+                  <p className="text-[12px] text-[var(--gray-400)] mt-0.5">Tokens primitivos y semánticos extraídos de Figma y normalizados según CLAUDE.md.</p>
                 </div>
                 <TokensSection />
               </div>
@@ -2053,15 +2721,20 @@ export default function Docs() {
               {/* Átomos */}
               <div>
                 <div className="mb-6">
-                  <h2 className="text-[18px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">Átomos</h2>
-                  <p className="text-[12px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Unidades mínimas de UI. Sin dependencias de otros componentes.</p>
+                  <h2 className="text-[18px] font-bold text-[var(--purple-900)]">Átomos</h2>
+                  <p className="text-[12px] text-[var(--gray-400)] mt-0.5">Unidades mínimas de UI. Sin dependencias de otros componentes.</p>
                 </div>
                 <ButtonDoc />
+                <IconButtonDoc />
                 <BadgeDoc />
+                <AvatarDoc />
+                <DividerDoc />
+                <ImageDoc />
                 <TextFieldDoc />
                 <CheckboxRadioDoc />
                 <SearchInputDoc />
                 <SelectFieldDoc />
+                <SliderDoc />
                 <CountdownAndPriceDoc />
                 <AlertDoc />
                 <ToastDoc />
@@ -2070,13 +2743,18 @@ export default function Docs() {
               {/* Moléculas */}
               <div>
                 <div className="mb-6">
-                  <h2 className="text-[18px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">Moléculas</h2>
-                  <p className="text-[12px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Componentes compuestos por átomos. Unidad reutilizable con propósito definido.</p>
+                  <h2 className="text-[18px] font-bold text-[var(--purple-900)]">Moléculas</h2>
+                  <p className="text-[12px] text-[var(--gray-400)] mt-0.5">Componentes compuestos por átomos. Unidad reutilizable con propósito definido.</p>
                 </div>
+                <UserWalletDoc />
                 <SkeletonDoc />
                 <TabBarDoc />
                 <AccordionDoc />
                 <ModalDoc />
+                <DropdownDoc />
+                <TooltipDoc />
+                <BreadcrumbDoc />
+                <PaginationDoc />
                 <AuctionCardDoc />
                 <BidFormDoc />
                 <VehicleCardDoc />
@@ -2085,18 +2763,19 @@ export default function Docs() {
               {/* Organismos */}
               <div>
                 <div className="mb-6">
-                  <h2 className="text-[18px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">Organismos</h2>
-                  <p className="text-[12px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Secciones completas compuestas por moléculas y átomos.</p>
+                  <h2 className="text-[18px] font-bold text-[var(--purple-900)]">Organismos</h2>
+                  <p className="text-[12px] text-[var(--gray-400)] mt-0.5">Secciones completas compuestas por moléculas y átomos.</p>
                 </div>
                 <AuctioneerSectionDoc />
+                <HeroSectionDoc />
                 <LayoutsDoc />
               </div>
 
               {/* Bloques L3 */}
               <div>
                 <div className="mb-6">
-                  <h2 className="text-[18px] font-bold text-[var(--purple-900)] font-['Inter',sans-serif]">Bloques</h2>
-                  <p className="text-[12px] text-[var(--gray-400)] font-['Inter',sans-serif] mt-0.5">Bloques de negocio específicos de la plataforma VMC Subastas.</p>
+                  <h2 className="text-[18px] font-bold text-[var(--purple-900)]">Bloques</h2>
+                  <p className="text-[12px] text-[var(--gray-400)] mt-0.5">Bloques de negocio específicos de la plataforma VMC Subastas.</p>
                 </div>
                 <FilterBarDoc />
                 <AuctionStatusBannerDoc />
