@@ -11,6 +11,8 @@ import { PriceDisplay } from '../components/PriceDisplay'
 import PriceDisplaySrc from '../components/PriceDisplay/PriceDisplay.tsx?raw'
 import { AuctionCard, type LotData } from '../components/AuctionCard'
 import AuctionCardSrc from '../components/AuctionCard/AuctionCard.tsx?raw'
+import AuctionCardUpgradeSrc from '../components/AuctionCard/AuctionCard.upgrade.tsx?raw'
+import { useVersion } from '../VersionContext'
 import { BidForm } from '../components/BidForm'
 import BidFormSrc from '../components/BidForm/BidForm.tsx?raw'
 import { Header } from '../components/Header'
@@ -138,6 +140,28 @@ function CopyButton({ text }: { text: string }) {
       }
       {state === 'copied' ? 'Copiado' : 'Copiar'}
     </button>
+  )
+}
+
+// ── InlineCodeBlock ───────────────────────────────────────────────────────────
+// Bloque de código siempre visible — para ejemplos de uso en docs
+
+interface InlineCodeBlockProps {
+  code: string
+  filename?: string
+}
+
+function InlineCodeBlock({ code, filename }: InlineCodeBlockProps) {
+  return (
+    <div className="rounded-xl border border-white/10 overflow-hidden text-[12.5px] font-mono leading-[22px]">
+      <div className="flex items-center justify-between bg-[#1e1e1e] px-4 py-2.5 border-b border-white/10">
+        <span className="text-[11px] font-mono text-white/40">{filename ?? ''}</span>
+        <CopyButton text={code} />
+      </div>
+      <pre className="overflow-x-auto p-5 bg-[#1e1e1e] max-h-[400px]">
+        <code><CodeHighlight code={code} /></code>
+      </pre>
+    </div>
   )
 }
 
@@ -931,15 +955,43 @@ const DEMO_LOTS: LotData[] = [
 function AuctionCardDoc() {
   const [showCode, setShowCode] = useState(false)
   const [favorited, setFavorited] = useState<Set<string>>(new Set())
+  const { version } = useVersion()
+  const [activeBadgeIdx, setActiveBadgeIdx] = useState(0)
 
-  const toggle = (id: string | undefined) => {
+  const handleToggleFavorite = (id: string | undefined) => {
     if (!id) return
     setFavorited(prev => {
       const next = new Set(prev)
-      next.has(id) ? next.delete(id) : next.add(id)
+      if (next.has(id)) {
+        next.delete(id)
+      } else {
+        next.add(id)
+      }
       return next
     })
   }
+
+  const activeSrc     = version === 'upgrade' ? AuctionCardUpgradeSrc : AuctionCardSrc
+  const activeSrcName = version === 'upgrade' ? 'AuctionCard.upgrade.tsx' : 'AuctionCard.tsx'
+  const demoLot       = { ...DEMO_LOTS[0], isFavorited: favorited.has('1') }
+  const stateLot      = { ...DEMO_LOTS[activeBadgeIdx], isFavorited: favorited.has(DEMO_LOTS[activeBadgeIdx].id!) }
+
+  const USAGE_SNIPPET = `import { AuctionCard } from '@vmc/components'
+
+// Estado: live (default)
+<AuctionCard
+  variant="standard"
+  lot={{
+    title:      'TOYOTA HILUX',
+    subtitle:   '2024 · Lima, Perú',
+    badge:      'live',
+    price:      17999,
+    currency:   'US$',
+    priceLabel: 'PRECIO BASE',
+    endsAt:     Date.now() + 44 * 60 * 1000,
+  }}
+  onFavorite={(id) => handleFavorite(id)}
+/>`
 
   return (
     <section id="auction-card" className="scroll-mt-8">
@@ -948,30 +1000,48 @@ function AuctionCardDoc() {
           <h1 className="text-[22px] font-bold text-[var(--color-text-primary)] leading-tight">AuctionCard</h1>
           <span className="text-[11px] font-semibold text-[var(--gray-500)]">L3 — Bloque</span>
         </div>
-        <button type="button" onClick={() => setShowCode(v => !v)}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-semibold border transition-all duration-150 text-[var(--gray-500)] border-[var(--gray-300)] hover:border-[var(--purple-600)] hover:text-[var(--purple-600)]">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3.5 3L1 6l2.5 3M8.5 3L11 6l-2.5 3M7 1.5l-2 9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          {showCode ? 'Ocultar' : 'Ver fuente'}
-        </button>
+        {version === 'upgrade' && (
+          <button type="button" onClick={() => setShowCode(v => !v)}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-semibold border transition-all duration-150 text-[var(--gray-500)] border-[var(--gray-300)] hover:border-[var(--purple-600)] hover:text-[var(--purple-600)]">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3.5 3L1 6l2.5 3M8.5 3L11 6l-2.5 3M7 1.5l-2 9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            {showCode ? 'Ocultar' : 'Ver fuente'}
+          </button>
+        )}
       </div>
 
       <p className="text-[13px] text-[var(--gray-500)] leading-5 mb-6 max-w-[560px]">
-        El componente más crítico de VMC. Representa un lote de subasta. 3 variantes según densidad de UI. La franja de 4px en la base comunica el estado del lote.
+        Representa un único lote de subasta. El color de la franja inferior comunica el estado del lote. Un grupo de AuctionCards es un componente separado (AuctionCardGrid).
       </p>
 
-      {/* Standard — grid */}
+      {/* Standard — 1 card */}
       <div className="mb-8">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--gray-400)] mb-3">Standard — grid de listado</p>
-        <div className="grid grid-cols-4 gap-3">
-          {DEMO_LOTS.map(lot => (
-            <AuctionCard
+        <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--gray-400)] mb-3">Standard — live (default)</p>
+        <AuctionCard
+          variant="standard"
+          lot={demoLot}
+          onFavorite={handleToggleFavorite}
+        />
+      </div>
+
+      {/* Badge states */}
+      <div className="mb-8">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--gray-400)] mb-3">Estados — franja por badge</p>
+        <div className="flex gap-2 mb-4">
+          {DEMO_LOTS.map((lot, idx) => (
+            <button
               key={lot.id}
-              variant="standard"
-              lot={{ ...lot, isFavorited: favorited.has(lot.id!) }}
-              onFavorite={toggle}
-            />
+              onClick={() => setActiveBadgeIdx(idx)}
+              className={`px-3 py-1 text-[11px] rounded transition-colors ${activeBadgeIdx === idx ? 'bg-[var(--purple-700)] text-white' : 'bg-[var(--gray-100)] text-[var(--gray-600)] hover:bg-[var(--gray-200)]'}`}
+            >
+              {lot.badge}
+            </button>
           ))}
         </div>
+        <AuctionCard
+          variant="standard"
+          lot={stateLot}
+          onFavorite={handleToggleFavorite}
+        />
       </div>
 
       {/* Featured */}
@@ -981,7 +1051,7 @@ function AuctionCardDoc() {
           <AuctionCard
             variant="featured"
             lot={{ ...DEMO_LOTS[0], isFavorited: favorited.has('1') }}
-            onFavorite={toggle}
+            onFavorite={handleToggleFavorite}
           />
         </div>
       </div>
@@ -990,29 +1060,26 @@ function AuctionCardDoc() {
       <div className="mb-8">
         <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--gray-400)] mb-3">Compact — lista densa</p>
         <div className="rounded-[var(--radius-card)] border border-[var(--gray-300)] overflow-hidden max-w-[520px]">
-          {DEMO_LOTS.map(lot => (
-            <AuctionCard key={lot.id} variant="compact" lot={lot} />
-          ))}
+          <AuctionCard variant="compact" lot={demoLot} />
         </div>
       </div>
 
       {/* Loading skeleton */}
       <div className="mb-8">
         <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--gray-400)] mb-3">Loading — skeleton</p>
-        <div className="grid grid-cols-4 gap-3">
-          {[1,2,3,4].map(i => <AuctionCard key={i} isLoading />)}
-        </div>
+        <AuctionCard isLoading />
       </div>
 
       {showCode && (
-        <div className="mt-2">
-          <div className="flex items-center justify-between bg-[#1e1e1e] px-4 py-2.5 rounded-t-xl border border-b-0 border-white/10">
-            <span className="text-[11px] font-mono text-white/40">AuctionCard.tsx</span>
-            <CopyButton text={AuctionCardSrc} />
+        <div className="mt-2 flex flex-col gap-4">
+          {/* Markup de uso — para que el frontend haga la prueba */}
+          <InlineCodeBlock filename="uso — AuctionCard live (default)" code={USAGE_SNIPPET} />
+
+          {/* Fuente completa del componente */}
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--gray-400)] mb-2">Fuente</p>
+            <InlineCodeBlock filename={activeSrcName} code={activeSrc} />
           </div>
-          <pre className="overflow-x-auto p-5 rounded-b-xl bg-[#1e1e1e] text-[12.5px] leading-[22px] font-mono max-h-[520px]">
-            <code><CodeHighlight code={AuctionCardSrc} /></code>
-          </pre>
         </div>
       )}
 

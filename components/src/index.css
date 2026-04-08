@@ -3,6 +3,79 @@
 @import 'tailwindcss';
 
 /* ── Base ────────────────────────────────────────────────── */
+/* ── AuctionCard — 7 estados obligatorios (CLAUDE.md) ───────────────────────────
+   Default   → estilos base en styles.ts
+   Hover     → sombra elevada
+   Focus     → outline corporativo
+   Active    → escala ligera (feedback táctil)
+   Disabled  → .auction-card-closed (grayscale + opacity via tokens)
+   Loading   → AuctionCardUpgradeSkeleton
+   Error     → manejado en el feature component (isError)
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.auction-card-clickable:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.auction-card-clickable:active {
+  transform: scale(0.98);
+}
+
+.auction-card-clickable {
+  transition: transform var(--duration-micro) var(--easing-standard), box-shadow var(--duration-micro) var(--easing-standard);
+}
+
+.auction-card-clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-floating);
+}
+
+.auction-card-clickable:active {
+  transform: translateY(0);
+}
+
+.auction-card-clickable:focus-visible {
+  outline: 2px solid var(--color-action-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-card);
+}
+
+.auction-card-fav-btn {
+  transition: filter var(--duration-micro) var(--easing-standard), transform var(--duration-micro) var(--easing-standard);
+}
+
+.auction-card-fav-btn:hover {
+  filter: brightness(0.95);
+  transform: scale(1.05);
+}
+
+.auction-card-fav-btn:active {
+  transform: scale(0.95);
+}
+
+.auction-card-fav-btn:focus-visible {
+  outline: 2px solid var(--color-action-primary);
+  outline-offset: 2px;
+}
+
+.auction-card-closed {
+  filter:  var(--filter-state-disabled);
+  opacity: var(--opacity-state-disabled);
+}
+
+/* ── Heart button — estados de interacción ── */
+.auction-card-btn-fav:hover {
+  background: var(--color-surface-icon-subtle-hover, color-mix(in oklch, var(--color-action-primary) 12%, transparent));
+}
+
+.auction-card-btn-fav:active {
+  transform: scale(0.90);
+}
+
+.auction-card-btn-fav:focus-visible {
+  outline: 2px solid var(--color-action-primary);
+  outline-offset: 2px;
+}
 *, *::before, *::after {
   box-sizing: border-box;
 }

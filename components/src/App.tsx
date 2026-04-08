@@ -1,7 +1,28 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Component, type ErrorInfo, type ReactNode } from 'react'
 import './index.css'
+
+class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | null }> {
+  state = { error: null }
+  static getDerivedStateFromError(error: Error) { return { error } }
+  componentDidCatch(error: Error, info: ErrorInfo) { console.error('CRASH:', error, info) }
+  render() {
+    if (this.state.error) {
+      return (
+        <div style={{ padding: '40px', fontFamily: 'monospace', color: 'red' }}>
+          <h2>Error capturado</h2>
+          <pre>{(this.state.error as Error).message}</pre>
+          <pre>{(this.state.error as Error).stack}</pre>
+        </div>
+      )
+    }
+    return this.props.children
+  }
+}
 import Docs from './pages/Docs'
 import FramePage, { type FrameConfig } from './pages/FramePage'
+import Validated from './pages/Validated'
+import { VersionProvider } from './VersionContext'
+import VersionToggle from './VersionToggle'
 
 // ─── configuración de frames ──────────────────────────────────────────────────
 
@@ -98,7 +119,7 @@ function useHashRoute() {
 
 // ─── app ──────────────────────────────────────────────────────────────────────
 
-export default function App() {
+function AppInner() {
   const route = useHashRoute()
 
   // #/frames/homepage  →  route = "frames/homepage"
@@ -108,5 +129,18 @@ export default function App() {
     if (config) return <FramePage config={config} />
   }
 
+  if (route === 'validated') return <Validated />
+
   return <Docs />
+}
+
+export default function App() {
+  return (
+    <ErrorBoundary>
+      <VersionProvider>
+        <AppInner />
+        <VersionToggle />
+      </VersionProvider>
+    </ErrorBoundary>
+  )
 }

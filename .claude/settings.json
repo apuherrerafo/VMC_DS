@@ -1,0 +1,20 @@
+{
+  "skills": [
+    {
+      "name": "pixel-perfect",
+      "path": ".claude/skills/pixel-perfect/SKILL.md"
+    },
+    {
+      "name": "fase1",
+      "path": ".claude/skills/fase1/SKILL.md"
+    },
+    {
+      "name": "ib",
+      "path": ".claude/skills/ib/SKILL.md"
+    },
+    {
+      "name": "verify-usage",
+      "path": ".claude/skills/verify-usage/SKILL.md"
+    }
+  ]
+}

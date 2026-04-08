@@ -1,0 +1,379 @@
+/*
+ * VMC Subastas — Design Tokens
+ * ============================================================
+ * Fuentes:
+ *   · Figma node 55:89  (homepage-tokenizado, 1024×1724px)
+ *   · Figma node 81:439 (Entorno-pruebas — sidebar, hero, nav, cards)
+ *   · Figma node 99:82  (Main Wrapper 1024×2025px — frame actual)
+ *   · DESIGN.md         (Editorial Excellence — The Vault brand spec)
+ *
+ * NIVEL 1 — PRIMITIVOS  → valores crudos normalizados. NUNCA en HTML.
+ * NIVEL 2 — SEMÁNTICOS  → intención de uso. SIEMPRE estos en HTML/CSS.
+ *
+ * Espacio de color: OKLCH (3 decimales exactos)
+ * Grilla de espaciado: 4px estricta
+ * Escala tipográfica: Segunda Mayor ×1.125 → [10,11,12,14,16,18,20,24,27,30,34,38]
+ *
+ * Fusiones aplicadas:
+ *   #3c1982 + #391383       (ΔE = 1.14) → purple-600  oklch(0.335 0.163 289.500)
+ *   #f6f7f9 + #f2f4f3       (ΔE = 1.15) → gray-100   oklch(0.970 0.001 250.000)
+ *   #f8faf9+#fcfafa+#fffefe+#ffffff (ΔE < 0.05) → white oklch(1.000 0.000 0.000)
+ * ============================================================
+ */
+
+:root {
+
+  /* ==============================================================
+     PRIMITIVOS — COLORES
+     Todos en OKLCH. Referencia HEX en comentario (solo orientativa).
+     ============================================================== */
+
+  /* Blancos y superficies claras */
+  --white:            oklch(1.000 0.000 0.000);   /* #ffffff                            */
+  --surface-50:       oklch(0.983 0.003 168.000); /* #f8faf9 — Level 0 base bg          */
+  --surface-lavender: oklch(0.951 0.011 300.400); /* #f0edf5 — Level 1 lavanda nav row  */
+  --surface-200:      oklch(0.919 0.006 150.300); /* #e1e3e2 — surface_container_highest */
+
+  /* Grises neutros */
+  --gray-100:   oklch(0.970 0.001 250.000); /* centroide #f6f7f9+#f2f4f3 — Level 1 gris  */
+  --gray-300:   oklch(0.872 0.011 262.000); /* #d1d5dc — border default / ghost border   */
+  --gray-500:   oklch(0.669 0.024 256.000); /* #99a1af — Precio Base label, meta-info     */
+  --gray-600:   oklch(0.446 0.030 258.000); /* #4a5565 — disabled text                   */
+
+  /* Neutros oscuros */
+  --neutral-800:  oklch(0.399 0.019 302.800); /* #494550 — texto cuerpo cards              */
+  --neutral-950:  oklch(0.223 0.004 199.000); /* #191c1c — on_surface (nunca #000000)      */
+
+  /* Púrpuras — The Vault */
+  --purple-600:   oklch(0.335 0.163 289.500); /* centroide #3c1982+#391383 — Vault claro   */
+  --purple-800:   oklch(0.242 0.138 286.500); /* #22005c — The Vault (DESIGN.md Primary)   */
+  --purple-900:   oklch(0.294 0.149 288.000); /* #2e0f70 — overlay hero oscuro             */
+
+  /* Acento */
+  --cyan-400:     oklch(0.761 0.130 197.000); /* #00cace — Negociable (DESIGN.md Tertiary) */
+
+  /* CTA / alertas */
+  --orange-500:   oklch(0.724 0.154 55.200);  /* #ed8936 — En Vivo (DESIGN.md Secondary)  */
+  --red-500:      oklch(0.637 0.207 25.500);  /* #ef4444 — dot En Vivo, estados error      */
+  --amber-500:    oklch(0.784 0.172 68.000);  /* #ffa000 — warning (ΔE≈7.26 vs orange-500) */
+
+  /* Gradiente corporativo */
+  --gradient-brand: linear-gradient(
+    135deg,
+    oklch(0.242 0.138 286.500) 0%,
+    oklch(0.335 0.163 289.500) 100%
+  ); /* The Vault → Vault claro (DESIGN.md Glass & Gradient Rule) */
+
+
+  /* ==============================================================
+     PRIMITIVOS — ESPACIADO (grilla 4px)
+     ============================================================== */
+
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-7:   28px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+
+
+  /* ==============================================================
+     PRIMITIVOS — TIPOGRAFÍA
+     Familias: Plus Jakarta Sans (todo) · Roboto Mono (VINs / placas)
+     ============================================================== */
+
+  --font-body:     'Plus Jakarta Sans', sans-serif;
+  --font-display:  'Plus Jakarta Sans', sans-serif;
+  --font-mono:     'Roboto Mono', monospace;
+
+  --weight-regular:   400;
+  --weight-semibold:  600;
+  --weight-bold:      700;
+  --weight-extrabold: 800;
+
+  /* Tamaños — Segunda Mayor ×1.125 */
+  --font-size-micro:   8px;  /* excepción: 7px raw → mínimo abs. para labels ultra-densos */
+  --font-size-2xs:    10px;  /* TIPO DE OFERTA, CATEGORÍAS, botones sm                    */
+  --font-size-xs-11:  11px;  /* subtítulo hero, nombre vehículo en card                   */
+  --font-size-xs:     12px;  /* precio base, body card                                    */
+  --font-size-sm:     14px;  /* título floating card destacado                            */
+  --font-size-base:   16px;
+  --font-size-lg:     18px;  /* heading Centro de Ayuda                                   */
+  --font-size-xl:     20px;  /* heading sección (MAF PERÚ, SUBASTOP)                      */
+  --font-size-2xl:    24px;
+  --font-size-3xl:    27px;
+  --font-size-4xl:    30px;  /* hero heading, countdown timer                             */
+  --font-size-5xl:    38px;
+  --font-size-display-lg: 56px; /* DESIGN.md display-lg 3.5rem — hero editorial H1       */
+
+  /* Line-heights — fórmula: 4 × ⌊(fontSize × 1.5) / 4⌉ */
+  --line-height-micro:       12px; /* para 8px                             */
+  --line-height-2xs:         16px; /* para 10px y 11px                     */
+  --line-height-tight:       20px; /* para 12px y 14px                     */
+  --line-height-base:        24px; /* para 16px                            */
+  --line-height-lg:          28px; /* para 18px                            */
+  --line-height-xl:          32px; /* para 20px                            */
+  --line-height-2xl:         36px; /* para 24px                            */
+  --line-height-3xl:         40px; /* para 27px                            */
+  --line-height-4xl:         44px; /* para 30px                            */
+  --line-height-display-lg:  84px; /* para 56px — 4×⌊84/4⌉ = 84           */
+
+  /* Letter-spacing */
+  --tracking-none:    0px;
+  --tracking-micro:   0.35px;  /* PRECIO BASE, UBICACIÓN               */
+  --tracking-normal:  0.5px;   /* botones, body                        */
+  --tracking-wide:    0.8px;   /* labels                               */
+  --tracking-wider:   0.9px;   /* EN VIVO, NEGOCIABLE, timer           */
+  --tracking-widest:  1.0px;   /* nav: TIPO DE OFERTA, CATEGORÍAS      */
+  --tracking-heading: -0.5px;  /* headings lg+: MAF PERÚ, SUBASTOP     */
+  --tracking-hero:    -1.5px;  /* hero H1 30px+                        */
+
+
+  /* ==============================================================
+     PRIMITIVOS — BORDER RADIUS
+     Tabla: ≤1.5→0 | 2–5→4 | 6–10→8 | 11–24→16 | >24→9999
+     ============================================================== */
+
+  --radius-none:  0px;
+  --radius-sm:    4px;     /* inputs, checkboxes, badges, cards (frame 99:82) */
+  --radius-md:    8px;     /* botones CTA primarios (DESIGN.md: 0.5rem)        */
+  --radius-lg:    16px;    /* modales, drawers                                 */
+  --radius-full:  9999px;  /* píldoras, botones circulares                     */
+
+
+  /* ==============================================================
+     PRIMITIVOS — SOMBRAS
+     Fórmula: blur = 2 × Y_offset, X = 0, alpha 0.06–0.10
+     ============================================================== */
+
+  --shadow-none:  none;
+  --shadow-sm:    0 2px  4px  rgba(0, 0, 0, 0.06);
+  --shadow-md:    0 4px  8px  rgba(0, 0, 0, 0.08);
+  --shadow-lg:    0 8px  16px rgba(0, 0, 0, 0.10);
+
+  /* Vault Tinted — DESIGN.md: "If it's not this tinted shadow, it doesn't belong" */
+  --shadow-brand-tinted: 0 8px 16px oklch(0.242 0.138 286.500 / 0.06);
+  /* Raw DESIGN.md: rgba(34,0,92,0.04) → alpha 0.04→0.06 (mín. CLAUDE.md), blur 24→16px */
+
+
+  /* ==============================================================
+     PRIMITIVOS — ANIMACIÓN
+     ============================================================== */
+
+  --duration-micro:    150ms;   /* ≤200ms raw → 150ms (hover, focus)       */
+  --duration-standard: 300ms;   /* >200ms raw → 300ms (modales, menús)     */
+  --easing-standard:   cubic-bezier(0.3, 0, 0, 1);
+
+
+  /* ==============================================================
+     SEMÁNTICOS — COLOR / TEXTO
+     ============================================================== */
+
+  --color-text-on-surface:   var(--neutral-950);                      /* texto principal sobre fondo claro — NUNCA #000  */
+  --color-text-primary:      var(--purple-800);                       /* headings, texto brand en cards/secciones        */
+  --color-text-body:         var(--neutral-800);                      /* cuerpo: año, ubicación, meta-info               */
+  --color-text-muted:        oklch(0.399 0.019 302.800 / 0.50);      /* neutral-800 / 50% — info secundaria             */
+  --color-text-label:        oklch(0.399 0.019 302.800 / 0.40);      /* neutral-800 / 40% — PRECIO BASE, UBICACIÓN      */
+  --color-text-price-label:  var(--gray-500);                         /* #99a1af — etiqueta "Precio Base" en cards       */
+  --color-text-brand-muted:  oklch(0.242 0.138 286.500 / 0.40);      /* purple-800 / 40% — subtext brand sobre blanco   */
+  --color-text-disabled:     var(--gray-600);
+  --color-text-accent:       var(--cyan-400);                         /* CIERRA HOY, timer activo                        */
+  --color-text-link:         var(--purple-600);
+  --color-text-on-dark:        var(--white);                          /* texto sobre sidebar, header, hero               */
+  --color-text-on-dark-strong: oklch(1.000 0.000 0.000 / 0.80);      /* white / 80% — headings de sección en footer     */
+  --color-text-on-dark-muted:  oklch(1.000 0.000 0.000 / 0.60);      /* white / 60% — subtítulo hero                    */
+  --color-text-on-dark-subtle: oklch(1.000 0.000 0.000 / 0.30);      /* white / 30% — placeholder search bar            */
+
+
+  /* ==============================================================
+     SEMÁNTICOS — COLOR / SUPERFICIES
+     No-Line Rule (DESIGN.md): los límites se definen por color, nunca por border.
+     ============================================================== */
+
+  --color-surface-page:          var(--surface-50);                   /* Level 0 — #f8faf9 fondo base                    */
+  --color-surface-card:          var(--white);                        /* Level 2 — cards/interaction                     */
+  --color-surface-section:       var(--gray-100);                     /* Level 1 gris — sub-secciones                    */
+  --color-surface-tinted:        var(--surface-lavender);             /* Level 1 lavanda — nav row tipo oferta           */
+  --color-surface-input:         var(--surface-200);                  /* #e1e3e2 — fondo inputs, sin border              */
+  --color-surface-sidebar:       var(--purple-800);
+  --color-surface-header:        var(--purple-800);
+  --color-surface-overlay:       var(--purple-900);                   /* overlay hero oscuro, modales                    */
+  --color-surface-hero-gradient: var(--gradient-brand);               /* Vault Gradient — hero, primary action areas     */
+  --color-surface-nav-active:    oklch(1.000 0.000 0.000 / 0.10);    /* ítem nav activo — white / 10%                   */
+  --color-surface-icon-subtle:   oklch(0.242 0.138 286.500 / 0.05);  /* purple-800 / 5% — fondo botones round en cards  */
+  --color-surface-glass:         oklch(1.000 0.000 0.000 / 0.40);    /* Glassmorphism white 40% + backdrop-blur 8px      */
+
+
+  /* ==============================================================
+     SEMÁNTICOS — COLOR / BORDES
+     Ghost Border: único border funcional permitido (DESIGN.md DON'T)
+     ============================================================== */
+
+  --color-border-default:              var(--gray-300);                       /* inputs, separadores accesibles          */
+  --color-border-ghost:                oklch(0.242 0.138 286.500 / 0.10);    /* outline_variant 10% — accesibilidad     */
+  --color-border-section-divider:      oklch(0.242 0.138 286.500 / 0.05);    /* purple-800 5% — entre secciones grid    */
+  --color-border-card-accent-auction:  var(--orange-500);                     /* 4px bottom — cards lote en vivo         */
+  --color-border-card-accent-negotiable: var(--cyan-400);                     /* 4px bottom — cards negociables          */
+  --color-border-nav-separator:        oklch(1.000 0.000 0.000 / 0.10);      /* separador horizontal dentro del sidebar */
+
+
+  /* ==============================================================
+     SEMÁNTICOS — COLOR / ACCIÓN
+     ============================================================== */
+
+  --color-action-primary:      var(--purple-600);                      /* acción principal brand                          */
+  --color-action-cta:          var(--orange-500);                      /* CTA secundario — botón INGRESA, lote destacado  */
+  --color-action-accent:       var(--cyan-400);                        /* REALIZAR OFERTA, badge NEGOCIABLE               */
+  --color-action-accent-subtle: oklch(0.761 0.130 197.000 / 0.10);    /* cyan-400 / 10% — fondo icono Negociable         */
+  --color-action-cta-subtle:    oklch(0.724 0.154 55.200 / 0.10);     /* orange-500 / 10% — fondo icono En Vivo          */
+
+
+  /* ==============================================================
+     SEMÁNTICOS — COLOR / ESTADO
+     ============================================================== */
+
+  --color-status-live:    var(--red-500);    /* dot indicador En Vivo (tiempo real) */
+  --color-status-warning: var(--amber-500);
+
+
+  /* ==============================================================
+     SEMÁNTICOS — COLOR / MARCA (alias DESIGN.md)
+     ============================================================== */
+
+  --brand-vault:       var(--purple-800);   /* The Vault — Primary DESIGN.md       */
+  --brand-en-vivo:     var(--orange-500);   /* En Vivo — Secondary DESIGN.md       */
+  --brand-negociable:  var(--cyan-400);     /* Negociable — Tertiary DESIGN.md     */
+
+
+  /* ==============================================================
+     SEMÁNTICOS — ESPACIADO
+     ============================================================== */
+
+  --spacing-card-padding:     var(--space-3);   /* 12px — padding interno cards              */
+  --spacing-card-gap:         var(--space-2);   /* 8px  — gap entre elementos dentro de card */
+  --spacing-grid-gap:         var(--space-4);   /* 16px — gap entre cards en grid            */
+  --spacing-section-x:        var(--space-6);   /* 24px — padding horizontal secciones       */
+  --spacing-section-y:        var(--space-8);   /* 32px — padding vertical hero/secciones    */
+  --spacing-section-gap:      var(--space-10);  /* 40px — gap entre grupos de sección        */
+  --spacing-nav-padding:      var(--space-5);   /* 20px — padding nav row                    */
+  --spacing-nav-gap:          var(--space-2);   /* 8px  — gap entre pills de nav             */
+  --spacing-header-height:    var(--space-16);  /* 64px — altura header / sidebar colapsado  */
+  --spacing-icon-badge:       var(--space-2);   /* 8px  — padding pills y badges icono       */
+  --spacing-filter-gap:       var(--space-2);   /* 8px  — gap botones de filtro              */
+
+
+  /* ==============================================================
+     SEMÁNTICOS — BORDER RADIUS
+     ============================================================== */
+
+  --radius-badge:    var(--radius-sm);    /* 4px — badges, pills, inputs              */
+  --radius-btn:      var(--radius-sm);    /* 4px — botones (frame 99:82)              */
+  --radius-card:     var(--radius-sm);    /* 4px — cards de vehículos                 */
+  --radius-section:  var(--radius-sm);    /* 4px — contenedores sección               */
+  --radius-icon-btn: var(--radius-full);  /* 9999px — botones circulares 28×28, 48×48 */
+
+
+  /* ==============================================================
+     SEMÁNTICOS — SOMBRAS
+     ============================================================== */
+
+  --shadow-card:     var(--shadow-brand-tinted); /* DESIGN.md: usar SIEMPRE la tintada en cards  */
+  --shadow-floating: var(--shadow-brand-tinted); /* floating card hero, favorito glassmorphic    */
+  --shadow-modal:    var(--shadow-lg);           /* modales — sombra neutra (no tintada)         */
+
+
+  /* ==============================================================
+     SEMÁNTICOS — LAYOUT
+     ============================================================== */
+
+  --layout-max-width:     1024px;
+  --layout-sidebar-width: 256px;
+  --color-surface-body:   var(--gray-100);   /* outer shell — fondo detrás del max-width container */
+
+
+  /* ==============================================================
+     SEMÁNTICOS — TIPOGRAFÍA
+     ============================================================== */
+
+  /* Hero H1 — 30px Plus Jakarta Sans ExtraBold, tracking -1.5px */
+  --type-hero-title-size:     var(--font-size-4xl);
+  --type-hero-title-lh:       var(--line-height-4xl);
+  --type-hero-title-weight:   var(--weight-extrabold);
+  --type-hero-title-tracking: var(--tracking-hero);
+
+  /* Hero timer — 30px tabular-nums (dato crítico live) */
+  --type-hero-timer-size:     var(--font-size-4xl);
+  --type-hero-timer-lh:       var(--line-height-4xl);
+  --type-hero-timer-weight:   var(--weight-extrabold);
+  --type-hero-timer-tracking: var(--tracking-widest);
+
+  /* Section heading H2 — 20px ExtraBold uppercase */
+  --type-section-heading-size:     var(--font-size-xl);
+  --type-section-heading-lh:       var(--line-height-xl);
+  --type-section-heading-weight:   var(--weight-extrabold);
+  --type-section-heading-tracking: var(--tracking-heading);
+
+  /* Help center heading H2 — 18px ExtraBold */
+  --type-help-heading-size:     var(--font-size-lg);
+  --type-help-heading-lh:       var(--line-height-lg);
+  --type-help-heading-weight:   var(--weight-extrabold);
+  --type-help-heading-tracking: var(--tracking-heading);
+
+  /* Card title H3 — 11px Bold uppercase */
+  --type-card-title-size:     var(--font-size-xs-11);
+  --type-card-title-lh:       var(--line-height-2xs);
+  --type-card-title-weight:   var(--weight-bold);
+  --type-card-title-tracking: var(--tracking-none);
+
+  /* Card featured title — 14px Bold uppercase (floating card) */
+  --type-card-featured-size:     var(--font-size-sm);
+  --type-card-featured-lh:       var(--line-height-tight);
+  --type-card-featured-weight:   var(--weight-bold);
+  --type-card-featured-tracking: var(--tracking-none);
+
+  /* Body base */
+  --type-body-size:     var(--font-size-base);
+  --type-body-lh:       var(--line-height-base);
+  --type-body-weight:   var(--weight-regular);
+
+  /* Body sm — 14px */
+  --type-body-sm-size:   var(--font-size-sm);
+  --type-body-sm-lh:     var(--line-height-tight);
+  --type-body-sm-weight: var(--weight-regular);
+
+  /* Label — 12px */
+  --type-label-size:     var(--font-size-xs);
+  --type-label-lh:       var(--line-height-tight);
+  --type-label-weight:   var(--weight-semibold);
+  --type-label-tracking: var(--tracking-wider);
+
+  /* Badge / pill — 10px Bold uppercase */
+  --type-badge-size:     var(--font-size-2xs);
+  --type-badge-lh:       var(--line-height-2xs);
+  --type-badge-weight:   var(--weight-bold);
+  --type-badge-tracking: var(--tracking-widest);
+
+  /* Display editorial — 56px (DESIGN.md display-lg) */
+  --type-display-lg-size:     var(--font-size-display-lg);
+  --type-display-lg-lh:       var(--line-height-display-lg);
+  --type-display-lg-weight:   var(--weight-extrabold);
+  --type-display-lg-tracking: var(--tracking-hero);
+
+}
+
+
+/* ==============================================================
+   RESET — prefers-reduced-motion (obligatorio CLAUDE.md)
+   ============================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

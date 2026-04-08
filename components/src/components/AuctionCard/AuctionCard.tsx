@@ -1,35 +1,10 @@
 import { type BadgeType, Badge } from '../Badge'
 import { PriceDisplay } from '../PriceDisplay'
 import { CountdownTimer } from '../CountdownTimer'
-
-// ── Tipos ─────────────────────────────────────────────────────────────────────
-
-export type AuctionCardVariant = 'standard' | 'featured' | 'compact'
-
-export interface LotData {
-  id?: string
-  /** "TOYOTA HILUX" — siempre uppercase en la card */
-  title: string
-  /** "2024 · Lima, Perú" */
-  subtitle?: string
-  imageUrl?: string
-  badge: BadgeType
-  priceLabel?: string
-  price: number
-  currency?: string
-  /** Timestamp ms — si existe, muestra CountdownTimer */
-  endsAt?: number | Date
-  isFavorited?: boolean
-}
-
-export interface AuctionCardProps {
-  variant?: AuctionCardVariant
-  lot?: LotData
-  isLoading?: boolean
-  onFavorite?: (id: string | undefined) => void
-  onClick?: (id: string | undefined) => void
-  className?: string
-}
+import { useVersion } from '../../VersionContext'
+import { AuctionCardUpgrade } from './AuctionCard.upgrade'
+import type { AuctionCardVariant, LotData, AuctionCardProps } from './types'
+export type { AuctionCardVariant, LotData, AuctionCardProps } from './types'
 
 // ── Accent bottom por badge ───────────────────────────────────────────────────
 
@@ -361,6 +336,22 @@ export function AuctionCard({
   onClick,
   className = '',
 }: AuctionCardProps) {
+  const { version } = useVersion()
+
+  // ── Upgrade: versión rediseñada según Figma node 268-1601 ────────────────
+  if (version === 'upgrade' && variant !== 'compact') {
+    return (
+      <AuctionCardUpgrade
+        lot={lot}
+        onFavorite={onFavorite}
+        onClick={onClick}
+        isLoading={isLoading}
+        className={className}
+      />
+    )
+  }
+
+  // ── Original ─────────────────────────────────────────────────────────────
   if (isLoading) return <AuctionCardSkeleton variant={variant} />
 
   const wrapClass = className ? `${className}` : ''
